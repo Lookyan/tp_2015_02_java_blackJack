@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Admin panel</title>
+</head>
+<body>
+    <a href="?stop=1">Stop server!</a>
+    <br />
+    <#if message??>
+        <b>${message}</b>
+    </#if>
+    <br /><br />
+    Registered users: ${usersCount} <br />
+    Signed in users: ${signedInCount}
+</body>
+</html>
