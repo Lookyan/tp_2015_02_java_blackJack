@@ -30,14 +30,14 @@ public class Main {
         Servlet signUp = new SignUpServlet(accountService);
         Servlet profile = new ProfileServlet(accountService);
         Servlet logout = new LogoutServlet(accountService);
-        Servlet admin = new AdminServlet(accountService, server);
+        Servlet admin = new AdminServlet(accountService);
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.addServlet(new ServletHolder(signIn), "/api/v1/auth/signin");
         context.addServlet(new ServletHolder(signUp), "/api/v1/auth/signup");
         context.addServlet(new ServletHolder(profile), "/api/v1/auth/profile");
         context.addServlet(new ServletHolder(logout), "/api/v1/auth/logout");
-        context.addServlet(new ServletHolder(admin), "/api/v1/auth/admin");
+        context.addServlet(new ServletHolder(admin), "/admin");
 
         ResourceHandler resource_handler = new ResourceHandler();
         resource_handler.setDirectoriesListed(true);

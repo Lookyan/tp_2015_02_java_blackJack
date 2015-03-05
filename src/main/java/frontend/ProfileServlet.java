@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Created by alex on 21.02.15.
+ */
 public class ProfileServlet extends HttpServlet {
     private AccountService accountService;
 
