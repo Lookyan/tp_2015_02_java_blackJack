@@ -26,6 +26,7 @@ public class Main {
 
         AccountService accountService = new AccountService();
 
+
         Servlet signIn = new SignInServlet(accountService);
         Servlet signUp = new SignUpServlet(accountService);
         Servlet profile = new ProfileServlet(accountService);
