@@ -35,7 +35,7 @@ public class ProfileServlet extends HttpServlet {
             response.getWriter().println(PageGenerator.getPage("profile.html", pageVariables));
             response.setStatus(HttpServletResponse.SC_OK);
         } else {
-            String signInUrl = response.encodeURL("/api/v1/auth/signin");
+            String signInUrl = response.encodeURL(SignInServlet.url);
             response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
             response.addHeader("Location", signInUrl);
         }

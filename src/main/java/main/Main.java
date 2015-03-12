@@ -34,7 +34,7 @@ public class Main {
         Servlet admin = new AdminServlet(accountService);
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        context.addServlet(new ServletHolder(signIn), "/api/v1/auth/signin");
+        context.addServlet(new ServletHolder(signIn), SignInServlet.url);
         context.addServlet(new ServletHolder(signUp), "/api/v1/auth/signup");
         context.addServlet(new ServletHolder(profile), "/api/v1/auth/profile");
         context.addServlet(new ServletHolder(logout), "/api/v1/auth/logout");

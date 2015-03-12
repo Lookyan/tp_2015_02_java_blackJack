@@ -27,7 +27,7 @@ public class LogoutServlet extends HttpServlet {
                       HttpServletResponse response) throws ServletException, IOException {
         accountService.logout(request.getSession().toString());
 
-        String signInUrl = response.encodeURL("/api/v1/auth/signin");
+        String signInUrl = response.encodeURL(SignInServlet.url);
         response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
         response.addHeader("Location", signInUrl);
 
