@@ -1,6 +1,7 @@
 package frontend;
 
-import main.AccountService;
+import interfaces.AccountService;
+import main.AccountServiceImpl;
 import templater.PageGenerator;
 
 import javax.servlet.ServletException;
@@ -12,9 +13,6 @@ import java.util.HashMap;
 import java.util.Map;
 import time.TimeHelper;
 
-/**
- * Created by alex on 21.02.15.
- */
 public class AdminServlet extends HttpServlet {
     private AccountService accountService;
 

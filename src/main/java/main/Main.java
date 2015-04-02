@@ -1,6 +1,7 @@
 package main;
 
 import frontend.*;
+import interfaces.AccountService;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
@@ -10,9 +11,6 @@ import org.eclipse.jetty.servlet.ServletHolder;
 
 import javax.servlet.Servlet;
 
-/**
- * @author v.chibrikov
- */
 public class Main {
     public static void main(String[] args) throws Exception {
         int port = 8080;
@@ -24,7 +22,7 @@ public class Main {
 
         System.out.append("Starting at port: ").append(String.valueOf(port)).append('\n');
 
-        AccountService accountService = new AccountService();
+        AccountService accountService = new AccountServiceImpl();
 
 
         Servlet signIn = new SignInServlet(accountService);

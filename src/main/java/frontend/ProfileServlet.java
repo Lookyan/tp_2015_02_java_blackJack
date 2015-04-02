@@ -1,7 +1,8 @@
 package frontend;
 
 
-import main.AccountService;
+import interfaces.AccountService;
+import main.AccountServiceImpl;
 import main.UserProfile;
 import templater.PageGenerator;
 
@@ -14,9 +15,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by alex on 21.02.15.
- */
 public class ProfileServlet extends HttpServlet {
     private AccountService accountService;
 

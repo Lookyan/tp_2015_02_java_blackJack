@@ -1,8 +1,8 @@
 package frontend;
 
-import main.AccountService;
+import interfaces.AccountService;
+import main.AccountServiceImpl;
 import main.UserProfile;
-import org.json.JSONObject;
 import templater.PageGenerator;
 
 import javax.servlet.ServletException;
@@ -13,9 +13,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by v.chibrikov on 13.09.2014.
- */
 public class SignUpServlet extends HttpServlet {
     private AccountService accountService;
 
