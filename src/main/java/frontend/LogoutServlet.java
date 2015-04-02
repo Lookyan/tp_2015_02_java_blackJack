@@ -2,6 +2,7 @@ package frontend;
 
 import interfaces.AccountService;
 import main.AccountServiceImpl;
+import main.Context;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,8 +13,8 @@ import java.io.IOException;
 public class LogoutServlet extends HttpServlet {
     private AccountService accountService;
 
-    public LogoutServlet(AccountService accountService) {
-        this.accountService = accountService;
+    public LogoutServlet() {
+        this.accountService = (AccountService) Context.getInstance().get(AccountService.class);
     }
 
     public void doGet(HttpServletRequest request,

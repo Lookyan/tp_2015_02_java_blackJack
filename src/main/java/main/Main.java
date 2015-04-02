@@ -24,26 +24,28 @@ public class Main {
 
         AccountService accountService = new AccountServiceImpl();
 
+        Context.getInstance().add(AccountService.class, accountService);
 
-        Servlet signIn = new SignInServlet(accountService);
-        Servlet signUp = new SignUpServlet(accountService);
-        Servlet profile = new ProfileServlet(accountService);
-        Servlet logout = new LogoutServlet(accountService);
-        Servlet admin = new AdminServlet(accountService);
 
-        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        context.addServlet(new ServletHolder(signIn), SignInServlet.url);
-        context.addServlet(new ServletHolder(signUp), "/api/v1/auth/signup");
-        context.addServlet(new ServletHolder(profile), "/api/v1/auth/profile");
-        context.addServlet(new ServletHolder(logout), "/api/v1/auth/logout");
-        context.addServlet(new ServletHolder(admin), "/admin");
+        Servlet signIn = new SignInServlet();
+        Servlet signUp = new SignUpServlet();
+        Servlet profile = new ProfileServlet();
+        Servlet logout = new LogoutServlet();
+        Servlet admin = new AdminServlet();
+
+        ServletContextHandler servletContext = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        servletContext.addServlet(new ServletHolder(signIn), SignInServlet.url);
+        servletContext.addServlet(new ServletHolder(signUp), "/api/v1/auth/signup");
+        servletContext.addServlet(new ServletHolder(profile), "/api/v1/auth/profile");
+        servletContext.addServlet(new ServletHolder(logout), "/api/v1/auth/logout");
+        servletContext.addServlet(new ServletHolder(admin), "/admin");
 
         ResourceHandler resource_handler = new ResourceHandler();
         resource_handler.setDirectoriesListed(true);
         resource_handler.setResourceBase("public_html");
 
         HandlerList handlers = new HandlerList();
-        handlers.setHandlers(new Handler[]{resource_handler, context});
+        handlers.setHandlers(new Handler[]{resource_handler, servletContext});
 
         server.setHandler(handlers);
 

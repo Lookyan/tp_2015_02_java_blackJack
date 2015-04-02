@@ -2,6 +2,7 @@ package frontend;
 
 import interfaces.AccountService;
 import main.AccountServiceImpl;
+import main.Context;
 import main.UserProfile;
 import templater.PageGenerator;
 
@@ -17,8 +18,8 @@ public class SignInServlet extends HttpServlet {
     public static final String url = "/api/v1/auth/signin";
     private AccountService accountService;
 
-    public SignInServlet(AccountService accountService) {
-        this.accountService = accountService;
+    public SignInServlet() {
+        this.accountService = (AccountService) Context.getInstance().get(AccountService.class);
     }
 
     public void doGet(HttpServletRequest request,

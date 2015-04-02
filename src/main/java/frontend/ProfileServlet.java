@@ -3,6 +3,7 @@ package frontend;
 
 import interfaces.AccountService;
 import main.AccountServiceImpl;
+import main.Context;
 import main.UserProfile;
 import templater.PageGenerator;
 
@@ -18,8 +19,8 @@ import java.util.Map;
 public class ProfileServlet extends HttpServlet {
     private AccountService accountService;
 
-    public ProfileServlet(AccountService accountService) {
-        this.accountService = accountService;
+    public ProfileServlet() {
+        this.accountService = (AccountService) Context.getInstance().get(AccountService.class);
     }
 
     public void doGet(HttpServletRequest request,

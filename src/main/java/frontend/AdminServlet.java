@@ -1,7 +1,7 @@
 package frontend;
 
 import interfaces.AccountService;
-import main.AccountServiceImpl;
+import main.Context;
 import templater.PageGenerator;
 
 import javax.servlet.ServletException;
@@ -16,8 +16,8 @@ import time.TimeHelper;
 public class AdminServlet extends HttpServlet {
     private AccountService accountService;
 
-    public AdminServlet(AccountService accountService) {
-        this.accountService = accountService;
+    public AdminServlet() {
+        this.accountService = (AccountService)Context.getInstance().get(AccountService.class);
     }
 
     public void doGet(HttpServletRequest request,
