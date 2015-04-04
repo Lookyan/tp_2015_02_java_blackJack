@@ -1,3 +1,6 @@
 
 .idea
 target
+*.iml
+public_html
+*.jar

@@ -1,12 +1,10 @@
 package main;
 
-/**
- * Created by v.chibrikov on 13.09.2014.
- */
 public class UserProfile {
     private String login;
     private String password;
     private String email;
+//    private int score;
 
     public UserProfile(String login, String password, String email) {
         this.login = login;

@@ -2,9 +2,6 @@ package interfaces;
 
 import main.UserProfile;
 
-/**
- * Created by alex on 02.04.15.
- */
 public interface AccountService {
     public boolean addUser(String userName, UserProfile userProfile);
 
