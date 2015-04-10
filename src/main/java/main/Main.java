@@ -1,7 +1,9 @@
 package main;
 
 import frontend.*;
-import interfaces.AccountService;
+import game.GameTable;
+import base.AccountService;
+import base.GameTable;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
@@ -25,6 +27,9 @@ public class Main {
         AccountService accountService = new AccountServiceImpl();
 
         Context.getInstance().add(AccountService.class, accountService);
+
+        GameTable gt = new GameTable();
+        gt.isFull();
 
 
         Servlet signIn = new SignInServlet();
@@ -51,5 +56,6 @@ public class Main {
 
         server.start();
         server.join();
+
     }
 }

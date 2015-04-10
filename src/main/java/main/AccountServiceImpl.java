@@ -1,6 +1,6 @@
 package main;
 
-import interfaces.AccountService;
+import base.AccountService;
 
 import java.util.HashMap;
 import java.util.Map;

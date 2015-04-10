@@ -1,7 +1,6 @@
 package frontend;
 
-import interfaces.AccountService;
-import main.AccountServiceImpl;
+import base.AccountService;
 import main.Context;
 
 import javax.servlet.ServletException;

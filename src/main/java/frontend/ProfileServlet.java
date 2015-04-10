@@ -1,8 +1,7 @@
 package frontend;
 
 
-import interfaces.AccountService;
-import main.AccountServiceImpl;
+import base.AccountService;
 import main.Context;
 import main.UserProfile;
 import templater.PageGenerator;

@@ -1,47 +1,67 @@
 package game;
 
-import interfaces.GameMechanics;
+import base.GameMechanics;
 
-/**
- * <--start-- player
- * --cards--> player
- * if (currentPhase == bet)
- *     --bet--> player
- *
- * for each player i:
- *     --bet--> i (enable buttons) (parallel)
- *     <--int-- i
- *     [(--error-->i;<--int-- i),]
- *     --ok--> i
- *     copy to playing
- *     --int--> every j != i
- *     --end--> i (disable all buttons)
- *
- * for each player i:
- *     --play--> i
- *     приходит hit
- *     отсылаем всем карту
- *     отылаем end если превысили 21 иначе ok
- *     приходит stand
- *     отсылаем end (а может и нет) (не надо?)
- *
- */
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
 
 public class GameMechanicsImpl implements GameMechanics {
 
+    private Map<String, GameTable> usersTables = new HashMap<>();
+    private Queue<GameTable> freeTables = new LinkedList<>();
 
-    @Override
-    public void addUser(String sessionId) {
-
+    public void addUser(String userSessionId) {
+        GameTable table;
+        if (freeTables.peek() == null) {
+            table = new GameTable();
+            table.addUser(userSessionId);
+            freeTables.add(table);
+        } else {
+            table = freeTables.peek();
+            table.addUser(userSessionId);
+            if (table.isFull()) {
+                freeTables.remove();
+            }
+        }
+        usersTables.put(userSessionId, table);
     }
 
-    @Override
-    public void hit(String sessionId) {
-
+    public void removeUser(String userSessionId) {
+        if (usersTables.containsKey(userSessionId)) {
+            GameTable table = usersTables.get(userSessionId);
+            table.removeUser(userSessionId);
+            usersTables.remove(userSessionId);
+        }
     }
 
-    @Override
-    public void stand(String sessionId) {
+    public void makeBet(String userSessionId, int bet) {
+        if (usersTables.containsKey(userSessionId)) {
+            GameTable table = usersTables.get(userSessionId);
+            try {
+                table.makeBet(userSessionId, bet);
+            } catch (GameTableException e) {
+                // log
+            }
+        }
+    }
 
+    public void hit(String userSessionId) {
+        if (usersTables.containsKey(userSessionId)) {
+            GameTable table = usersTables.get(userSessionId);
+            try {
+                table.hit(userSessionId);
+            } catch (GameTableException e) {
+                // log
+            }
+        }
+    }
+
+    public void stand(String userSessionId) {
+        if (usersTables.containsKey(userSessionId)) {
+            GameTable table = usersTables.get(userSessionId);
+            table.stand(userSessionId);
+        }
     }
 }

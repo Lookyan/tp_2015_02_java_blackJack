@@ -1,4 +1,4 @@
-package interfaces;
+package base;
 
 import main.UserProfile;
 
@@ -16,4 +16,6 @@ public interface AccountService {
     public int getUsersCount();
 
     public int getSignedInUsersCount();
+
+    public int getMoney(String sessionId);
 }
