@@ -30,6 +30,7 @@ public class GameTable {
 
     public GameTable() {
         this.webSocketService = (WebSocketService) Context.getInstance().get(WebSocketService.class);
+        this.accountService = (AccountService) Context.getInstance().get(AccountService.class);
     }
 
     public boolean isFull() {

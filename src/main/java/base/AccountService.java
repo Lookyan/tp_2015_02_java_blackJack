@@ -18,4 +18,6 @@ public interface AccountService {
     public int getSignedInUsersCount();
 
     public int getMoney(String sessionId);
+
+    public boolean isLoggedIn(String sessionId);
 }
