@@ -1,18 +1,27 @@
 package base;
 
 import frontend.GameWebSocket;
+import game.Card;
 
 public interface WebSocketService {
 
-    void addUser(GameWebSocket user);
+    void addUser(GameWebSocket userSocket);
 
-    void sendPhase(String userSessionId, String gamePhase);
+    void removeUser(GameWebSocket userSocket);
 
-    void sendOk(String userSessionId);
+    void sendPhase(String userName, String gamePhase);
 
-    void sendCard(String userSessionId, String card, int owner);
+    void sendOk(String userName);
 
-    void sendWins();
+    void sendCard(String userName, String owner, Card card);
+
+    void sendWins(String userName);
+
+    void sendDeckShuffle(String userName);
+
+    void sendRemovePlayer(String userName, String removedUserName);
+
+    void sendError(String userName);
 
 //    void updateCards();
 

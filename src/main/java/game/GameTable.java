@@ -1,5 +1,3 @@
-// TODO: safe checks (current phase, player in playing ...)
-// TODO: send for players not playing
 package game;
 
 import base.AccountService;
@@ -7,10 +5,14 @@ import base.WebSocketService;
 import main.Context;
 
 import java.util.*;
+import java.util.Map.Entry;
 
 public class GameTable {
 
-    private enum GamePhase { BET, PLAY, END }
+    private static final int PLAYERS_QUANTITY = 3;
+    private static final String DEALER_NAME = "#dealer";
+
+    private static enum GamePhase { BET, PLAY, END }
 
     private WebSocketService webSocketService;
     private AccountService accountService;
@@ -18,143 +20,199 @@ public class GameTable {
     private Deck deck = new Deck();
 
     // Заполнение null'ами важно при удалении игрока для сохранения позиций в массиве
-    private List<String> players = new ArrayList<>(Collections.nCopies(3, null));
-    private List<String> playing = new ArrayList<>(Collections.nCopies(3, null));
-    private List<Integer> bets = new ArrayList<>(Collections.nCopies(3, null));
-    private List<Integer> scores = new ArrayList<>(Collections.nCopies(3, null));
+//    private List<String> players = new ArrayList<>(Collections.nCopies(PLAYERS_QUANTITY, null));
+    private Map<String, Player> players = new HashMap<>();
+    private Queue<String> playingQueue;
+    private String currentPlayer;
+//    private List<String> playing = new ArrayList<>(Collections.nCopies(PLAYERS_QUANTITY, null));
+//    private List<Integer> bets = new ArrayList<>(Collections.nCopies(PLAYERS_QUANTITY, null));
+//    private List<Integer> cardScores = new ArrayList<>(Collections.nCopies(PLAYERS_QUANTITY, null));
 
-    private boolean isFull = false;
     private GamePhase currentPhase = GamePhase.BET;
-    private int currentPlayer;
 
-
-    public GameTable() {
-        this.webSocketService = (WebSocketService) Context.getInstance().get(WebSocketService.class);
-        this.accountService = (AccountService) Context.getInstance().get(AccountService.class);
+    public GameTable(Context context) {
+        this.webSocketService = (WebSocketService) context.get(WebSocketService.class);
+        this.accountService = (AccountService) context.get(AccountService.class);
     }
 
     public boolean isFull() {
-        return this.isFull;
+        return players.size() == PLAYERS_QUANTITY;
     }
 
-    public void addUser(String userSessionId) {
-        players.set(players.indexOf(null), userSessionId);
+    public void addUser(String userName) throws GameTableException {
+        if (!isFull()) {
+            players.put(userName, new Player(userName, accountService.getChips(userName)));
 
-        if (Collections.frequency(players, null) == 0) {
-            isFull = true;
+            if (currentPhase == GamePhase.BET) {
+                webSocketService.sendPhase(userName, GamePhase.BET.name());
+            }
+        } else {
+            throw new GameTableException("Can't add new user, table is full!");
         }
-
-        if (currentPhase == GamePhase.BET) {
-            webSocketService.sendPhase(userSessionId, GamePhase.BET.name());
-        }
     }
 
-    public void removeUser(String userSessionId) {
-//        TODO: send remove player
-        players.set(players.indexOf(userSessionId), null);
-        isFull = false;
-    }
-
-    public void makeBet(String userSessionId, int bet) throws GameTableException {
+    public void makeBet(String userName, int bet) throws GameTableException {
         if (currentPhase != GamePhase.BET) {
-            throw new GameTableException("Not bet time");
+            throw new GameTableException("Can't make bet, not bet time");
+        }
+        if (!players.containsKey(userName)) {
+            throw new GameTableException("Can't make bet, no such player at this table");
         }
 
-        int indexOfPlayer = players.indexOf(userSessionId);
-        if (indexOfPlayer == -1) {
-//            GameMech works wrong
-            throw new GameTableException("No such player at this table");
-        }
-//        TODO: check bet
-//        if (accountService.getMoney(user) < bet) ...
-//              sendError(user)?
-        bets.set(indexOfPlayer, bet);
-        webSocketService.sendOk(userSessionId);
-        playing.set(indexOfPlayer, userSessionId);
+        Player player = players.get(userName);
+        if (player.getChips() < bet) {
+            webSocketService.sendError(userName);
+        } else {
+            player.setBet(bet);
+            player.setPlaying(true);
+            webSocketService.sendOk(userName);
 
-        if (Collections.frequency(players, null) == Collections.frequency(playing, null)) {
-            currentPhase = GamePhase.PLAY;
-            for(String user : playing) {
-                if (user != null) {
-                    webSocketService.sendPhase(user, GamePhase.END.name());
-                }
+            if (isAllPlaying()) {
+                startGame();
             }
-            startGame();
         }
     }
 
-    public void hit(String userSessionId) throws GameTableException {
+    public void hit(String userName) throws GameTableException {
         if (currentPhase != GamePhase.PLAY) {
-            return;
+            throw new GameTableException("Can't hit, not playing time");
+        }
+        if (!players.containsKey(userName)) {
+            throw new GameTableException("Can't hit, no such player at this table");
+        }
+        if (userName.compareTo(currentPlayer) != 0) {
+            throw new GameTableException("Can't hit, wrong player");
         }
 
-        int indexOfPlayer = players.indexOf(userSessionId);
-        if (indexOfPlayer == -1) {
-            return;
+        Card card = getCard();
+        Player player = players.get(currentPlayer);
+        player.addCard(card);
+
+        for (String user : players.keySet()) {
+            webSocketService.sendCard(user, userName, card);
         }
 
-        String card = deck.getCard();
-        scores.set(indexOfPlayer, scores.get(indexOfPlayer) + 6);
-        for (String user : playing) {
-            if (user != null) {
-                webSocketService.sendCard(user, card, indexOfPlayer); // 3 - dealer index
-            }
-        }
-        if (scores.get(indexOfPlayer) > 21) {
-            webSocketService.sendPhase(userSessionId, GamePhase.END.name());
+        if (player.getScore() > 21) {
+            webSocketService.sendPhase(userName, GamePhase.END.name());
             processStep();
+        } else {
+            webSocketService.sendOk(userName);
         }
-        webSocketService.sendOk(userSessionId);
     }
 
-    public void stand(String userSessionId) {
-        webSocketService.sendPhase(userSessionId, GamePhase.END.name());
+    public void stand(String userName) throws GameTableException {
+        if (currentPhase != GamePhase.PLAY) {
+            throw new GameTableException("Can't stand, not playing time");
+        }
+        if (!players.containsKey(userName)) {
+            throw new GameTableException("Can't stand, no such player at this table");
+        }
+        if (userName.compareTo(currentPlayer) != 0) {
+            throw new GameTableException("Can't stand, wrong player");
+        }
+
+        webSocketService.sendPhase(userName, GamePhase.END.name());
         processStep();
     }
 
-    private void processWins() {
-        currentPhase = GamePhase.BET;
-        for (String user : players) {
-            if (user != null) {
-                webSocketService.sendWins(/*user, winnings*/);
-                webSocketService.sendPhase(user, GamePhase.BET.name());
-            }
+    public void removeUser(String userName) throws GameTableException {
+        if (!players.containsKey(userName)) {
+            throw new GameTableException("Can't remove user, no such player at this table");
         }
+
+        players.remove(userName);
+        if (playingQueue.contains(userName)) {
+            playingQueue.remove(userName);
+        }
+
+        for (String user : players.keySet()) {
+            webSocketService.sendRemovePlayer(user, userName);
+        }
+
+        if (currentPlayer.compareTo(userName) == 0) {
+//            TODO
+        }
+
+//        if (players.contains(userName)) {
+//            for (String user : players) {
+//                if (!user.equals(userName)) {
+//                    webSocketService.sendRemovePlayer(user, userName); // TODO: send index
+//                }
+//            }
+//            int index = players.indexOf(userName);
+//            players.set(index, null);
+//            playing.set(index, null);
+//            bets.set(index, null);
+//        } else {
+//            throw new GameTableException("Can't remove player, no such player at this table");
+//        }
     }
 
     private void startGame() {
+        currentPhase = GamePhase.PLAY;
+        playingQueue = new LinkedList<>(players.keySet());
+
         // в два круга сдается по одной карте и отсылается всем
         for(int i = 0; i < 2; i++) {
-            for (int j = 0; i < playing.size(); i++) {
-                if (playing.get(j) != null) {
-                    String card = deck.getCard();
-                    scores.set(j, scores.get(j) + 6); // TODO: card.getValue() вместо константы
-                    for (String user : playing) {
-                        if (user != null) {
-                            webSocketService.sendCard(user, card, j);
-                        }
+            for (Entry<String, Player> entry : players.entrySet()) {
+                if (entry.getValue().isPlaying()) {
+                    Card card = getCard();
+                    entry.getValue().addCard(card);
+                    for (String userName : players.keySet()) {
+                        webSocketService.sendCard(userName, entry.getKey(), card);
                     }
                 }
             }
         }
-
         // одна карта дилеру
-        String card = deck.getCard();
-        for (String user : playing) {
-            if (user != null) {
-                webSocketService.sendCard(user, card, 3); // 3 - dealer index
-            }
+        Card card = getCard();
+        for (String userName : players.keySet()) {
+            webSocketService.sendCard(userName, DEALER_NAME, card); // 3 - dealer index
         }
 
-        currentPlayer = 0;
         processStep();
     }
 
     private void processStep() {
-        while (playing.get(currentPlayer) == null) {
-            currentPlayer++;
-//           TODO: if currentPlayer > size ... processWins()
+        if (!playingQueue.isEmpty()) {
+            do {
+                currentPlayer = playingQueue.poll();
+            } while (!players.get(currentPlayer).isPlaying());
+            webSocketService.sendPhase(currentPlayer, GamePhase.PLAY.name());
+        } else {
+            processWins();
         }
-        webSocketService.sendPhase(playing.get(currentPlayer), GamePhase.PLAY.name());
+    }
+
+    private void processWins() {
+//        TODO
+//        currentPhase = GamePhase.BET;
+//        for (String user : players) {
+//            if (user != null) {
+//                webSocketService.sendWins(/*user, winnings*/);
+//                webSocketService.sendPhase(user, GamePhase.BET.name());
+//            }
+//        }
+    }
+
+    private boolean isAllPlaying() {
+        for (Player player : players.values()) {
+            if (!player.isPlaying()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private Card getCard() {
+//        TODO
+        return new Card('4','d');
+    }
+
+    private void shuffleDeck() {
+//        TODO
+//        for (String user : players) {
+//            webSocketService.sendDeckShuffle(user);
+//        }
     }
 }

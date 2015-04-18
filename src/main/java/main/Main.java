@@ -1,9 +1,12 @@
 package main;
 
-import frontend.*;
-import game.GameTable;
+import base.GameMechanics;
+import base.WebSocketService;
+import frontend.WebSocketServiceImpl;
+import frontend.servlets.*;
+import game.Deck;
+import game.GameMechanicsImpl;
 import base.AccountService;
-import base.GameTable;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
@@ -24,26 +27,19 @@ public class Main {
 
         System.out.append("Starting at port: ").append(String.valueOf(port)).append('\n');
 
-        AccountService accountService = new AccountServiceImpl();
+        Context context = new Context();
 
-        Context.getInstance().add(AccountService.class, accountService);
-
-        GameTable gt = new GameTable();
-        gt.isFull();
-
-
-        Servlet signIn = new SignInServlet();
-        Servlet signUp = new SignUpServlet();
-        Servlet profile = new ProfileServlet();
-        Servlet logout = new LogoutServlet();
-        Servlet admin = new AdminServlet();
+        context.add(AccountService.class, new AccountServiceImpl());
+        context.add(WebSocketService.class, new WebSocketServiceImpl());
+        context.add(GameMechanics.class, new GameMechanicsImpl(context));
 
         ServletContextHandler servletContext = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        servletContext.addServlet(new ServletHolder(signIn), SignInServlet.url);
-        servletContext.addServlet(new ServletHolder(signUp), "/api/v1/auth/signup");
-        servletContext.addServlet(new ServletHolder(profile), "/api/v1/auth/profile");
-        servletContext.addServlet(new ServletHolder(logout), "/api/v1/auth/logout");
-        servletContext.addServlet(new ServletHolder(admin), "/admin");
+        servletContext.addServlet(new ServletHolder(new SignInServlet(context)), SignInServlet.url);
+        servletContext.addServlet(new ServletHolder(new SignUpServlet(context)), "/api/v1/auth/signup");
+        servletContext.addServlet(new ServletHolder(new ProfileServlet(context)), "/api/v1/auth/profile");
+        servletContext.addServlet(new ServletHolder(new LogoutServlet(context)), "/api/v1/auth/logout");
+        servletContext.addServlet(new ServletHolder(new AdminServlet(context)), "/admin");
+        servletContext.addServlet(new ServletHolder(new WebSocketGameServlet(context)), "/api/v1/game");
 
         ResourceHandler resource_handler = new ResourceHandler();
         resource_handler.setDirectoriesListed(true);

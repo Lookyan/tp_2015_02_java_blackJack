@@ -2,14 +2,14 @@ package base;
 
 public interface GameMechanics {
 
-    void addUser(String userSessionId);
+    void addUser(String userName);
 
-    void removeUser(String userSessionId);
+    void removeUser(String userName);
 
-    void makeBet(String userSessionId, int bet);
+    void makeBet(String userName, int bet);
 
-    void hit(String userSessionId);
+    void hit(String userName);
 
-    void stand(String userSessionId);
+    void stand(String userName);
 
 }

@@ -1,4 +1,4 @@
-package frontend;
+package frontend.servlets;
 
 import base.AccountService;
 import main.Context;
@@ -12,8 +12,8 @@ import java.io.IOException;
 public class LogoutServlet extends HttpServlet {
     private AccountService accountService;
 
-    public LogoutServlet() {
-        this.accountService = (AccountService) Context.getInstance().get(AccountService.class);
+    public LogoutServlet(Context context) {
+        this.accountService = (AccountService) context.get(AccountService.class);
     }
 
     public void doGet(HttpServletRequest request,

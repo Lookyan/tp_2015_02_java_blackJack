@@ -1,9 +1,9 @@
-package frontend;
+package frontend.servlets;
 
 
 import base.AccountService;
 import main.Context;
-import main.UserProfile;
+import base.UserProfile;
 import templater.PageGenerator;
 
 import javax.servlet.ServletException;
@@ -18,8 +18,8 @@ import java.util.Map;
 public class ProfileServlet extends HttpServlet {
     private AccountService accountService;
 
-    public ProfileServlet() {
-        this.accountService = (AccountService) Context.getInstance().get(AccountService.class);
+    public ProfileServlet(Context context) {
+        this.accountService = (AccountService) context.get(AccountService.class);
     }
 
     public void doGet(HttpServletRequest request,
@@ -28,7 +28,7 @@ public class ProfileServlet extends HttpServlet {
         UserProfile profile = accountService.getSessions(session.toString());
         Map<String, Object> pageVariables = new HashMap<>();
         if(profile != null) {
-            pageVariables.put("profileMessage", "It's your profile, " + profile.getLogin());
+            pageVariables.put("profileMessage", "It's your profile, " + profile.getName());
             pageVariables.put("email", profile.getEmail());
             response.getWriter().println(PageGenerator.getPage("profile.html", pageVariables));
             response.setStatus(HttpServletResponse.SC_OK);

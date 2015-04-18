@@ -1,23 +1,30 @@
 package base;
 
-import main.UserProfile;
-
 public interface AccountService {
-    public boolean addUser(String userName, UserProfile userProfile);
 
-    public void addSessions(String sessionId, UserProfile userProfile);
+    boolean addUser(String userName, UserProfile userProfile);
 
-    public UserProfile getUser(String userName);
+    void addSessions(String sessionId, UserProfile userProfile);
 
-    public UserProfile getSessions(String sessionId);
+    UserProfile getUser(String userName);
 
-    public void logout(String sessionId);
+    UserProfile getSessions(String sessionId);
 
-    public int getUsersCount();
+    void logout(String sessionId);
 
-    public int getSignedInUsersCount();
+    int getUsersCount();
 
-    public int getMoney(String sessionId);
+    int getSignedInUsersCount();
 
-    public boolean isLoggedIn(String sessionId);
+
+
+    int getChips(String userName);
+
+    void addChips(int amount);
+
+    void subChips(int amount);
+
+    boolean isLoggedIn(String userName);
+
+    UserProfile getUserBySession(String sessionId);
 }

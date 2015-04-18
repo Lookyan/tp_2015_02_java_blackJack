@@ -1,6 +1,7 @@
 package game;
 
 import base.GameMechanics;
+import main.Context;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -11,57 +12,89 @@ public class GameMechanicsImpl implements GameMechanics {
 
     private Map<String, GameTable> usersTables = new HashMap<>();
     private Queue<GameTable> freeTables = new LinkedList<>();
+    private Context context;
+//    private AccountService accountService;
+//    private WebSocketService webSocketService;
 
-    public void addUser(String userSessionId) {
-        GameTable table;
+    public GameMechanicsImpl(Context context) {
+        this.context = context;
+//        accountService = (AccountService) context.get(AccountService.class);
+//        webSocketService = (WebSocketService) context.get(WebSocketService.class);
+    }
+
+    @Override
+    public void addUser(String userName) {
         if (freeTables.peek() == null) {
-            table = new GameTable();
-            table.addUser(userSessionId);
+            freeTables.add(new GameTable(context));
+        }
+
+        GameTable table = freeTables.peek();
+        try {
+            table.addUser(userName);
+        } catch (GameTableException e) {
+//                TODO: log
+        }
+        if (table.isFull()) {
+            freeTables.remove();
+        }
+        usersTables.put(userName, table);
+    }
+
+    @Override
+    public void removeUser(String userName) {
+        if (usersTables.containsKey(userName)) {
+            GameTable table = usersTables.get(userName);
+            try {
+                table.removeUser(userName);
+            } catch (GameTableException e) {
+//                TODO: log
+            }
             freeTables.add(table);
+            usersTables.remove(userName);
         } else {
-            table = freeTables.peek();
-            table.addUser(userSessionId);
-            if (table.isFull()) {
-                freeTables.remove();
-            }
-        }
-        usersTables.put(userSessionId, table);
-    }
-
-    public void removeUser(String userSessionId) {
-        if (usersTables.containsKey(userSessionId)) {
-            GameTable table = usersTables.get(userSessionId);
-            table.removeUser(userSessionId);
-            usersTables.remove(userSessionId);
+//            TODO: log
         }
     }
 
-    public void makeBet(String userSessionId, int bet) {
-        if (usersTables.containsKey(userSessionId)) {
-            GameTable table = usersTables.get(userSessionId);
+    @Override
+    public void makeBet(String userName, int bet) {
+        if (usersTables.containsKey(userName)) {
+            GameTable table = usersTables.get(userName);
             try {
-                table.makeBet(userSessionId, bet);
+                table.makeBet(userName, bet);
             } catch (GameTableException e) {
-                // log
+//                TODO: log
             }
+        } else {
+//            TODO: log
         }
     }
 
-    public void hit(String userSessionId) {
-        if (usersTables.containsKey(userSessionId)) {
-            GameTable table = usersTables.get(userSessionId);
+    @Override
+    public void hit(String userName) {
+        if (usersTables.containsKey(userName)) {
+            GameTable table = usersTables.get(userName);
             try {
-                table.hit(userSessionId);
+                table.hit(userName);
             } catch (GameTableException e) {
-                // log
+//                TODO: log
             }
+        } else {
+//            TODO: log
         }
     }
 
-    public void stand(String userSessionId) {
-        if (usersTables.containsKey(userSessionId)) {
-            GameTable table = usersTables.get(userSessionId);
-            table.stand(userSessionId);
+    @Override
+    public void stand(String userName) {
+        if (usersTables.containsKey(userName)) {
+            GameTable table = usersTables.get(userName);
+            try {
+                table.stand(userName);
+            } catch (GameTableException e) {
+//                TODO: log
+            }
+        } else {
+//            TODO: log
         }
     }
 }

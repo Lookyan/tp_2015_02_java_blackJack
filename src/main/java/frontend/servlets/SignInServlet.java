@@ -1,8 +1,8 @@
-package frontend;
+package frontend.servlets;
 
 import base.AccountService;
 import main.Context;
-import main.UserProfile;
+import base.UserProfile;
 import templater.PageGenerator;
 
 import javax.servlet.ServletException;
@@ -17,8 +17,8 @@ public class SignInServlet extends HttpServlet {
     public static final String url = "/api/v1/auth/signin";
     private AccountService accountService;
 
-    public SignInServlet() {
-        this.accountService = (AccountService) Context.getInstance().get(AccountService.class);
+    public SignInServlet(Context context) {
+        this.accountService = (AccountService) context.get(AccountService.class);
     }
 
     public void doGet(HttpServletRequest request,

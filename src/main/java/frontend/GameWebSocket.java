@@ -1,23 +1,66 @@
 package frontend;
 
+import base.AccountService;
+import base.GameMechanics;
+import base.UserProfile;
+import base.WebSocketService;
+import main.Context;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
-import org.json.simple.JSONObject;
 
 @WebSocket
 public class GameWebSocket {
-    private String sessionId;
-    private Session socketSession;
-//    private GameMechanics gameMechanics;
-//    private WebSocketService webSocketService;
 
-    public GameWebSocket(String sessionId) {
-        this.sessionId = sessionId;
-//        this.gameMechanics = gameMechanics;
-//        this.webSocketService = webSocketService;
+    private String userName;
+
+    private Session socketSession;
+
+    private AccountService accountService;
+    private GameMechanics gameMechanics;
+    private WebSocketService webSocketService;
+
+    public GameWebSocket(String userSessionId, Context context) {
+        UserProfile user = ((AccountService) context.get(AccountService.class)).getUserBySession(userSessionId);
+        if (user != null) {
+            this.userName = user.getName();
+            this.accountService = (AccountService) context.get(AccountService.class);
+            this.gameMechanics = (GameMechanics) context.get(GameMechanics.class);
+            this.webSocketService = (WebSocketService) context.get(WebSocketService.class);
+        } else {
+            // not logged in или нас хакают :)
+        }
+    }
+
+    @OnWebSocketConnect
+    public void onOpen(Session session) {
+        socketSession = session;
+
+        if (accountService != null) {
+            webSocketService.addUser(this);
+            gameMechanics.addUser(userName);
+        } else {
+            sendNotLogged();
+            socketSession.close();
+        }
+    }
+
+    @OnWebSocketMessage
+    public void onMessage(String data) {
+//        gameMechanics.incrementScore(myName);
+    }
+
+    @OnWebSocketClose
+    public void onClose(int statusCode, String reason) {
+        if (accountService != null) {
+            webSocketService.removeUser(this);
+            gameMechanics.removeUser(userName);
+        }
+    }
+
+    private void sendNotLogged() {
     }
 
     /*public String getMyName() {
@@ -46,17 +89,9 @@ public class GameWebSocket {
         }
     }*/
 
-    @OnWebSocketMessage
-    public void onMessage(String data) {
-//        gameMechanics.incrementScore(myName);
-    }
 
-    @OnWebSocketConnect
-    public void onOpen(Session session) {
-        setSocketSession(session);
-//        webSocketService.addUser(this);
-//        gameMechanics.addUser(myName);
-    }
+
+
 
 /*
     public void setMyScore(GameUser user) {
@@ -83,15 +118,11 @@ public class GameWebSocket {
         }
     }
 */
+    public String getUserName() {
+        return userName;
+    }
 
     public Session getSocketSession() {
         return socketSession;
     }
-
-    public void setSocketSession(Session socketSession) {
-        this.socketSession = socketSession;
-    }
-
-    @OnWebSocketClose
-    public void onClose(int statusCode, String reason) {}
 }

@@ -1,8 +1,8 @@
-package frontend;
+package frontend.servlets;
 
 import base.AccountService;
 import main.Context;
-import main.UserProfile;
+import base.UserProfile;
 import templater.PageGenerator;
 
 import javax.servlet.ServletException;
@@ -16,8 +16,8 @@ import java.util.Map;
 public class SignUpServlet extends HttpServlet {
     private AccountService accountService;
 
-    public SignUpServlet() {
-        this.accountService = (AccountService) Context.getInstance().get(AccountService.class);
+    public SignUpServlet(Context context) {
+        this.accountService = (AccountService) context.get(AccountService.class);
     }
 
     public void doGet(HttpServletRequest request,

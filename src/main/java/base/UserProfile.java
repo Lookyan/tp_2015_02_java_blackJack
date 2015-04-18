@@ -1,19 +1,22 @@
-package main;
+package base;
 
 public class UserProfile {
-    private String login;
+    private String name;
     private String password;
     private String email;
+
+    private int chips;
 //    private int score;
 
-    public UserProfile(String login, String password, String email) {
-        this.login = login;
+    public UserProfile(String name, String password, String email) {
+        this.name = name;
         this.password = password;
         this.email = email;
+        this.chips = 1000;
     }
 
-    public String getLogin() {
-        return login;
+    public String getName() {
+        return name;
     }
 
     public String getPassword() {
@@ -22,5 +25,9 @@ public class UserProfile {
 
     public String getEmail() {
         return email;
+    }
+
+    public int getChips() {
+        return chips;
     }
 }

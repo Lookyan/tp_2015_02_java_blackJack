@@ -1,4 +1,4 @@
-package frontend;
+package frontend.servlets;
 
 import base.AccountService;
 import main.Context;
@@ -16,8 +16,8 @@ import time.TimeHelper;
 public class AdminServlet extends HttpServlet {
     private AccountService accountService;
 
-    public AdminServlet() {
-        this.accountService = (AccountService)Context.getInstance().get(AccountService.class);
+    public AdminServlet(Context context) {
+        this.accountService = (AccountService) context.get(AccountService.class);
     }
 
     public void doGet(HttpServletRequest request,
