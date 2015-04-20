@@ -22,12 +22,13 @@ public class GameTable {
     // Заполнение null'ами важно при удалении игрока для сохранения позиций в массиве
 //    private List<String> players = new ArrayList<>(Collections.nCopies(PLAYERS_QUANTITY, null));
     private Map<String, Player> players = new HashMap<>();
-    private Queue<String> playingQueue;
-    private String currentPlayer;
+    private Queue<String> playingQueue = new LinkedList<>();
+
 //    private List<String> playing = new ArrayList<>(Collections.nCopies(PLAYERS_QUANTITY, null));
 //    private List<Integer> bets = new ArrayList<>(Collections.nCopies(PLAYERS_QUANTITY, null));
 //    private List<Integer> cardScores = new ArrayList<>(Collections.nCopies(PLAYERS_QUANTITY, null));
 
+    private String currentPlayer;
     private GamePhase currentPhase = GamePhase.BET;
 
     public GameTable(Context context) {
@@ -129,9 +130,9 @@ public class GameTable {
             webSocketService.sendRemovePlayer(user, userName);
         }
 
-        if (currentPlayer.compareTo(userName) == 0) {
+//        if (currentPlayer.compareTo(userName) == 0) {
 //            TODO
-        }
+//        }
 
 //        if (players.contains(userName)) {
 //            for (String user : players) {
@@ -150,7 +151,8 @@ public class GameTable {
 
     private void startGame() {
         currentPhase = GamePhase.PLAY;
-        playingQueue = new LinkedList<>(players.keySet());
+        playingQueue.clear();
+        playingQueue.addAll(players.keySet());
 
         // в два круга сдается по одной карте и отсылается всем
         for(int i = 0; i < 2; i++) {
@@ -214,5 +216,16 @@ public class GameTable {
 //        for (String user : players) {
 //            webSocketService.sendDeckShuffle(user);
 //        }
+    }
+
+    @Override
+    public String toString() {
+        return "GameTable@" + hashCode() + "{" +
+                "deck=" + deck +
+                ", players=" + players +
+                ", playingQueue=" + playingQueue +
+                ", currentPlayer='" + currentPlayer + '\'' +
+                ", currentPhase=" + currentPhase +
+                '}';
     }
 }

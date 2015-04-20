@@ -43,4 +43,10 @@ public class Deck {
         shuffle();
     }
 
+    @Override
+    public String toString() {
+        return "Deck@" + hashCode() + "{" +
+                "deck=" + deck +
+                '}';
+    }
 }

@@ -70,6 +70,6 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public UserProfile getUserBySession(String sessionId) {
-        return null;
+        return sessions.get(sessionId);
     }
 }

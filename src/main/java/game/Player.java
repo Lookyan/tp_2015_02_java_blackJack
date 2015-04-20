@@ -82,4 +82,16 @@ public class Player {
         this.chips = chips;
     }
 
+    @Override
+    public String toString() {
+        return "Player@" + hashCode() + "{" +
+                "name='" + name + '\'' +
+                ", isPlaying=" + isPlaying +
+                ", cards=" + cards +
+                ", chips=" + chips +
+                ", score=" + score +
+                ", bet=" + bet +
+                ", hasAce=" + hasAce +
+                '}';
+    }
 }
