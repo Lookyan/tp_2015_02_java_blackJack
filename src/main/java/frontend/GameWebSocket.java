@@ -4,6 +4,7 @@ import base.AccountService;
 import base.GameMechanics;
 import base.UserProfile;
 import base.WebSocketService;
+import game.Card;
 import main.Context;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
@@ -63,66 +64,94 @@ public class GameWebSocket {
     private void sendNotLogged() {
     }
 
-    /*public String getMyName() {
-        return myName;
+    public void sendPhase(String gamePhase) {
+
     }
 
-    public void startGame(GameUser user) {
-        try {
-            JSONObject jsonStart = new JSONObject();
-            jsonStart.put("status", "start");
-            jsonStart.put("enemyName", user.getEnemyName());
-            socketSession.getRemote().sendString(jsonStart.toJSONString());
-        } catch (Exception e) {
-            System.out.print(e.toString());
-        }
-    }*/
+    public void sendOk() {
 
-   /* public void gameOver(GameUser user, boolean win) {
-        try {
-            JSONObject jsonStart = new JSONObject();
-            jsonStart.put("status", "finish");
-            jsonStart.put("win", win);
-            socketSession.getRemote().sendString(jsonStart.toJSONString());
-        } catch (Exception e) {
-            System.out.print(e.toString());
-        }
-    }*/
-
-
-
-
-
-/*
-    public void setMyScore(GameUser user) {
-        JSONObject jsonStart = new JSONObject();
-        jsonStart.put("status", "increment");
-        jsonStart.put("name", myName);
-        jsonStart.put("score", user.getMyScore());
-        try {
-            socketSession.getRemote().sendString(jsonStart.toJSONString());
-        } catch (Exception e) {
-            System.out.print(e.toString());
-        }
     }
 
-    public void setEnemyScore(GameUser user) {
-        JSONObject jsonStart = new JSONObject();
-        jsonStart.put("status", "increment");
-        jsonStart.put("name", user.getEnemyName());
-        jsonStart.put("score", user.getEnemyScore());
-        try {
-            socketSession.getRemote().sendString(jsonStart.toJSONString());
-        } catch (Exception e) {
-            System.out.print(e.toString());
-        }
+    public void sendCard(String owner, Card card) {
+
     }
-*/
+
+    public void sendWins() {
+
+    }
+
+    public void sendDeckShuffle() {
+
+    }
+
+    public void sendRemovePlayer(String removedUserName) {
+
+    }
+
+    public void sendError() {
+
+    }
+
     public String getUserName() {
         return userName;
     }
 
-    public Session getSocketSession() {
-        return socketSession;
-    }
+//    public Session getSocketSession() {
+//        return socketSession;
+//    }
+
+//    public String getMyName() {
+//        return myName;
+//    }
+
+//    public void startGame(GameUser user) {
+//        try {
+//            JSONObject jsonStart = new JSONObject();
+//            jsonStart.put("status", "start");
+//            jsonStart.put("enemyName", user.getEnemyName());
+//            socketSession.getRemote().sendString(jsonStart.toJSONString());
+//        } catch (Exception e) {
+//            System.out.print(e.toString());
+//        }
+//    }
+//
+//    public void gameOver(GameUser user, boolean win) {
+//        try {
+//            JSONObject jsonStart = new JSONObject();
+//            jsonStart.put("status", "finish");
+//            jsonStart.put("win", win);
+//            socketSession.getRemote().sendString(jsonStart.toJSONString());
+//        } catch (Exception e) {
+//            System.out.print(e.toString());
+//        }
+//    }
+//
+//
+//
+//
+//
+//    public void setMyScore(GameUser user) {
+//        JSONObject jsonStart = new JSONObject();
+//        jsonStart.put("status", "increment");
+//        jsonStart.put("name", myName);
+//        jsonStart.put("score", user.getMyScore());
+//        try {
+//            socketSession.getRemote().sendString(jsonStart.toJSONString());
+//        } catch (Exception e) {
+//            System.out.print(e.toString());
+//        }
+//    }
+//
+//    public void setEnemyScore(GameUser user) {
+//        JSONObject jsonStart = new JSONObject();
+//        jsonStart.put("status", "increment");
+//        jsonStart.put("name", user.getEnemyName());
+//        jsonStart.put("score", user.getEnemyScore());
+//        try {
+//            socketSession.getRemote().sendString(jsonStart.toJSONString());
+//        } catch (Exception e) {
+//            System.out.print(e.toString());
+//        }
+//    }
+
 }
