@@ -5,25 +5,22 @@ import main.Context;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class GameMechanicsImpl implements GameMechanics {
 
     private static final Logger logger = LogManager.getLogger();
 
-    private Map<String, GameTable> usersTables = new HashMap<>();
-    private Queue<GameTable> freeTables = new LinkedList<>();
     private Context context;
-//    private AccountService accountService;
-//    private WebSocketService webSocketService;
+
+    private Map<String, GameTable> usersTables = new HashMap<>();
+
+    // Очередь столов со свободными местами
+    private Queue<GameTable> freeTables = new LinkedList<>();
 
     public GameMechanicsImpl(Context context) {
         this.context = context;
-//        accountService = (AccountService) context.get(AccountService.class);
-//        webSocketService = (WebSocketService) context.get(WebSocketService.class);
     }
 
     @Override
@@ -31,7 +28,8 @@ public class GameMechanicsImpl implements GameMechanics {
         logger.info("Adding user '{}'", userName);
         if (freeTables.peek() == null) {
             freeTables.add(new GameTable(context));
-            logger.info("New table was created and added to freeTables: {}", freeTables);
+            logger.info("New table was created and added to freeTables: {}",
+                    freeTables.stream().map(t->"@" + Integer.toString(t.hashCode())).collect(Collectors.toList()));
         }
 
         GameTable table = freeTables.peek();
@@ -43,6 +41,8 @@ public class GameMechanicsImpl implements GameMechanics {
         logger.info("User '{}' added to table: {}", userName, table);
         if (table.isFull()) {
             freeTables.remove();
+            logger.info("Table removed from freeTables: {}",
+                    freeTables.stream().map(t->"@" + Integer.toString(t.hashCode())).collect(Collectors.toList()));
         }
         usersTables.put(userName, table);
     }
@@ -52,14 +52,17 @@ public class GameMechanicsImpl implements GameMechanics {
         logger.info("Removing user '{}'", userName);
         if (usersTables.containsKey(userName)) {
             GameTable table = usersTables.get(userName);
-            logger.info("Obtained table: {}", table);
+            logger.info("Obtained table: {}", table.hashCode());
             try {
                 table.removeUser(userName);
             } catch (GameTableException e) {
                 logger.error(e);
             }
-            freeTables.add(table);
-            logger.info("Table added to freeTables: {}", freeTables);
+            if (!freeTables.contains(table)) {
+                freeTables.add(table);
+                logger.info("Table added to freeTables: {}",
+                        freeTables.stream().map(t->"@" + Integer.toString(t.hashCode())).collect(Collectors.toList()));
+            }
             usersTables.remove(userName);
         } else {
             logger.warn("Cant remove user! No such user playing now!");
@@ -71,7 +74,7 @@ public class GameMechanicsImpl implements GameMechanics {
         logger.info("Making bet {} by '{}'", bet, userName);
         if (usersTables.containsKey(userName)) {
             GameTable table = usersTables.get(userName);
-            logger.info("Obtained table: {}", table);
+            logger.info("Obtained table: GameTable@{}", table.hashCode());
             try {
                 table.makeBet(userName, bet);
             } catch (GameTableException e) {
@@ -87,7 +90,7 @@ public class GameMechanicsImpl implements GameMechanics {
         logger.info("Hitting by '{}'", userName);
         if (usersTables.containsKey(userName)) {
             GameTable table = usersTables.get(userName);
-            logger.info("Obtained table: {}", table);
+            logger.info("Obtained table: GameTable@{}", table.hashCode());
             try {
                 table.hit(userName);
             } catch (GameTableException e) {
@@ -103,7 +106,7 @@ public class GameMechanicsImpl implements GameMechanics {
         logger.info("Standing by '{}'", userName);
         if (usersTables.containsKey(userName)) {
             GameTable table = usersTables.get(userName);
-            logger.info("Obtained table: {}", table);
+            logger.info("Obtained table: GameTable@{}", table.hashCode());
             try {
                 table.stand(userName);
             } catch (GameTableException e) {

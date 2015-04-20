@@ -20,9 +20,9 @@ public interface AccountService {
 
     int getChips(String userName);
 
-    void addChips(int amount);
+    void addChips(String userName, int amount);
 
-    void subChips(int amount);
+    void subChips(String userName, int amount);
 
     boolean isLoggedIn(String userName);
 

@@ -32,22 +32,22 @@ public class WebSocketServiceImpl implements WebSocketService {
         userSockets.get(userName).sendPhase(gamePhase);
     }
 
+//    @Override
+//    public void sendOk(String userName) {
+//        logger.info("Sending ok to user '{}'", userName);
+//        userSockets.get(userName).sendOk();
+//    }
+
     @Override
-    public void sendOk(String userName) {
-        logger.info("Sending ok to user '{}'", userName);
-        userSockets.get(userName).sendOk();
+    public void sendCard(String userName, String owner, Card card, int score) {
+        logger.info("Sending card '{}' of '{}' (score {}) to user '{}'", card, owner, score, userName);
+        userSockets.get(userName).sendCard(owner, card, score);
     }
 
     @Override
-    public void sendCard(String userName, String owner, Card card) {
-        logger.info("Sending card '{}' of '{}' to user '{}'", card, owner, userName);
-        userSockets.get(userName).sendCard(owner, card);
-    }
-
-    @Override
-    public void sendWins(String userName) {
+    public void sendWins(String userName, Map<String, Integer> wins) {
         logger.info("Sending wins to user '{}'", userName);
-        userSockets.get(userName).sendWins();
+        userSockets.get(userName).sendWins(wins);
     }
 
     @Override
@@ -63,8 +63,14 @@ public class WebSocketServiceImpl implements WebSocketService {
     }
 
     @Override
-    public void sendError(String userName) {
-        logger.info("Sending error to user '{}'", userName);
-        userSockets.get(userName).sendError();
+    public void sendBet(String userName, String owner, int bet) {
+        logger.info("Sending bet={} of '{}' to user '{}'", bet, owner, userName);
+        userSockets.get(userName).sendBet(owner, bet);
     }
+
+//    @Override
+//    public void sendError(String userName) {
+//        logger.info("Sending error to user '{}'", userName);
+//        userSockets.get(userName).sendError();
+//    }
 }

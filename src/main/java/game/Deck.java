@@ -8,13 +8,11 @@ import java.util.Queue;
 public class Deck {
     private Queue<String> deck = new LinkedList<>();
 
-//    private GameTable table;
 
     private char[] suits = {'s', 'c', 'h', 'd'}; // spades, clubs, hearts, diamonds
     private char[] ranks = {'A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2'}; // ace, king, queen, jack, ten, ...
 
     public Deck() {
-//        this.table = table;
         fillDeck();
     }
 
@@ -24,7 +22,6 @@ public class Deck {
 
     public String getCard() {
         if (cardsRemaining() == 0) {
-//            table.shuffleDeck();
             fillDeck();
         }
         return deck.remove();

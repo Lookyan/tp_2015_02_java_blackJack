@@ -30,4 +30,8 @@ public class UserProfile {
     public int getChips() {
         return chips;
     }
+
+    public void setChips(int chips) {
+        this.chips = chips;
+    }
 }

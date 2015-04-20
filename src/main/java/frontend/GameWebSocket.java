@@ -21,6 +21,8 @@ import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.util.Map;
+
 @SuppressWarnings("unchecked")
 @WebSocket
 public class GameWebSocket {
@@ -66,6 +68,17 @@ public class GameWebSocket {
         try {
             JSONObject message = (JSONObject) parser.parse(data);
             logger.info("Incoming message: {}", message);
+            switch ((String) message.get("type")) {
+                case "bet":
+                    gameMechanics.makeBet(userName, (new Long((long) message.get("bet")).intValue()));
+                    break;
+                case "hit":
+                    gameMechanics.hit(userName);
+                    break;
+                case "stand":
+                    gameMechanics.stand(userName);
+                    break;
+            }
         } catch (ParseException e) {
             logger.error("Can't parse incoming JSON", e);
         }
@@ -124,7 +137,7 @@ public class GameWebSocket {
         }
     }
 
-    public void sendCard(String owner, Card card) {
+    public void sendCard(String owner, Card card, int score) {
         try {
             JSONObject resp = new JSONObject();
             resp.put("status", "200");
@@ -132,6 +145,7 @@ public class GameWebSocket {
             body.put("type", "card");
             body.put("owner", owner);
             body.put("card", card.toString());
+            body.put("score", score);
             resp.put("body", body);
 
             logger.info("Sending to '{}' resp: {}", userName, resp.toJSONString());
@@ -141,8 +155,39 @@ public class GameWebSocket {
         }
     }
 
-    public void sendWins() {
-//        TODO
+    public void sendBet(String owner, int bet) {
+        try {
+            JSONObject resp = new JSONObject();
+            resp.put("status", "200");
+            JSONObject body = new JSONObject();
+            body.put("type", "bet");
+            body.put("owner", owner);
+            body.put("bet", bet);
+            resp.put("body", body);
+
+            logger.info("Sending to '{}' resp: {}", userName, resp.toJSONString());
+            socketSession.getRemote().sendString(resp.toJSONString());
+        } catch (Exception e) {
+            logger.error("GameWebSocket@" + hashCode(), e);
+        }
+    }
+
+    public void sendWins(Map<String, Integer> wins) {
+        try {
+            JSONObject resp = new JSONObject();
+            resp.put("status", "200");
+            JSONObject body = new JSONObject();
+            body.put("type", "wins");
+            JSONObject jsonWins = new JSONObject();
+            wins.entrySet().stream().forEach(entry -> jsonWins.put(entry.getKey(), entry.getValue()));
+            body.put("wins", jsonWins);
+            resp.put("body", body);
+
+            logger.info("Sending to '{}' resp: {}", userName, resp.toJSONString());
+            socketSession.getRemote().sendString(resp.toJSONString());
+        } catch (Exception e) {
+            logger.error("GameWebSocket@" + hashCode(), e);
+        }
     }
 
     public void sendDeckShuffle() {

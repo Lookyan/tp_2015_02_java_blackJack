@@ -50,17 +50,17 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public int getChips(String userName) {
-        return 0;
+        return users.get(userName).getChips();
     }
 
     @Override
-    public void addChips(int amount) {
-
+    public void addChips(String userName, int amount) {
+        users.get(userName).setChips(users.get(userName).getChips() + amount);
     }
 
     @Override
-    public void subChips(int amount) {
-
+    public void subChips(String userName, int amount) {
+        users.get(userName).setChips(users.get(userName).getChips() - amount);
     }
 
     @Override

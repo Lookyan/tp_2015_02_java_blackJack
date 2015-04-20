@@ -6,18 +6,16 @@ import java.util.List;
 public class Player {
 
     private String name;
-    private boolean isPlaying = true;
+    private boolean isPlaying = false;
 
     private List<Card> cards = new ArrayList<>();
 
-    private int chips;
     private int score = 0;
     private int bet = 0;
     private boolean hasAce = false;
 
-    public Player(String name, int chips) {
+    public Player(String name) {
         this.name = name;
-        this.chips = chips;
     }
 
     public boolean addCard(Card card) {
@@ -62,10 +60,6 @@ public class Player {
         return score;
     }
 
-    public void clearBet() {
-        bet = 0;
-    }
-
     public void setBet(int bet) {
         this.bet = bet;
     }
@@ -74,24 +68,23 @@ public class Player {
         return bet;
     }
 
-    public int getChips() {
-        return chips;
-    }
-
-    public void setChips(int chips) {
-        this.chips = chips;
+    public void reset() {
+        bet = 0;
+        score = 0;
+        cards.clear();
+        hasAce = false;
+        isPlaying = false;
     }
 
     @Override
     public String toString() {
-        return "Player@" + hashCode() + "{" +
+        return "\n\t\t\tPlayer@" + hashCode() + "{" +
                 "name='" + name + '\'' +
                 ", isPlaying=" + isPlaying +
                 ", cards=" + cards +
-                ", chips=" + chips +
                 ", score=" + score +
                 ", bet=" + bet +
                 ", hasAce=" + hasAce +
-                '}';
+                "}\n\t\t";
     }
 }

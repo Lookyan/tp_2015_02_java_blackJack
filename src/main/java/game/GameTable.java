@@ -1,3 +1,4 @@
+// TODO: высылать чей сейчас ход
 package game;
 
 import base.AccountService;
@@ -5,29 +6,27 @@ import base.WebSocketService;
 import main.Context;
 
 import java.util.*;
-import java.util.Map.Entry;
 
 public class GameTable {
 
     private static final int PLAYERS_QUANTITY = 3;
     private static final String DEALER_NAME = "#dealer";
 
+    // Фазы игры
     private static enum GamePhase { BET, PLAY, END }
 
     private WebSocketService webSocketService;
     private AccountService accountService;
 
+    // Колода
     private Deck deck = new Deck();
 
-    // Заполнение null'ами важно при удалении игрока для сохранения позиций в массиве
-//    private List<String> players = new ArrayList<>(Collections.nCopies(PLAYERS_QUANTITY, null));
+    // Дилер и игроки
+    private Player dealer = new Player(DEALER_NAME);
     private Map<String, Player> players = new HashMap<>();
+
+    // Состояние игры
     private Queue<String> playingQueue = new LinkedList<>();
-
-//    private List<String> playing = new ArrayList<>(Collections.nCopies(PLAYERS_QUANTITY, null));
-//    private List<Integer> bets = new ArrayList<>(Collections.nCopies(PLAYERS_QUANTITY, null));
-//    private List<Integer> cardScores = new ArrayList<>(Collections.nCopies(PLAYERS_QUANTITY, null));
-
     private String currentPlayer;
     private GamePhase currentPhase = GamePhase.BET;
 
@@ -42,10 +41,13 @@ public class GameTable {
 
     public void addUser(String userName) throws GameTableException {
         if (!isFull()) {
-            players.put(userName, new Player(userName, accountService.getChips(userName)));
+            players.put(userName, new Player(userName));
 
+            // Если еще идет фаза ставок, игрок может присоединиться к игре
             if (currentPhase == GamePhase.BET) {
                 webSocketService.sendPhase(userName, GamePhase.BET.name());
+            } else {
+//                TODO: выслать стейт
             }
         } else {
             throw new GameTableException("Can't add new user, table is full!");
@@ -61,16 +63,26 @@ public class GameTable {
         }
 
         Player player = players.get(userName);
-        if (player.getChips() < bet) {
-            webSocketService.sendError(userName);
-        } else {
-            player.setBet(bet);
-            player.setPlaying(true);
-            webSocketService.sendOk(userName);
+        if (player.isPlaying()) {
+            throw new GameTableException("Can't update made bet");
+        }
 
-            if (isAllPlaying()) {
-                startGame();
-            }
+        // Если фишек у игрока меньше чем он пытается поставить - обрубаем
+        if (accountService.getChips(userName) < bet) {
+            bet = accountService.getChips(userName);
+        }
+        player.setBet(bet);
+        player.setPlaying(true);
+
+        // Отсылаем всем сделанную ставку
+//        players.keySet().stream().forEach(p -> webSocketService.sendBet(p, userName, bet)); // error
+        for (String p : players.keySet()) {
+            webSocketService.sendBet(p, userName, bet);
+        }
+
+        // Если все сделали ставки - начинаем игру
+        if (isAllPlaying()) {
+            startGame();
         }
     }
 
@@ -89,15 +101,17 @@ public class GameTable {
         Player player = players.get(currentPlayer);
         player.addCard(card);
 
+        // Отсылаем всем карту игрока
         for (String user : players.keySet()) {
-            webSocketService.sendCard(user, userName, card);
+            webSocketService.sendCard(user, userName, card, player.getScore());
         }
 
+        // Если очки > 21 заканчиваем с ним, иначе делаем еще приглашение
         if (player.getScore() > 21) {
             webSocketService.sendPhase(userName, GamePhase.END.name());
             processStep();
         } else {
-            webSocketService.sendOk(userName);
+            webSocketService.sendPhase(userName, GamePhase.PLAY.name());
         }
     }
 
@@ -131,13 +145,14 @@ public class GameTable {
         }
 
 //        if (currentPlayer.compareTo(userName) == 0) {
+//        чекать на null
 //            TODO
 //        }
 
 //        if (players.contains(userName)) {
 //            for (String user : players) {
 //                if (!user.equals(userName)) {
-//                    webSocketService.sendRemovePlayer(user, userName); // TODO: send index
+//                    webSocketService.sendRemovePlayer(user, userName);
 //                }
 //            }
 //            int index = players.indexOf(userName);
@@ -151,50 +166,84 @@ public class GameTable {
 
     private void startGame() {
         currentPhase = GamePhase.PLAY;
+
+        // Добавляем всех игроков в очередь
         playingQueue.clear();
         playingQueue.addAll(players.keySet());
 
         // в два круга сдается по одной карте и отсылается всем
         for(int i = 0; i < 2; i++) {
-            for (Entry<String, Player> entry : players.entrySet()) {
-                if (entry.getValue().isPlaying()) {
-                    Card card = getCard();
-                    entry.getValue().addCard(card);
-                    for (String userName : players.keySet()) {
-                        webSocketService.sendCard(userName, entry.getKey(), card);
-                    }
+            players.entrySet().stream().filter(entry -> entry.getValue().isPlaying()).forEach(entry -> {
+                Card card = getCard();
+                entry.getValue().addCard(card);
+                for (String userName : players.keySet()) {
+                    webSocketService.sendCard(userName, entry.getKey(), card, entry.getValue().getScore());
                 }
-            }
+            });
         }
         // одна карта дилеру
         Card card = getCard();
-        for (String userName : players.keySet()) {
-            webSocketService.sendCard(userName, DEALER_NAME, card); // 3 - dealer index
-        }
+        dealer.addCard(card);
+        players.keySet().stream().forEach(player ->
+                webSocketService.sendCard(player, DEALER_NAME, card, dealer.getScore()));
 
         processStep();
     }
 
     private void processStep() {
         if (!playingQueue.isEmpty()) {
+            // Вытаскиваем игроков пока не найдем играющего
             do {
                 currentPlayer = playingQueue.poll();
             } while (!players.get(currentPlayer).isPlaying());
             webSocketService.sendPhase(currentPlayer, GamePhase.PLAY.name());
         } else {
-            processWins();
+            // Если очередь пуста - обрабатываем результаты
+            finishGame();
         }
     }
 
-    private void processWins() {
-//        TODO
-//        currentPhase = GamePhase.BET;
-//        for (String user : players) {
-//            if (user != null) {
-//                webSocketService.sendWins(/*user, winnings*/);
-//                webSocketService.sendPhase(user, GamePhase.BET.name());
-//            }
-//        }
+    private void finishGame() {
+        while (dealer.getScore() < 17) {
+            Card card = getCard();
+            dealer.addCard(card);
+            players.keySet().stream().forEach(player ->
+                    webSocketService.sendCard(player, DEALER_NAME, card, dealer.getScore()));
+        }
+
+        int dealerScore = dealer.getScore();
+        Map<String, Integer> wins = new HashMap<>();
+        players.entrySet().stream().filter(entry -> entry.getValue().isPlaying()).forEach(entry -> {
+            Player player = entry.getValue();
+            int playerScore = player.getScore();
+
+/*          |  d  |  p  |  res
+            +-----+-----+------
+            | >21 | >21 | loose
+            | >21 |<=21 | win
+            |<=21 | >21 | loose
+            |<=21 |<=21 |->|\__ d = p -> none
+                           |\__ d > p -> loose
+                           \___ d < p -> win
+*/
+            if (playerScore > 21 || dealerScore <= 21 && dealerScore > playerScore) {
+                accountService.subChips(entry.getKey(), player.getBet());
+                wins.put(entry.getKey(), -player.getBet());
+            } else if (dealerScore > 21 || dealerScore < playerScore) {
+                accountService.addChips(entry.getKey(), player.getBet());
+                wins.put(entry.getKey(), player.getBet());
+            } else {
+                wins.put(entry.getKey(), 0);
+            }
+            player.reset();
+
+        });
+        dealer.reset();
+
+        players.keySet().stream().filter(player -> player != null).forEach(player -> webSocketService.sendWins(player, wins));
+
+        currentPhase = GamePhase.BET;
+        players.keySet().stream().forEach(player -> webSocketService.sendPhase(player, GamePhase.BET.name()));
     }
 
     private boolean isAllPlaying() {
@@ -220,9 +269,9 @@ public class GameTable {
 
     @Override
     public String toString() {
-        return "GameTable@" + hashCode() + "{" +
-                "deck=" + deck +
-                ", players=" + players +
+        return "\n\tGameTable@" + hashCode() + "{" +
+                "\n\t\tdeck=" + deck +
+                ",\n\t\tplayers=" + players +
                 ", playingQueue=" + playingQueue +
                 ", currentPlayer='" + currentPlayer + '\'' +
                 ", currentPhase=" + currentPhase +

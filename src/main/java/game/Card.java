@@ -18,7 +18,7 @@ public class Card {
         if (value == -1) {
             switch (rank) {
                 case 'A':
-                    value = 11; // TODO: change
+                    value = 11;
                     break;
 
                 case 'K':case 'Q':
