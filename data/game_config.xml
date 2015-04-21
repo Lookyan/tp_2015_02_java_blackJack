@@ -1,0 +1,4 @@
+<class type="resourceSystem.GameConfig">
+    <maxPlayers>3</maxPlayers>
+    <dealerName>#dealer</dealerName>
+</class>

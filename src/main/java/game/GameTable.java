@@ -4,13 +4,15 @@ package game;
 import base.AccountService;
 import base.WebSocketService;
 import main.Context;
+import resourceSystem.GameConfig;
+import resourceSystem.ResourceFactory;
 
 import java.util.*;
 
 public class GameTable {
 
-    private static final int PLAYERS_QUANTITY = 3;
-    private static final String DEALER_NAME = "#dealer";
+    private int MAX_PLAYERS;
+    private String DEALER_NAME;
 
     // Фазы игры
     private static enum GamePhase { BET, PLAY, END }
@@ -31,12 +33,16 @@ public class GameTable {
     private GamePhase currentPhase = GamePhase.BET;
 
     public GameTable(Context context) {
+        GameConfig config = (GameConfig) ResourceFactory.getInstance().get("data/game_config.xml");
+        MAX_PLAYERS = config.getMaxPlayers();
+        DEALER_NAME = config.getDealerName();
+
         this.webSocketService = (WebSocketService) context.get(WebSocketService.class);
         this.accountService = (AccountService) context.get(AccountService.class);
     }
 
     public boolean isFull() {
-        return players.size() == PLAYERS_QUANTITY;
+        return players.size() == MAX_PLAYERS;
     }
 
     public void addUser(String userName) throws GameTableException {
@@ -256,15 +262,11 @@ public class GameTable {
     }
 
     private Card getCard() {
-//        TODO
-        return new Card('4','d');
-    }
-
-    private void shuffleDeck() {
-//        TODO
-//        for (String user : players) {
-//            webSocketService.sendDeckShuffle(user);
-//        }
+        if (deck.isEmpty()) {
+            players.keySet().stream().forEach(player -> webSocketService.sendDeckShuffle(player));
+            deck.fillDeck();
+        }
+        return deck.getCard();
     }
 
     @Override

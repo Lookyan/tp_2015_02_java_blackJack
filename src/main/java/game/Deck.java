@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Queue;
 
 public class Deck {
-    private Queue<String> deck = new LinkedList<>();
+    private Queue<Card> deck = new LinkedList<>();
 
 
     private char[] suits = {'s', 'c', 'h', 'd'}; // spades, clubs, hearts, diamonds
@@ -16,28 +16,21 @@ public class Deck {
         fillDeck();
     }
 
-    public int cardsRemaining() {
-        return deck.size();
+    public boolean isEmpty() {
+        return deck.isEmpty();
     }
 
-    public String getCard() {
-        if (cardsRemaining() == 0) {
-            fillDeck();
-        }
+    public Card getCard() {
         return deck.remove();
     }
 
-    private void shuffle() {
-        Collections.shuffle((List) deck);
-    }
-
-    private void fillDeck() {
+    public void fillDeck() {
         for(char suit : suits) {
             for(char rank : ranks) {
-                deck.add("" + rank + suit);
+                deck.add(new Card(rank, suit));
             }
         }
-        shuffle();
+        Collections.shuffle((List) deck);
     }
 
     @Override

@@ -10,7 +10,7 @@
         <RollingFile name="RollingFile" fileName="${log_dir}/server.log"
                      filePattern="${log_dir}/server_%i.log.gz">
             <PatternLayout>
-                <pattern>[%d{MM-dd HH:mm:ss,SSS}, %r] %c %m%n</pattern>
+                <pattern>[%d{MM-dd HH:mm:ss.SSS}] %-5p %-40.40c %x : %m%n</pattern>
             </PatternLayout>
             <Policies>
                 <SizeBasedTriggeringPolicy size="50MB"/>

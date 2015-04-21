@@ -32,12 +32,6 @@ public class WebSocketServiceImpl implements WebSocketService {
         userSockets.get(userName).sendPhase(gamePhase);
     }
 
-//    @Override
-//    public void sendOk(String userName) {
-//        logger.info("Sending ok to user '{}'", userName);
-//        userSockets.get(userName).sendOk();
-//    }
-
     @Override
     public void sendCard(String userName, String owner, Card card, int score) {
         logger.info("Sending card '{}' of '{}' (score {}) to user '{}'", card, owner, score, userName);
@@ -65,12 +59,8 @@ public class WebSocketServiceImpl implements WebSocketService {
     @Override
     public void sendBet(String userName, String owner, int bet) {
         logger.info("Sending bet={} of '{}' to user '{}'", bet, owner, userName);
+//        TODO (отсылает в несуществующий сокет)
         userSockets.get(userName).sendBet(owner, bet);
     }
 
-//    @Override
-//    public void sendError(String userName) {
-//        logger.info("Sending error to user '{}'", userName);
-//        userSockets.get(userName).sendError();
-//    }
 }
