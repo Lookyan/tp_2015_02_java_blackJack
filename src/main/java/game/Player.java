@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Player {
 
-    private String name;
     private boolean isPlaying = false;
 
     private List<Card> cards = new ArrayList<>();
@@ -13,10 +12,6 @@ public class Player {
     private int score = 0;
     private int bet = 0;
     private boolean hasAce = false;
-
-    public Player(String name) {
-        this.name = name;
-    }
 
     public boolean addCard(Card card) {
         cards.add(card);
@@ -68,6 +63,10 @@ public class Player {
         return bet;
     }
 
+    public List<Card> getCards() {
+        return cards;
+    }
+
     public void reset() {
         bet = 0;
         score = 0;
@@ -79,7 +78,6 @@ public class Player {
     @Override
     public String toString() {
         return "\n\t\t\tPlayer@" + hashCode() + "{" +
-                "name='" + name + '\'' +
                 ", isPlaying=" + isPlaying +
                 ", cards=" + cards +
                 ", score=" + score +

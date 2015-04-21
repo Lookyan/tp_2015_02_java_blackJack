@@ -2,6 +2,7 @@ package frontend;
 
 import base.WebSocketService;
 import game.Card;
+import game.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -53,14 +54,32 @@ public class WebSocketServiceImpl implements WebSocketService {
     @Override
     public void sendRemovePlayer(String userName, String removedUserName) {
         logger.info("Sending removed user '{}' to user '{}'", removedUserName, userName);
+        //        TODO (отсылает в несуществующий сокет)
         userSockets.get(userName).sendRemovePlayer(removedUserName);
     }
 
     @Override
     public void sendBet(String userName, String owner, int bet) {
         logger.info("Sending bet={} of '{}' to user '{}'", bet, owner, userName);
-//        TODO (отсылает в несуществующий сокет)
         userSockets.get(userName).sendBet(owner, bet);
+    }
+
+    @Override
+    public void sendState(String userName, Map<String, Player> players) {
+        logger.info("Sending state to user '{}'", userName);
+        userSockets.get(userName).sendState(players);
+    }
+
+    @Override
+    public void sendNewPlayer(String userName, String newPlayerName) {
+        logger.info("Sending new player '{}' to user '{}'", newPlayerName, userName);
+        userSockets.get(userName).sendNewPlayer(newPlayerName);
+    }
+
+    @Override
+    public void sendTurn(String userName, String player) {
+        logger.info("Sending '{}'s turn to user '{}'", player, userName);
+        userSockets.get(userName).sendTurn(player);
     }
 
 }

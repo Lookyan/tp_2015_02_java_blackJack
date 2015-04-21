@@ -5,6 +5,7 @@ import base.GameMechanics;
 import base.UserProfile;
 import base.WebSocketService;
 import game.Card;
+import game.Player;
 import main.Context;
 
 import org.apache.logging.log4j.LogManager;
@@ -16,6 +17,7 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
@@ -122,12 +124,41 @@ public class GameWebSocket {
         }
     }
 
-    public void sendOk() {
+//    public void sendOk() {
+//        try {
+//            JSONObject resp = new JSONObject();
+//            resp.put("status", "200");
+//            JSONObject body = new JSONObject();
+//            body.put("type", "ok");
+//            resp.put("body", body);
+//
+//            logger.info("Sending to '{}' resp: {}", userName, resp.toJSONString());
+//            socketSession.getRemote().sendString(resp.toJSONString());
+//        } catch (Exception e) {
+//            logger.error("GameWebSocket@" + hashCode(), e);
+//        }
+//    }
+
+    public void sendState(Map<String, Player> players) {
         try {
             JSONObject resp = new JSONObject();
             resp.put("status", "200");
             JSONObject body = new JSONObject();
-            body.put("type", "ok");
+            body.put("type", "state");
+            JSONArray jsonPlayers = new JSONArray();
+            players.entrySet().stream().forEach(entry -> {
+                JSONObject player = new JSONObject();
+                player.put("bet", entry.getValue().getBet());
+                player.put("score", entry.getValue().getScore());
+                player.put("name", entry.getKey());
+
+                JSONArray cards = new JSONArray();
+                entry.getValue().getCards().stream().forEach(card -> cards.add(card));
+                player.put("cards", cards);
+
+                jsonPlayers.add(player);
+            });
+            body.put("players", jsonPlayers);
             resp.put("body", body);
 
             logger.info("Sending to '{}' resp: {}", userName, resp.toJSONString());
@@ -221,12 +252,13 @@ public class GameWebSocket {
         }
     }
 
-    public void sendError() {
+    public void sendNewPlayer(String newPlayerName) {
         try {
             JSONObject resp = new JSONObject();
             resp.put("status", "200");
             JSONObject body = new JSONObject();
-            body.put("type", "error");
+            body.put("type", "new");
+            body.put("player", newPlayerName);
             resp.put("body", body);
 
             logger.info("Sending to '{}' resp: {}", userName, resp.toJSONString());
@@ -235,6 +267,37 @@ public class GameWebSocket {
             logger.error("GameWebSocket@" + hashCode(), e);
         }
     }
+
+    public void sendTurn(String player) {
+        try {
+            JSONObject resp = new JSONObject();
+            resp.put("status", "200");
+            JSONObject body = new JSONObject();
+            body.put("type", "turn");
+            body.put("player", player);
+            resp.put("body", body);
+
+            logger.info("Sending to '{}' resp: {}", userName, resp.toJSONString());
+            socketSession.getRemote().sendString(resp.toJSONString());
+        } catch (Exception e) {
+            logger.error("GameWebSocket@" + hashCode(), e);
+        }
+    }
+
+//    public void sendError() {
+//        try {
+//            JSONObject resp = new JSONObject();
+//            resp.put("status", "200");
+//            JSONObject body = new JSONObject();
+//            body.put("type", "error");
+//            resp.put("body", body);
+//
+//            logger.info("Sending to '{}' resp: {}", userName, resp.toJSONString());
+//            socketSession.getRemote().sendString(resp.toJSONString());
+//        } catch (Exception e) {
+//            logger.error("GameWebSocket@" + hashCode(), e);
+//        }
+//    }
 
     public String getUserName() {
         return userName;

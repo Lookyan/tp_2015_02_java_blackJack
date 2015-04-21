@@ -1,4 +1,3 @@
-// TODO: высылать чей сейчас ход
 package game;
 
 import base.AccountService;
@@ -24,7 +23,7 @@ public class GameTable {
     private Deck deck = new Deck();
 
     // Дилер и игроки
-    private Player dealer = new Player(DEALER_NAME);
+    private Player dealer = new Player();
     private Map<String, Player> players = new HashMap<>();
 
     // Состояние игры
@@ -47,13 +46,16 @@ public class GameTable {
 
     public void addUser(String userName) throws GameTableException {
         if (!isFull()) {
-            players.put(userName, new Player(userName));
+            players.entrySet().stream().forEach(entry -> webSocketService.sendNewPlayer(entry.getKey(), userName));
+
+            players.put(userName, new Player());
+            Map<String, Player> state = new HashMap<>(players);
+            state.put(DEALER_NAME, dealer);
+            webSocketService.sendState(userName, state);
 
             // Если еще идет фаза ставок, игрок может присоединиться к игре
             if (currentPhase == GamePhase.BET) {
                 webSocketService.sendPhase(userName, GamePhase.BET.name());
-            } else {
-//                TODO: выслать стейт
             }
         } else {
             throw new GameTableException("Can't add new user, table is full!");
@@ -203,6 +205,7 @@ public class GameTable {
                 currentPlayer = playingQueue.poll();
             } while (!players.get(currentPlayer).isPlaying());
             webSocketService.sendPhase(currentPlayer, GamePhase.PLAY.name());
+            players.keySet().stream().filter(name -> name.compareTo(currentPlayer) != 0).forEach(name -> webSocketService.sendTurn(name, currentPlayer));
         } else {
             // Если очередь пуста - обрабатываем результаты
             finishGame();
