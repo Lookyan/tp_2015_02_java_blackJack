@@ -46,7 +46,7 @@ public class Main {
         servletContext.addServlet(new ServletHolder(new ProfileServlet(context)), "/api/v1/auth/profile");
         servletContext.addServlet(new ServletHolder(new LogoutServlet(context)), "/api/v1/auth/logout");
         servletContext.addServlet(new ServletHolder(new AdminServlet(context)), "/admin");
-        servletContext.addServlet(new ServletHolder(new WebSocketGameServlet(context)), "/api/v1/game");
+        servletContext.addServlet(new ServletHolder(new WebSocketGameServlet(context)), "/gameplay");
         logger.info("Created servlets");
 
         ResourceHandler resource_handler = new ResourceHandler();
