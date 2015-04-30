@@ -11,18 +11,18 @@ import static org.junit.Assert.*;
 
 public class ContextTest {
 
-    private final ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-//    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
-
-    @Before
-    public void setUpStreams() {
-        System.setOut(new PrintStream(outStream));
-    }
-
-    @After
-    public void resetStreams() {
-        System.setOut(null);
-    }
+//    private final ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+////    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+//
+//    @Before
+//    public void setUpStreams() {
+//        System.setOut(new PrintStream(outStream));
+//    }
+//
+//    @After
+//    public void resetStreams() {
+//        System.setOut(null);
+//    }
 
     @Test
     public void testAdd() throws Exception {
@@ -35,7 +35,10 @@ public class ContextTest {
 
         context.add(String.class, "sample 2");
 
-        assertEquals("[main] FATAL main.Context - Trying to add existing class to context!\n",
-                outStream.toString().substring(13)); // 13 символов - время
+        assertEquals(str, context.get(String.class));
+
+//        str = outStream.toString().substring(13);
+
+//        assertEquals("[main] FATAL main.Context - Trying to add existing class to context!\n", str); // 13 символов - время
     }
 }
