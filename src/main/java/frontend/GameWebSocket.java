@@ -68,6 +68,7 @@ public class GameWebSocket {
     @OnWebSocketMessage
     public void onMessage(String data) {
         try {
+//            TODO: security
             JSONObject message = (JSONObject) parser.parse(data);
             logger.info("Incoming message: {}", message);
             switch ((String) message.get("type")) {

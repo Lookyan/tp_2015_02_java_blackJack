@@ -25,6 +25,7 @@ public class Player {
 
         score += card.getValue();
         if (score > 21) {
+//            TODO: если нет туза не нужно вообще
             for (Card c : cards) {
                 if (c.isAce()) {
                     if ( c.getValue() == 11) {

@@ -6,7 +6,9 @@ public class ServerConfig implements Resource {
 
     private int port;
 
-    public ServerConfig() {
+    public ServerConfi
+
+    qg() {
         this.port = 80;
     }
 

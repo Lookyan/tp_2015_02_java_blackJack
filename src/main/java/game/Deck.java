@@ -9,8 +9,8 @@ public class Deck {
     private Queue<Card> deck = new LinkedList<>();
 
 
-    private char[] suits = {'s', 'c', 'h', 'd'}; // spades, clubs, hearts, diamonds
-    private char[] ranks = {'A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2'}; // ace, king, queen, jack, ten, ...
+    private static final char[] suits = {'s', 'c', 'h', 'd'}; // spades, clubs, hearts, diamonds
+    private static final char[] ranks = {'A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2'}; // ace, king, queen, jack, ten, ...
 
     public Deck() {
         fillDeck();

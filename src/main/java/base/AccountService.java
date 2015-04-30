@@ -1,4 +1,5 @@
 package base;
+// TODO: не добавлять к игре игрока дважды
 
 public interface AccountService {
 

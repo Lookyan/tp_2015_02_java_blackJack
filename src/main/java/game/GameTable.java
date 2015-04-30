@@ -14,6 +14,7 @@ public class GameTable {
     private String DEALER_NAME;
 
     // Фазы игры
+//    TODO: избавиться от фазы END
     private static enum GamePhase { BET, PLAY, END }
 
     private WebSocketService webSocketService;
@@ -114,6 +115,7 @@ public class GameTable {
             webSocketService.sendCard(user, userName, card, player.getScore());
         }
 
+//        TODO: использовать addCard
         // Если очки > 21 заканчиваем с ним, иначе делаем еще приглашение
         if (player.getScore() > 21) {
             webSocketService.sendPhase(userName, GamePhase.END.name());
