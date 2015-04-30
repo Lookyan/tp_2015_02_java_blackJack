@@ -1,6 +1,7 @@
 package game;
 
 import base.AccountService;
+import base.GameTable;
 import base.WebSocketService;
 import main.Context;
 import resourceSystem.GameConfig;
@@ -8,7 +9,7 @@ import resourceSystem.ResourceFactory;
 
 import java.util.*;
 
-public class GameTable {
+public class GameTableImpl implements GameTable {
 
     private int MAX_PLAYERS;
     private String DEALER_NAME;
@@ -32,7 +33,7 @@ public class GameTable {
     private String currentPlayer;
     private GamePhase currentPhase = GamePhase.BET;
 
-    public GameTable(Context context) {
+    public GameTableImpl(Context context) {
         GameConfig config = (GameConfig) ResourceFactory.getInstance().get("data/game_config.xml");
         MAX_PLAYERS = config.getMaxPlayers();
         DEALER_NAME = config.getDealerName();

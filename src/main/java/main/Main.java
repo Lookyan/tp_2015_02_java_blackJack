@@ -6,6 +6,7 @@ import frontend.WebSocketServiceImpl;
 import frontend.servlets.*;
 import game.GameMechanicsImpl;
 import base.AccountService;
+import game.GameTableImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.server.Handler;
@@ -35,7 +36,7 @@ public class Main {
 
         context.add(AccountService.class, new AccountServiceImpl());
         context.add(WebSocketService.class, new WebSocketServiceImpl());
-        context.add(GameMechanics.class, new GameMechanicsImpl(context));
+        context.add(GameMechanics.class, new GameMechanicsImpl(context, cont -> new GameTableImpl(cont)));
 
         Server server = new Server(config.getPort());
         logger.info("Starting server at port {}", config.getPort());

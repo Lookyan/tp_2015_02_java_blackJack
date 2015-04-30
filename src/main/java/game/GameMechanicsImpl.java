@@ -1,11 +1,13 @@
 package game;
 
 import base.GameMechanics;
+import base.GameTable;
 import main.Context;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class GameMechanicsImpl implements GameMechanics {
@@ -14,12 +16,15 @@ public class GameMechanicsImpl implements GameMechanics {
 
     private Context context;
 
+    private Function<Context, GameTable> creator;
+
     private Map<String, GameTable> usersTables = new HashMap<>();
 
     // Очередь столов со свободными местами
     private Queue<GameTable> freeTables = new LinkedList<>();
 
-    public GameMechanicsImpl(Context context) {
+    public GameMechanicsImpl(Context context, Function<Context, GameTable> creator) {
+        this.creator = creator;
         this.context = context;
     }
 
@@ -27,7 +32,7 @@ public class GameMechanicsImpl implements GameMechanics {
     public void addUser(String userName) {
         logger.info("Adding user '{}'", userName);
         if (freeTables.peek() == null) {
-            freeTables.add(new GameTable(context));
+            freeTables.add(creator.apply(context));
             logger.info("New table was created and added to freeTables: {}",
                     freeTables.stream().map(t->"@" + Integer.toString(t.hashCode())).collect(Collectors.toList()));
         }
