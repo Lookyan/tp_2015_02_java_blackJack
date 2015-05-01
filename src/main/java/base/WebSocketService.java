@@ -32,6 +32,6 @@ public interface WebSocketService {
 
     void sendTurn(String userName, String player);
 
-//    void sendError(String userName);
+    void sendEnd(String userName);
 
 }

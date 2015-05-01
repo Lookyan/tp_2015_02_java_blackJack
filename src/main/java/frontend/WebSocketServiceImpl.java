@@ -82,4 +82,11 @@ public class WebSocketServiceImpl implements WebSocketService {
         userSockets.get(userName).sendTurn(player);
     }
 
+    @Override
+    public void sendEnd(String userName) {
+        logger.info("Sending end turn to user '{}'", userName);
+        userSockets.get(userName).sendEnd();
+    }
+
+
 }

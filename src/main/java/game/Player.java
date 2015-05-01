@@ -13,7 +13,7 @@ public class Player {
     private int bet = 0;
     private boolean hasAce = false;
 
-    public boolean addCard(Card card) {
+    public void addCard(Card card) {
         cards.add(card);
         if (card.isAce()) {
             if (hasAce) {
@@ -24,23 +24,14 @@ public class Player {
         }
 
         score += card.getValue();
-        if (score > 21) {
-//            TODO: если нет туза не нужно вообще
+        if (score > 21 && hasAce) {
             for (Card c : cards) {
-                if (c.isAce()) {
-                    if ( c.getValue() == 11) {
-                        c.changeAceValue();
-                        score -= 10;
-                        break;
-                    }
+                if (c.isAce() && c.getValue() == 11) {
+                    c.changeAceValue();
+                    score -= 10;
+                    break;
                 }
             }
-        }
-
-        if ( score > 21) {
-            return false;
-        } else {
-            return true;
         }
     }
 

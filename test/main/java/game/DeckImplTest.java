@@ -4,11 +4,11 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class DeckTest {
+public class DeckImplTest {
 
     @Test
     public void testIsEmpty() throws Exception {
-        Deck deck = new Deck();
+        DeckImpl deck = new DeckImpl();
         assertFalse(deck.isEmpty());
         for (int i = 0; i < 52; i++) {
             deck.getCard();
@@ -18,7 +18,7 @@ public class DeckTest {
 
     @Test
     public void testFillDeck() throws Exception {
-        Deck deck = new Deck();
+        DeckImpl deck = new DeckImpl();
         assertFalse(deck.isEmpty());
         for (int i = 0; i < 52; i++) {
             deck.getCard();

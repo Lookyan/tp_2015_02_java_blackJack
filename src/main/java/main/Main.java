@@ -4,6 +4,7 @@ import base.GameMechanics;
 import base.WebSocketService;
 import frontend.WebSocketServiceImpl;
 import frontend.servlets.*;
+import game.DeckImpl;
 import game.GameMechanicsImpl;
 import base.AccountService;
 import game.GameTableImpl;
@@ -36,7 +37,7 @@ public class Main {
 
         context.add(AccountService.class, new AccountServiceImpl());
         context.add(WebSocketService.class, new WebSocketServiceImpl());
-        context.add(GameMechanics.class, new GameMechanicsImpl(context, cont -> new GameTableImpl(cont)));
+        context.add(GameMechanics.class, new GameMechanicsImpl(context, cont -> new GameTableImpl(cont, new DeckImpl())));
 
         Server server = new Server(config.getPort());
         logger.info("Starting server at port {}", config.getPort());

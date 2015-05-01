@@ -285,20 +285,20 @@ public class GameWebSocket {
         }
     }
 
-//    public void sendError() {
-//        try {
-//            JSONObject resp = new JSONObject();
-//            resp.put("status", "200");
-//            JSONObject body = new JSONObject();
-//            body.put("type", "error");
-//            resp.put("body", body);
-//
-//            logger.info("Sending to '{}' resp: {}", userName, resp.toJSONString());
-//            socketSession.getRemote().sendString(resp.toJSONString());
-//        } catch (Exception e) {
-//            logger.error("GameWebSocket@" + hashCode(), e);
-//        }
-//    }
+    public void sendEnd() {
+        try {
+            JSONObject resp = new JSONObject();
+            resp.put("status", "200");
+            JSONObject body = new JSONObject();
+            body.put("type", "end");
+            resp.put("body", body);
+
+            logger.info("Sending to '{}' resp: {}", userName, resp.toJSONString());
+            socketSession.getRemote().sendString(resp.toJSONString());
+        } catch (Exception e) {
+            logger.error("GameWebSocket@" + hashCode(), e);
+        }
+    }
 
     public String getUserName() {
         return userName;

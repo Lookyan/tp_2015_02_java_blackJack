@@ -1,6 +1,7 @@
 package game;
 
 import base.AccountService;
+import base.Deck;
 import base.GameTable;
 import base.WebSocketService;
 import main.Context;
@@ -15,14 +16,13 @@ public class GameTableImpl implements GameTable {
     private String DEALER_NAME;
 
     // Фазы игры
-//    TODO: избавиться от фазы END
-    private static enum GamePhase { BET, PLAY, END }
+    private static enum GamePhase { BET, PLAY }
 
     private WebSocketService webSocketService;
     private AccountService accountService;
 
     // Колода
-    private Deck deck = new Deck();
+    private Deck deck;
 
     // Дилер и игроки
     private Player dealer = new Player();
@@ -33,19 +33,22 @@ public class GameTableImpl implements GameTable {
     private String currentPlayer;
     private GamePhase currentPhase = GamePhase.BET;
 
-    public GameTableImpl(Context context) {
+    public GameTableImpl(Context context, Deck deck) {
         GameConfig config = (GameConfig) ResourceFactory.getInstance().get("data/game_config.xml");
         MAX_PLAYERS = config.getMaxPlayers();
         DEALER_NAME = config.getDealerName();
 
+        this.deck = deck;
         this.webSocketService = (WebSocketService) context.get(WebSocketService.class);
         this.accountService = (AccountService) context.get(AccountService.class);
     }
 
+    @Override
     public boolean isFull() {
         return players.size() == MAX_PLAYERS;
     }
 
+    @Override
     public void addUser(String userName) throws GameTableException {
         if (!isFull()) {
             players.entrySet().stream().forEach(entry -> webSocketService.sendNewPlayer(entry.getKey(), userName));
@@ -64,6 +67,7 @@ public class GameTableImpl implements GameTable {
         }
     }
 
+    @Override
     public void makeBet(String userName, int bet) throws GameTableException {
         if (currentPhase != GamePhase.BET) {
             throw new GameTableException("Can't make bet, not bet time");
@@ -96,6 +100,7 @@ public class GameTableImpl implements GameTable {
         }
     }
 
+    @Override
     public void hit(String userName) throws GameTableException {
         if (currentPhase != GamePhase.PLAY) {
             throw new GameTableException("Can't hit, not playing time");
@@ -116,16 +121,16 @@ public class GameTableImpl implements GameTable {
             webSocketService.sendCard(user, userName, card, player.getScore());
         }
 
-//        TODO: использовать addCard
         // Если очки > 21 заканчиваем с ним, иначе делаем еще приглашение
         if (player.getScore() > 21) {
-            webSocketService.sendPhase(userName, GamePhase.END.name());
+            webSocketService.sendEnd(userName);
             processStep();
         } else {
             webSocketService.sendPhase(userName, GamePhase.PLAY.name());
         }
     }
 
+    @Override
     public void stand(String userName) throws GameTableException {
         if (currentPhase != GamePhase.PLAY) {
             throw new GameTableException("Can't stand, not playing time");
@@ -137,42 +142,32 @@ public class GameTableImpl implements GameTable {
             throw new GameTableException("Can't stand, wrong player");
         }
 
-        webSocketService.sendPhase(userName, GamePhase.END.name());
+        webSocketService.sendEnd(userName);
         processStep();
     }
 
+    @Override
     public void removeUser(String userName) throws GameTableException {
         if (!players.containsKey(userName)) {
             throw new GameTableException("Can't remove user, no such player at this table");
         }
 
-        players.remove(userName);
-        if (playingQueue.contains(userName)) {
-            playingQueue.remove(userName);
-        }
+        Player removedPlayer =  players.remove(userName);
 
         for (String user : players.keySet()) {
             webSocketService.sendRemovePlayer(user, userName);
         }
 
-//        if (currentPlayer.compareTo(userName) == 0) {
-//        чекать на null
-//            TODO
-//        }
+        if (currentPhase == GamePhase.PLAY && currentPlayer != null && currentPlayer.compareTo(userName) == 0) {
+            if (playingQueue.contains(userName)) {
+                playingQueue.remove(userName);
+            }
+            processStep();
+        } else if (isAllPlaying()) {
+            startGame();
+        }
 
-//        if (players.contains(userName)) {
-//            for (String user : players) {
-//                if (!user.equals(userName)) {
-//                    webSocketService.sendRemovePlayer(user, userName);
-//                }
-//            }
-//            int index = players.indexOf(userName);
-//            players.set(index, null);
-//            playing.set(index, null);
-//            bets.set(index, null);
-//        } else {
-//            throw new GameTableException("Can't remove player, no such player at this table");
-//        }
+        accountService.subChips(userName, removedPlayer.getBet());
     }
 
     private void startGame() {
@@ -202,15 +197,16 @@ public class GameTableImpl implements GameTable {
     }
 
     private void processStep() {
-        if (!playingQueue.isEmpty()) {
-            // Вытаскиваем игроков пока не найдем играющего
-            do {
-                currentPlayer = playingQueue.poll();
-            } while (!players.get(currentPlayer).isPlaying());
+//        Вытаскиваем игроков пока не найдем играющего
+        do {
+            currentPlayer = playingQueue.poll();
+        } while (currentPlayer != null && !players.get(currentPlayer).isPlaying());
+
+        if (currentPlayer != null) {
             webSocketService.sendPhase(currentPlayer, GamePhase.PLAY.name());
             players.keySet().stream().filter(name -> name.compareTo(currentPlayer) != 0).forEach(name -> webSocketService.sendTurn(name, currentPlayer));
         } else {
-            // Если очередь пуста - обрабатываем результаты
+//            Если очередь пуста - обрабатываем результаты
             finishGame();
         }
     }

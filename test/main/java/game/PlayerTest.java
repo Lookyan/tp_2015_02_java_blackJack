@@ -66,4 +66,19 @@ public class PlayerTest {
         assertFalse(player.isPlaying());
         assertEquals(0, player.getCards().size());
     }
+
+    @Test
+    public void testAces() throws Exception {
+        Player player = new Player();
+
+        player.addCard(new Card('5', 's'));
+        player.addCard(new Card('A', 's'));
+        assertEquals(16, player.getScore());
+
+        player.addCard(new Card('A', 'h'));
+        assertEquals(17, player.getScore());
+
+        player.addCard(new Card('8', 'h'));
+        assertEquals(15, player.getScore());
+    }
 }
