@@ -10,6 +10,8 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
+import resourceSystem.DatabaseConfig;
+import resourceSystem.ResourceFactory;
 
 
 public class DBServiceImpl implements DBService {
@@ -19,13 +21,15 @@ public class DBServiceImpl implements DBService {
         Configuration configuration = new Configuration();
         configuration.addAnnotatedClass(UserDataSet.class);
 
+        DatabaseConfig config = (DatabaseConfig) ResourceFactory.getInstance().get("data/database_config.xml");
+
         configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         configuration.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
-        configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/jdb");
-        configuration.setProperty("hibernate.connection.username", "root");
-        configuration.setProperty("hibernate.connection.password", "123456");
-        configuration.setProperty("hibernate.show_sql", "true");
-        configuration.setProperty("hibernate.hbm2ddl.auto", "create");
+        configuration.setProperty("hibernate.connection.url", config.getConnectionURL());
+        configuration.setProperty("hibernate.connection.username", config.getUsername());
+        configuration.setProperty("hibernate.connection.password", config.getPassword());
+        configuration.setProperty("hibernate.show_sql", config.getShowSql());
+        configuration.setProperty("hibernate.hbm2ddl.auto", config.getHbm2ddl());
 
         sessionFactory = createSessionFactory(configuration);
     }

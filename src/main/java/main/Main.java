@@ -1,7 +1,9 @@
 package main;
 
+import base.DBService;
 import base.GameMechanics;
 import base.WebSocketService;
+import dbService.DBServiceImpl;
 import frontend.WebSocketServiceImpl;
 import frontend.servlets.*;
 import game.DeckImpl;
@@ -38,6 +40,7 @@ public class Main {
         context.add(AccountService.class, new AccountServiceImpl());
         context.add(WebSocketService.class, new WebSocketServiceImpl());
         context.add(GameMechanics.class, new GameMechanicsImpl(context, cont -> new GameTableImpl(cont, new DeckImpl())));
+        context.add(DBService.class, new DBServiceImpl());
 
         Server server = new Server(config.getPort());
         logger.info("Starting server at port {}", config.getPort());
