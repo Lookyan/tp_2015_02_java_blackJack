@@ -113,6 +113,10 @@ public class DBServiceImpl implements DBService {
         transaction.commit();
     }
 
+    public void shutdown(){
+        sessionFactory.close();
+    }
+
     private static SessionFactory createSessionFactory(Configuration configuration) {
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder();
         builder.applySettings(configuration.getProperties());

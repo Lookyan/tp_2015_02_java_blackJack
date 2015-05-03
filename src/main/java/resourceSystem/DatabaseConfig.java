@@ -14,6 +14,17 @@ public class DatabaseConfig implements Resource {
     public DatabaseConfig() {
     }
 
+    public DatabaseConfig(String dialect, String driverClass, String connectionURL, String username,
+                          String password, String showSql, String hbm2ddl) {
+        this.dialect = dialect;
+        this.driverClass = driverClass;
+        this.connectionURL = connectionURL;
+        this.username = username;
+        this.password = password;
+        this.showSql = showSql;
+        this.hbm2ddl = hbm2ddl;
+    }
+
     public String getDialect() {
         return dialect;
     }

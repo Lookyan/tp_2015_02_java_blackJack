@@ -17,12 +17,10 @@ public class UserDataSetDAO {
 
     public void save(UserDataSet dataSet) throws SQLException {
         session.save(dataSet);
-        session.close();
     }
 
     public void update(UserDataSet dataSet) throws SQLException {
         session.update(dataSet);
-        session.close();
     }
 
     public UserDataSet readByName(String name) throws SQLException {

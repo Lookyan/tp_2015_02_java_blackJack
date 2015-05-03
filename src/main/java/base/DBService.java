@@ -16,4 +16,6 @@ public interface DBService {
     void addChipsByName(String userName, int amount);
 
     void subChipsByName(String userName, int amount);
+
+    void shutdown();
 }
