@@ -70,4 +70,14 @@ public class DBServiceImplTest {
         dbService.subChipsByName("andrey", 300);
         assertEquals(700, dbService.getChipsByName("andrey"));
     }
+
+    @Test
+    public void testCountAllUsers() throws Exception {
+        dbService.saveUser(new UserDataSet("andrey", "123", "a@a", 1000));
+        dbService.saveUser(new UserDataSet("alex", "123", "a@a", 2000));
+        dbService.saveUser(new UserDataSet("bob", "123", "a@a", 3000));
+        dbService.saveUser(new UserDataSet("chris", "123", "a@a", 4000));
+
+        assertEquals(4, dbService.countAllUsers());
+    }
 }

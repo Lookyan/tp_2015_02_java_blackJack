@@ -4,6 +4,7 @@ package dbService.dao;
 import base.dataSets.UserDataSet;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import java.sql.SQLException;
@@ -26,6 +27,10 @@ public class UserDataSetDAO {
     public UserDataSet readByName(String name) throws SQLException {
         Criteria criteria = session.createCriteria(UserDataSet.class);
         return (UserDataSet) criteria.add(Restrictions.eq("name", name)).uniqueResult();
+    }
+
+    public long countAll() throws SQLException {
+        return (Long) session.createCriteria(UserDataSet.class).setProjection(Projections.rowCount()).uniqueResult();
     }
 
 }

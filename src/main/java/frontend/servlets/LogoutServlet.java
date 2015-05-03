@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class LogoutServlet extends HttpServlet {
+
     private AccountService accountService;
 
     public LogoutServlet(Context context) {

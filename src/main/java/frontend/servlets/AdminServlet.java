@@ -1,6 +1,7 @@
 package frontend.servlets;
 
 import base.AccountService;
+import base.DBService;
 import main.Context;
 import templater.PageGenerator;
 
@@ -14,16 +15,19 @@ import java.util.Map;
 import time.TimeHelper;
 
 public class AdminServlet extends HttpServlet {
+
     private AccountService accountService;
+    private DBService dbService;
 
     public AdminServlet(Context context) {
         this.accountService = (AccountService) context.get(AccountService.class);
+        this.dbService = (DBService) context.get(DBService.class);
     }
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         Map<String, Object> pageVariables = new HashMap<>();
-//        pageVariables.put("usersCount", accountService.getUsersCount()); TODO
+        pageVariables.put("usersCount", dbService.countAllUsers());
 
         pageVariables.put("signedInCount", accountService.getSignedInUsersCount());
         String stopString = request.getParameter("stop");

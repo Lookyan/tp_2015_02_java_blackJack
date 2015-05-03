@@ -17,13 +17,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ProfileServlet extends HttpServlet {
+
     private AccountService accountService;
     private DBService dbService;
 
     public ProfileServlet(Context context) {
         this.accountService = (AccountService) context.get(AccountService.class);
         this.dbService = (DBService) context.get(DBService.class);
-
     }
 
     public void doGet(HttpServletRequest request,

@@ -17,5 +17,7 @@ public interface DBService {
 
     void subChipsByName(String userName, int amount);
 
+    long countAllUsers();
+
     void shutdown();
 }

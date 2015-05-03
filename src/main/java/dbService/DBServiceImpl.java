@@ -113,6 +113,17 @@ public class DBServiceImpl implements DBService {
         transaction.commit();
     }
 
+    @Override
+    public long countAllUsers() {
+        Session session = sessionFactory.openSession();
+        try {
+            return new UserDataSetDAO(session).countAll();
+        } catch (SQLException e) {
+            logger.error(e);
+        }
+        return -1;
+    }
+
     public void shutdown(){
         sessionFactory.close();
     }

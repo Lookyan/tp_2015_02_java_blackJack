@@ -11,7 +11,6 @@ public class AccountServiceImpl implements AccountService {
 
     private static final Logger logger = LogManager.getLogger();
 
-//    private Map<String, UserProfile> users = new HashMap<>();
     private Map<String, String> sessions = new HashMap<>();
 
     @Override
@@ -24,31 +23,11 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 
-////    @Override
-//    public void addSessions(String sessionId, UserProfile userProfile) {
-//        sessions.put(sessionId, userProfile);
-//    }
-//
-////    @Override
-//    public UserProfile getUser(String userName) {
-//        return users.get(userName);
-//    }
-//
-////    @Override
-//    public UserProfile getSessions(String sessionId) {
-//        return sessions.get(sessionId);
-//    }
-
     @Override
     public void logout(String sessionId) {
         logger.info("User '{}' logged out", sessions.get(sessionId));
         sessions.remove(sessionId);
     }
-
-////    @Override
-//    public int getUsersCount() {
-//        return users.size();
-//    }
 
     @Override
     public int getSignedInUsersCount() {
@@ -59,21 +38,6 @@ public class AccountServiceImpl implements AccountService {
     public boolean isUserLoggedIn(String sessionId) {
         return sessions.containsKey(sessionId);
     }
-
-////    @Override
-//    public int getChips(String userName) {
-//        return users.get(userName).getChips();
-//    }
-//
-////    @Override
-//    public void addChips(String userName, int amount) {
-//        users.get(userName).setChips(users.get(userName).getChips() + amount);
-//    }
-//
-////    @Override
-//    public void subChips(String userName, int amount) {
-//        users.get(userName).setChips(users.get(userName).getChips() - amount);
-//    }
 
     @Override
     public String getUserBySession(String sessionId) {
