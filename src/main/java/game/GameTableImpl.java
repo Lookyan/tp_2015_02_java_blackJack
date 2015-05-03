@@ -158,12 +158,13 @@ public class GameTableImpl implements GameTable {
             webSocketService.sendRemovePlayer(user, userName);
         }
 
+        if (playingQueue.contains(userName)) {
+            playingQueue.remove(userName);
+        }
+
         if (currentPhase == GamePhase.PLAY && currentPlayer != null && currentPlayer.compareTo(userName) == 0) {
-            if (playingQueue.contains(userName)) {
-                playingQueue.remove(userName);
-            }
             processStep();
-        } else if (isAllPlaying()) {
+        } else if (currentPhase == GamePhase.BET && isAllPlaying()) {
             startGame();
         }
 

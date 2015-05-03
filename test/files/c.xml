@@ -1,0 +1,4 @@
+<class type="resourceSystem.NonExistingClass">
+    <intField>123</intField>
+    <strField>aaa</strField>
+</class>

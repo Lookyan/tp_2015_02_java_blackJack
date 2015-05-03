@@ -27,8 +27,8 @@ public class ResourceFactory {
         return instance;
     }
 
-    public void init() {
-        Iterator<String> iterator = VFS.getInstance().getIterator("data");
+    public void init(String directory) {
+        Iterator<String> iterator = VFS.getInstance().getIterator(directory);
         while (iterator.hasNext()) {
             String path = iterator.next();
             resourceMap.put(path, readXML(path));
@@ -43,7 +43,7 @@ public class ResourceFactory {
         return resource;
     }
 
-    public Resource readXML(String xmlFile) {
+    private Resource readXML(String xmlFile) {
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser saxParser = factory.newSAXParser();

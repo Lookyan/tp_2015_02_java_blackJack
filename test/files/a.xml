@@ -1,0 +1,4 @@
+<class type="resourceSystem.TestFile">
+    <intField>23</intField>
+    <strField>hello world</strField>
+</class>

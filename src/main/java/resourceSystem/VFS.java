@@ -1,7 +1,6 @@
 package resourceSystem;
 
 import java.io.File;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -9,8 +8,6 @@ import java.util.Queue;
 public class VFS {
 
     private static VFS instance;
-
-//    private static final String root = "data/";a/";
 
     private VFS() {}
 
@@ -54,9 +51,7 @@ public class VFS {
         }
 
         @Override
-        public void remove() {
-
-        }
+        public void remove() {}
     }
 
 }

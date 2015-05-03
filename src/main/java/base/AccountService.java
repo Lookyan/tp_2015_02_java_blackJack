@@ -1,5 +1,4 @@
 package base;
-// TODO: не добавлять к игре игрока дважды
 
 public interface AccountService {
 
@@ -24,8 +23,6 @@ public interface AccountService {
     void addChips(String userName, int amount);
 
     void subChips(String userName, int amount);
-
-    boolean isLoggedIn(String userName);
 
     UserProfile getUserBySession(String sessionId);
 }

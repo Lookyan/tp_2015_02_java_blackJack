@@ -1,0 +1,4 @@
+<class type="resourceSystem.TestFile">
+    <intField>64</intField>
+    <strField>goodbye</strField>
+</class>
