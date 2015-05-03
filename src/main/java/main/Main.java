@@ -29,7 +29,7 @@ public class Main {
 
         final Logger logger = LogManager.getLogger();
 
-        ResourceFactory.getInstance().init();
+        ResourceFactory.getInstance().init("data");
 
         ServerConfig config = (ServerConfig) ResourceFactory.getInstance().get("data/server_config.xml");
 

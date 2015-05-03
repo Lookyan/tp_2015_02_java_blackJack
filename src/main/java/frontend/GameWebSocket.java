@@ -47,9 +47,8 @@ public class GameWebSocket {
             this.accountService = (AccountService) context.get(AccountService.class);
             this.gameMechanics = (GameMechanics) context.get(GameMechanics.class);
             this.webSocketService = (WebSocketService) context.get(WebSocketService.class);
-        } else {
-            // not logged in или нас хакают :)
         }
+        // иначе не залогинен
     }
 
     @OnWebSocketConnect
@@ -68,12 +67,17 @@ public class GameWebSocket {
     @OnWebSocketMessage
     public void onMessage(String data) {
         try {
-//            TODO: security
             JSONObject message = (JSONObject) parser.parse(data);
-            logger.info("Incoming message: {}", message);
+            logger.info("Incoming message: {}", data);
+            if (!message.containsKey("type")) {
+                throw new Exception("Can't classify JSON, no 'type' field");
+            }
             switch ((String) message.get("type")) {
                 case "bet":
-                    gameMechanics.makeBet(userName, (new Long((long) message.get("bet")).intValue()));
+                    if (!message.containsKey("bet")) {
+                        throw new Exception("Can't make bet, no 'bet' field in JSON");
+                    }
+                    gameMechanics.makeBet(userName, ((Long) message.get("bet")).intValue());
                     break;
                 case "hit":
                     gameMechanics.hit(userName);
@@ -81,9 +85,13 @@ public class GameWebSocket {
                 case "stand":
                     gameMechanics.stand(userName);
                     break;
+                default:
+                    throw new Exception("Unknown type of message");
             }
         } catch (ParseException e) {
-            logger.error("Can't parse incoming JSON", e);
+            logger.error("Can't parse incoming JSON");
+        } catch (Exception e) {
+            logger.error(e);
         }
     }
 
@@ -290,7 +298,7 @@ public class GameWebSocket {
             JSONObject resp = new JSONObject();
             resp.put("status", "200");
             JSONObject body = new JSONObject();
-            body.put("type", "end");
+            body.put("type", "END");
             resp.put("body", body);
 
             logger.info("Sending to '{}' resp: {}", userName, resp.toJSONString());

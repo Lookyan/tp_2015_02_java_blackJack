@@ -64,11 +64,6 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public boolean isLoggedIn(String userName) {
-        return false;
-    }
-
-    @Override
     public UserProfile getUserBySession(String sessionId) {
         return sessions.get(sessionId);
     }

@@ -37,6 +37,8 @@ public class ContextTest {
 
         assertEquals(str, context.get(String.class));
 
+
+
 //        str = outStream.toString().substring(13);
 
 //        assertEquals("[main] FATAL main.Context - Trying to add existing class to context!\n", str); // 13 символов - время

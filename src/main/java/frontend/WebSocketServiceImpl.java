@@ -25,67 +25,107 @@ public class WebSocketServiceImpl implements WebSocketService {
     public void removeUser(GameWebSocket userSocket) {
         logger.info("Removing user '{}'", userSocket.getUserName());
         userSockets.remove(userSocket.getUserName());
+
     }
 
     @Override
     public void sendPhase(String userName, String gamePhase) {
         logger.info("Sending phase '{}' to user '{}'", gamePhase, userName);
-        userSockets.get(userName).sendPhase(gamePhase);
+        try {
+            userSockets.get(userName).sendPhase(gamePhase);
+        } catch (NullPointerException e) {
+            logger.error("No socket for user '{}'", userName);
+        }
     }
 
     @Override
     public void sendCard(String userName, String owner, Card card, int score) {
         logger.info("Sending card '{}' of '{}' (score {}) to user '{}'", card, owner, score, userName);
-        userSockets.get(userName).sendCard(owner, card, score);
+        try {
+            userSockets.get(userName).sendCard(owner, card, score);
+        } catch (NullPointerException e) {
+            logger.error("No socket for user '{}'", userName);
+        }
     }
 
     @Override
     public void sendWins(String userName, Map<String, Integer> wins) {
         logger.info("Sending wins to user '{}'", userName);
-        userSockets.get(userName).sendWins(wins);
+        try {
+            userSockets.get(userName).sendWins(wins);
+        } catch (NullPointerException e) {
+            logger.error("No socket for user '{}'", userName);
+        }
     }
 
     @Override
     public void sendDeckShuffle(String userName) {
         logger.info("Sending deck shuffle to user '{}'", userName);
-        userSockets.get(userName).sendDeckShuffle();
+        try {
+            userSockets.get(userName).sendDeckShuffle();
+        } catch (NullPointerException e) {
+            logger.error("No socket for user '{}'", userName);
+        }
     }
 
     @Override
     public void sendRemovePlayer(String userName, String removedUserName) {
         logger.info("Sending removed user '{}' to user '{}'", removedUserName, userName);
-        //        TODO (отсылает в несуществующий сокет)
-        userSockets.get(userName).sendRemovePlayer(removedUserName);
+        try {
+            userSockets.get(userName).sendRemovePlayer(removedUserName);
+        } catch (NullPointerException e) {
+            logger.error("No socket for user '{}'", userName);
+        }
     }
 
     @Override
     public void sendBet(String userName, String owner, int bet) {
         logger.info("Sending bet={} of '{}' to user '{}'", bet, owner, userName);
-        userSockets.get(userName).sendBet(owner, bet);
+        try {
+            userSockets.get(userName).sendBet(owner, bet);
+        } catch (NullPointerException e) {
+            logger.error("No socket for user '{}'", userName);
+        }
     }
 
     @Override
     public void sendState(String userName, Map<String, Player> players) {
         logger.info("Sending state to user '{}'", userName);
-        userSockets.get(userName).sendState(players);
+        try {
+            userSockets.get(userName).sendState(players);
+        } catch (NullPointerException e) {
+            logger.error("No socket for user '{}'", userName);
+        }
     }
 
     @Override
     public void sendNewPlayer(String userName, String newPlayerName) {
         logger.info("Sending new player '{}' to user '{}'", newPlayerName, userName);
-        userSockets.get(userName).sendNewPlayer(newPlayerName);
+        try {
+            userSockets.get(userName).sendNewPlayer(newPlayerName);
+        } catch (NullPointerException e) {
+            logger.error("No socket for user '{}'", userName);
+        }
     }
 
     @Override
     public void sendTurn(String userName, String player) {
         logger.info("Sending '{}'s turn to user '{}'", player, userName);
-        userSockets.get(userName).sendTurn(player);
+        try {
+            userSockets.get(userName).sendTurn(player);
+        } catch (NullPointerException e) {
+            logger.error("No socket for user '{}'", userName);
+        }
     }
 
     @Override
     public void sendEnd(String userName) {
         logger.info("Sending end turn to user '{}'", userName);
-        userSockets.get(userName).sendEnd();
+        try {
+            userSockets.get(userName).sendEnd();
+        } catch (NullPointerException e) {
+            logger.error("No socket for user '{}'", userName);
+        }
     }
 
 

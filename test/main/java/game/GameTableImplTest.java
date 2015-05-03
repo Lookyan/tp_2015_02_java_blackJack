@@ -64,7 +64,7 @@ public class GameTableImplTest {
 
     @BeforeClass
     public static void setUpClass() throws Exception {
-        ResourceFactory.getInstance().init();
+        ResourceFactory.getInstance().init("data");
     }
 
     @Before
