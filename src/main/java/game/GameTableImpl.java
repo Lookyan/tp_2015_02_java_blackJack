@@ -1,9 +1,6 @@
 package game;
 
-import base.AccountService;
-import base.Deck;
-import base.GameTable;
-import base.WebSocketService;
+import base.*;
 import main.Context;
 import resourceSystem.GameConfig;
 import resourceSystem.ResourceFactory;
@@ -19,7 +16,7 @@ public class GameTableImpl implements GameTable {
     private static enum GamePhase { BET, PLAY }
 
     private WebSocketService webSocketService;
-    private AccountService accountService;
+    private DBService dbService;
 
     // Колода
     private Deck deck;
@@ -40,7 +37,7 @@ public class GameTableImpl implements GameTable {
 
         this.deck = deck;
         this.webSocketService = (WebSocketService) context.get(WebSocketService.class);
-        this.accountService = (AccountService) context.get(AccountService.class);
+        this.dbService = (DBService) context.get(DBService.class);
     }
 
     @Override
@@ -82,8 +79,9 @@ public class GameTableImpl implements GameTable {
         }
 
         // Если фишек у игрока меньше чем он пытается поставить - обрубаем
-        if (accountService.getChips(userName) < bet) {
-            bet = accountService.getChips(userName);
+        int playerChips = dbService.getChipsByName(userName);
+        if (playerChips < bet) {
+            bet = playerChips;
         }
         player.setBet(bet);
         player.setPlaying(true);
@@ -168,7 +166,7 @@ public class GameTableImpl implements GameTable {
             startGame();
         }
 
-        accountService.subChips(userName, removedPlayer.getBet());
+        dbService.subChipsByName(userName, removedPlayer.getBet());
     }
 
     private void startGame() {
@@ -236,10 +234,10 @@ public class GameTableImpl implements GameTable {
                            \___ d < p -> win
 */
             if (playerScore > 21 || dealerScore <= 21 && dealerScore > playerScore) {
-                accountService.subChips(entry.getKey(), player.getBet());
+                dbService.subChipsByName(entry.getKey(), player.getBet());
                 wins.put(entry.getKey(), -player.getBet());
             } else if (dealerScore > 21 || dealerScore < playerScore) {
-                accountService.addChips(entry.getKey(), player.getBet());
+                dbService.addChipsByName(entry.getKey(), player.getBet());
                 wins.put(entry.getKey(), player.getBet());
             } else {
                 wins.put(entry.getKey(), 0);

@@ -18,7 +18,7 @@ public class LogoutServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-        accountService.logout(request.getSession().toString());
+        accountService.logout(request.getSession().getId());
 
         String signInUrl = response.encodeURL(SignInServlet.url);
         response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);

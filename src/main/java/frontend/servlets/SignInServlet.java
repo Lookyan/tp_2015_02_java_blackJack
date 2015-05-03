@@ -1,8 +1,9 @@
 package frontend.servlets;
 
 import base.AccountService;
+import base.DBService;
+import base.dataSets.UserDataSet;
 import main.Context;
-import base.UserProfile;
 import templater.PageGenerator;
 
 import javax.servlet.ServletException;
@@ -16,9 +17,11 @@ import java.util.Map;
 public class SignInServlet extends HttpServlet {
     public static final String url = "/api/v1/auth/signin";
     private AccountService accountService;
+    private DBService dbService;
 
     public SignInServlet(Context context) {
         this.accountService = (AccountService) context.get(AccountService.class);
+        this.dbService = (DBService) context.get(DBService.class);
     }
 
     public void doGet(HttpServletRequest request,
@@ -29,10 +32,10 @@ public class SignInServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
 
         Map<String, Object> pageVariables = new HashMap<>();
-        UserProfile profile = accountService.getUser(name);
+        UserDataSet profile = dbService.getUserData(name);
         if (profile != null && profile.getPassword().equals(password)) {
             pageVariables.put("loginStatus", "Login passed");
-            accountService.addSessions(request.getSession().getId(), profile);
+            accountService.addSession(request.getSession().getId(), name);
         } else {
             pageVariables.put("loginStatus", "Wrong login/password");
         }
@@ -40,17 +43,17 @@ public class SignInServlet extends HttpServlet {
         response.getWriter().println(PageGenerator.getPage("authstatus.html", pageVariables));
     }
 
-    public void doPost(HttpServletRequest request,
-                       HttpServletResponse response) throws ServletException, IOException {
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-
-        response.setStatus(HttpServletResponse.SC_OK);
-
-        Map<String, Object> pageVariables = new HashMap<>();
-        pageVariables.put("email", email == null ? "" : email);
-        pageVariables.put("password", password == null ? "" : password);
-
-        response.getWriter().println(PageGenerator.getPage("authresponse.txt", pageVariables));
-    }
+//    public void doPost(HttpServletRequest request,
+//                       HttpServletResponse response) throws ServletException, IOException {
+//        String email = request.getParameter("email");
+//        String password = request.getParameter("password");
+//
+//        response.setStatus(HttpServletResponse.SC_OK);
+//
+//        Map<String, Object> pageVariables = new HashMap<>();
+//        pageVariables.put("email", email == null ? "" : email);
+//        pageVariables.put("password", password == null ? "" : password);
+//
+//        response.getWriter().println(PageGenerator.getPage("authresponse.txt", pageVariables));
+//    }
 }

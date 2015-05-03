@@ -23,7 +23,8 @@ public class AdminServlet extends HttpServlet {
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         Map<String, Object> pageVariables = new HashMap<>();
-        pageVariables.put("usersCount", accountService.getUsersCount());
+//        pageVariables.put("usersCount", accountService.getUsersCount()); TODO
+
         pageVariables.put("signedInCount", accountService.getSignedInUsersCount());
         String stopString = request.getParameter("stop");
         if(stopString != null) {

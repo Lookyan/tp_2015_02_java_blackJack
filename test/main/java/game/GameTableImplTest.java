@@ -1,9 +1,6 @@
 package game;
 
-import base.AccountService;
-import base.Deck;
-import base.GameTable;
-import base.WebSocketService;
+import base.*;
 import main.Context;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
@@ -28,7 +25,7 @@ public class GameTableImplTest {
 
     private Context context;
     private WebSocketService webSocketServiceMock;
-    private AccountService accountServiceMock;
+    private DBService dbServiceMock;
 
     private class DeckStub implements Deck {
 
@@ -70,24 +67,17 @@ public class GameTableImplTest {
     @Before
     public void setUp() throws Exception {
         context = new Context();
-        accountServiceMock = mock(AccountService.class);
-        when(accountServiceMock.getChips(anyString())).thenReturn(1000);
+        dbServiceMock = mock(DBService.class);
+        when(dbServiceMock.getChipsByName(anyString())).thenReturn(1000);
 
         webSocketServiceMock = mock(WebSocketService.class);
 
         context.add(WebSocketService.class, webSocketServiceMock);
-        context.add(AccountService.class, accountServiceMock);
+        context.add(DBService.class, dbServiceMock);
     }
 
-//    @After
-//    public void tearDown() throws Exception {
-//
-//    }
     @Rule
     public final ExpectedException thrown = ExpectedException.none();
-
-//    @Captor
-//    private ArgumentCaptor<Map<String, Integer>> winsCaptor;
 
     @Test
     public void testAddUser() throws Exception {
@@ -135,7 +125,7 @@ public class GameTableImplTest {
         gameTable.addUser("andrey");
 
         gameTable.makeBet("andrey", 100);
-        verify(accountServiceMock).getChips("andrey");
+        verify(dbServiceMock).getChipsByName("andrey");
         verify(webSocketServiceMock).sendBet("andrey", "andrey", 100);
     }
 
@@ -179,12 +169,12 @@ public class GameTableImplTest {
         gameTable.addUser("alex");
 
         gameTable.makeBet("andrey", 100);
-        verify(accountServiceMock).getChips("andrey");
+        verify(dbServiceMock).getChipsByName("andrey");
         verify(webSocketServiceMock).sendBet("andrey", "andrey", 100);
         verify(webSocketServiceMock).sendBet("alex", "andrey", 100);
 
         gameTable.makeBet("alex", 2000);
-        verify(accountServiceMock, times(2)).getChips("alex");
+        verify(dbServiceMock).getChipsByName("alex");
         verify(webSocketServiceMock).sendBet("andrey", "alex", 1000);
         verify(webSocketServiceMock).sendBet("alex", "alex", 1000);
     }
@@ -399,7 +389,6 @@ public class GameTableImplTest {
         DeckStub deck = new DeckStub();
         GameTable gameTable = new GameTableImpl(context, deck);
         gameTable.addUser("andrey");
-//        deck.addNextCards("Kd", "Th", "Qs", "Jc");
         gameTable.makeBet("andrey", 100);
         gameTable.stand("andrey");
         verify(webSocketServiceMock, atLeast(2)).sendCard(eq("andrey"), eq("#dealer"), any(Card.class), anyInt());
@@ -425,6 +414,7 @@ public class GameTableImplTest {
         verify(webSocketServiceMock).sendWins(eq("andrey"), winsCaptor.capture());
         assertTrue(winsCaptor.getValue().containsKey("andrey"));
         assertTrue((int) winsCaptor.getValue().get("andrey") == -100);
+        verify(dbServiceMock).subChipsByName("andrey", 100);
     }
 
     @Test
@@ -442,6 +432,7 @@ public class GameTableImplTest {
         verify(webSocketServiceMock).sendWins(eq("andrey"), winsCaptor.capture());
         assertTrue(winsCaptor.getValue().containsKey("andrey"));
         assertTrue((int) winsCaptor.getValue().get("andrey") == -100);
+        verify(dbServiceMock).subChipsByName("andrey", 100);
     }
 
     @Test
@@ -460,6 +451,7 @@ public class GameTableImplTest {
         verify(webSocketServiceMock).sendWins(eq("andrey"), winsCaptor.capture());
         assertTrue(winsCaptor.getValue().containsKey("andrey"));
         assertTrue((int) winsCaptor.getValue().get("andrey") == -100);
+        verify(dbServiceMock).subChipsByName("andrey", 100);
     }
 
     @Test
@@ -478,6 +470,7 @@ public class GameTableImplTest {
         verify(webSocketServiceMock).sendWins(eq("andrey"), winsCaptor.capture());
         assertTrue(winsCaptor.getValue().containsKey("andrey"));
         assertTrue((int) winsCaptor.getValue().get("andrey") == 100);
+        verify(dbServiceMock).addChipsByName("andrey", 100);
     }
 
     @Test
@@ -496,6 +489,7 @@ public class GameTableImplTest {
         verify(webSocketServiceMock).sendWins(eq("andrey"), winsCaptor.capture());
         assertTrue(winsCaptor.getValue().containsKey("andrey"));
         assertTrue((int) winsCaptor.getValue().get("andrey") == 100);
+        verify(dbServiceMock).addChipsByName("andrey", 100);
     }
 
     @Test
@@ -514,6 +508,7 @@ public class GameTableImplTest {
         verify(webSocketServiceMock).sendWins(eq("andrey"), winsCaptor.capture());
         assertTrue(winsCaptor.getValue().containsKey("andrey"));
         assertTrue((int) winsCaptor.getValue().get("andrey") == 0);
+//        verify(dbServiceMock);
     }
 
     @Test
@@ -573,7 +568,7 @@ public class GameTableImplTest {
         String first = firstPlayer.getValue(), second = first.compareTo("andrey") == 0 ? "alex" : "andrey";
 
         gameTable.removeUser(first);
-        verify(accountServiceMock).subChips(eq(first), anyInt());
+        verify(dbServiceMock).subChipsByName(eq(first), anyInt());
         verify(webSocketServiceMock).sendRemovePlayer(second, first);
         verify(webSocketServiceMock).sendPhase(second, "PLAY");
 
@@ -596,7 +591,7 @@ public class GameTableImplTest {
         String first = firstPlayer.getValue(), second = first.compareTo("andrey") == 0 ? "alex" : "andrey";
 
         gameTable.removeUser(second);
-        verify(accountServiceMock).subChips(eq(second), anyInt());
+        verify(dbServiceMock).subChipsByName(eq(second), anyInt());
         verify(webSocketServiceMock).sendRemovePlayer(first, second);
 
         gameTable.stand(first);

@@ -2,7 +2,6 @@ package frontend;
 
 import base.AccountService;
 import base.GameMechanics;
-import base.UserProfile;
 import base.WebSocketService;
 import game.Card;
 import game.Player;
@@ -41,9 +40,9 @@ public class GameWebSocket {
     private WebSocketService webSocketService;
 
     public GameWebSocket(String userSessionId, Context context) {
-        UserProfile user = ((AccountService) context.get(AccountService.class)).getUserBySession(userSessionId);
-        if (user != null) {
-            this.userName = user.getName();
+        AccountService accountService = (AccountService) context.get(AccountService.class);
+        if (accountService.isUserLoggedIn(userSessionId)) {
+            this.userName = accountService.getUserBySession(userSessionId);
             this.accountService = (AccountService) context.get(AccountService.class);
             this.gameMechanics = (GameMechanics) context.get(GameMechanics.class);
             this.webSocketService = (WebSocketService) context.get(WebSocketService.class);

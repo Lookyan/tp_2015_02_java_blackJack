@@ -2,7 +2,6 @@ package frontend;
 
 import base.AccountService;
 import base.GameMechanics;
-import base.UserProfile;
 import base.WebSocketService;
 import game.Card;
 import game.Player;
@@ -54,7 +53,8 @@ public class GameWebSocketTest {
         webSocketServiceMock = mock(WebSocketService.class);
         accountServiceMock = mock(AccountService.class);
         gameMechanicsMock = mock(GameMechanics.class);
-        when(accountServiceMock.getUserBySession(USER_SESSION_ID)).thenReturn(new UserProfile("bob", "123", "a@a.ru"));
+        when(accountServiceMock.getUserBySession(USER_SESSION_ID)).thenReturn("bob");
+        when(accountServiceMock.isUserLoggedIn(USER_SESSION_ID)).thenReturn(true);
 
         context.add(WebSocketService.class, webSocketServiceMock);
         context.add(AccountService.class, accountServiceMock);
@@ -64,7 +64,8 @@ public class GameWebSocketTest {
     @Test
     public void testOnOpen() throws Exception {
         GameWebSocket webSock = new GameWebSocket(USER_SESSION_ID, context);
-        verify(accountServiceMock).getUserBySession(USER_SESSION_ID);
+//        verify(accountServiceMock).getUserBySession(USER_SESSION_ID);
+        verify(accountServiceMock).isUserLoggedIn(USER_SESSION_ID);
 
         Session sessionMock = mock(Session.class);
         webSock.onOpen(sessionMock);
@@ -75,7 +76,8 @@ public class GameWebSocketTest {
     @Test
     public void testOnOpenFail() throws Exception {
         GameWebSocket webSock = new GameWebSocket("123", context);
-        verify(accountServiceMock).getUserBySession("123");
+//        verify(accountServiceMock).getUserBySession("123");
+        verify(accountServiceMock).isUserLoggedIn("123");
 
         Session sessionMock = mock(Session.class);
         RemoteEndpoint endpointMock = mock(RemoteEndpoint.class);

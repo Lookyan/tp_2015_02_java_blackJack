@@ -3,6 +3,8 @@ package resourceSystem;
 import base.Resource;
 
 public class DatabaseConfig implements Resource {
+    private String dialect;
+    private String driverClass;
     private String connectionURL;
     private String username;
     private String password;
@@ -10,11 +12,14 @@ public class DatabaseConfig implements Resource {
     private String hbm2ddl;
 
     public DatabaseConfig() {
-        connectionURL = "";
-        username = "";
-        password = "";
-        showSql = "";
-        hbm2ddl = "";
+    }
+
+    public String getDialect() {
+        return dialect;
+    }
+
+    public String getDriverClass() {
+        return driverClass;
     }
 
     public String getConnectionURL() {

@@ -18,17 +18,12 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import resourceSystem.DatabaseConfig;
 import resourceSystem.ResourceFactory;
 import resourceSystem.ServerConfig;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-//        int port = 8080;
-//        if (args.length == 1) {
-//            String portString = args[0];
-//            port = Integer.valueOf(portString);
-//        }
-
         final Logger logger = LogManager.getLogger();
 
         ResourceFactory.getInstance().init("data");
@@ -40,7 +35,7 @@ public class Main {
         context.add(AccountService.class, new AccountServiceImpl());
         context.add(WebSocketService.class, new WebSocketServiceImpl());
         context.add(GameMechanics.class, new GameMechanicsImpl(context, cont -> new GameTableImpl(cont, new DeckImpl())));
-        context.add(DBService.class, new DBServiceImpl());
+        context.add(DBService.class,new DBServiceImpl((DatabaseConfig) ResourceFactory.getInstance().get("data/database_config.xml")));
 
         Server server = new Server(config.getPort());
         logger.info("Starting server at port {}", config.getPort());
