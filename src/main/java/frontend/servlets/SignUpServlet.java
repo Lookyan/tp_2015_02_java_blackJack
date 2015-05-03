@@ -16,16 +16,13 @@ import java.util.Map;
 
 public class SignUpServlet extends HttpServlet {
 
-    private AccountService accountService;
     private DBService dbService;
 
     public SignUpServlet(Context context) {
-        this.accountService = (AccountService) context.get(AccountService.class);
         this.dbService = (DBService) context.get(DBService.class);
     }
 
-    public void doGet(HttpServletRequest request,
-                      HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name");
         String password = request.getParameter("password");
         String email = request.getParameter("email");

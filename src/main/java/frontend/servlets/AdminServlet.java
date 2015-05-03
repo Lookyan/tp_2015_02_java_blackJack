@@ -3,6 +3,8 @@ package frontend.servlets;
 import base.AccountService;
 import base.DBService;
 import main.Context;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import templater.PageGenerator;
 
 import javax.servlet.ServletException;
@@ -16,6 +18,8 @@ import time.TimeHelper;
 
 public class AdminServlet extends HttpServlet {
 
+    private static final Logger logger = LogManager.getLogger();
+
     private AccountService accountService;
     private DBService dbService;
 
@@ -24,18 +28,18 @@ public class AdminServlet extends HttpServlet {
         this.dbService = (DBService) context.get(DBService.class);
     }
 
-    public void doGet(HttpServletRequest request,
-                      HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("usersCount", dbService.countAllUsers());
-
         pageVariables.put("signedInCount", accountService.getSignedInUsersCount());
-        String stopString = request.getParameter("stop");
-        if(stopString != null) {
-            int timeMS = Integer.valueOf(stopString);
-            System.out.print("Server will be down after: "+ timeMS + " ms");
+
+        String stopParam = request.getParameter("stop");
+        if(stopParam != null) {
+            int timeMS = Integer.valueOf(stopParam);
+            logger.info("Server will be down after: "+ timeMS + " ms");
             TimeHelper.sleep(timeMS);
-            System.out.print("\nShutdown");
+            logger.info("Shutdown");
+            dbService.shutdown();
             System.exit(0);
         } else {
             response.getWriter().println(PageGenerator.getPage("admin.html", pageVariables));
