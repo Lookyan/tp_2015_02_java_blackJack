@@ -1,0 +1,100 @@
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Jetty WebSocket: Chat</title>
+    <script type="text/javascript">
+        var ws;
+
+        init = function () {
+            ws = new WebSocket("ws://localhost:8080/gameplay");
+            ws.onopen = function (event) {
+                addMess("Opened connection");
+            };
+            ws.onmessage = function (event) {
+                addIncomingMess(event.data);
+            };
+            ws.onclose = function (event) {
+                addMess("Closed connection: code=" + event.code + " reason=" + event.reason);
+            };
+            ws.onerror = function(event) {
+                addMess("Error " + JSON.stringify(event));
+            }
+        };
+
+        function addMess(message) {
+            var $textarea = document.getElementById("messages");
+            $textarea.value = $textarea.value + message + "\n";
+            $textarea.scrollTop = $textarea.scrollHeight;
+        }
+
+        function addIncomingMess(message) {
+            var $textarea = document.getElementById("messages");
+            $textarea.value = $textarea.value + "<<< " + message + "\n";
+            $textarea.scrollTop = $textarea.scrollHeight;
+        }
+
+        function addSendingMess(message) {
+            var $textarea = document.getElementById("messages");
+            $textarea.value = $textarea.value + ">>> " + message + "\n";
+            $textarea.scrollTop = $textarea.scrollHeight;
+        }
+
+        function sendMessage() {
+            var messageField = document.getElementById("message");
+            var message = messageField.value;
+            addSendingMess(message);
+            ws.send(message);
+            messageField.value = '';
+        }
+
+        function sendBet() {
+            var betField = document.getElementById("bet");
+            var message = JSON.stringify({
+                type: "bet",
+                bet: parseInt(betField.value)
+            });
+            addSendingMess(message);
+            ws.send(message);
+        }
+
+        function hit() {
+            var message = JSON.stringify({
+                type: "hit"
+            });
+            addSendingMess(message);
+            ws.send(message);
+        }
+
+        function stand() {
+            var message = JSON.stringify({
+                type: "stand"
+            });
+            addSendingMess(message);
+            ws.send(message);
+        }
+
+        function sockClose() {
+            ws.close();
+        }
+    </script>
+</head>
+<body onload="init();">
+<div id="body">
+    <div id="chatbox">
+        <textarea id="messages" rows="16" cols="100" readonly="readonly"></textarea>
+    </div>
+
+    <form name="message" action="">
+        <input type="text" id="message" size="63"/>
+        <input type="button" name="submitmsg" value="Send..." onclick="sendMessage();"/>
+        <br>
+        <input type="text" id="bet" size="5"/>
+        <input type="button" name="submitbet" value="Bet..." onclick="sendBet();"/>
+        <input type="button" name="submitbet" value="Hit..." onclick="hit();"/>
+        <input type="button" name="submitbet" value="Stand..." onclick="stand();"/>
+        <br>
+        <input type="button" value="Close..." onclick="sockClose();"/>
+    </form>
+</div>
+</body>
+</html>
