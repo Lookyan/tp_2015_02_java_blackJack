@@ -1,0 +1,6 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+    <div class="card">
+        <img src="http://lorempixel.com/300/400/cats/" />
+        <!--<img src="/{json.model.code}.jpg" />-->
+    </div>
+</fest:template>

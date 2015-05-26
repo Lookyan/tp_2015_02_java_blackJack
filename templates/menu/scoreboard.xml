@@ -1,0 +1,17 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+    <div class="menu">
+        <table class="menu__item scoretable">
+            <fest:each iterate="json" index="i" value="top">
+                <tr class="scoretable__row">
+                    <td class="scoretable__cell">
+                        <fest:value>top.name</fest:value>
+                    </td>
+                    <td class="scoretable__cell">
+                        <fest:value>top.score</fest:value>
+                    </td>
+                </tr>
+            </fest:each>
+        </table>
+        <a href="/#" class="menu__item menu__item_button menu__item_button_back">Back</a>
+    </div>
+</fest:template>

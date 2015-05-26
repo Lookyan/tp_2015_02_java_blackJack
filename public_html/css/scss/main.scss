@@ -1,0 +1,19 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  @extend html;
+  background-color: #f0f0f0;
+  font-family: Helvetica, serif;
+  overflow: hidden;
+}
+
+@import "menu";
+@import "game";
+@import "card";

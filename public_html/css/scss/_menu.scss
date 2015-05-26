@@ -1,0 +1,76 @@
+@mixin box-shadow($value) {
+  -webkit-box-shadow: $value;
+  -moz-box-shadow: $value;
+  box-shadow: $value;
+}
+
+.menu {
+  margin-top: 30px;
+  width: 450px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px 40px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  background: white;
+  @include box-shadow(0 15px 0 rgba(0, 0, 0, 0.15));
+}
+
+.menu__item {
+  box-sizing: border-box;
+  margin-bottom: 30px;
+  margin-top: 30px;
+}
+
+.menu__item_button {
+  height: 50px;
+  width: 100%;
+  border-radius: 5px;
+  border: 0;
+  padding: 15px;
+  background: #90c843;
+  color: #FFF;
+  display: block;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 12pt;
+  text-align: center;
+}
+
+.menu__item_button:disabled {
+  background: #C6C6C6;
+}
+
+.menu__item_button_back {
+  background-color: #FFAD00;
+}
+
+.scoretable {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #FFAD00;
+}
+
+.scoretable__row {
+  border-bottom: 1px solid #FFAD00;
+}
+
+.scoretable__cell {
+  border-right: 1px solid #FFAD00;
+  padding: 10px;
+}
+
+.menu__item_textbox {
+  height: 50px;
+  width: 100%;
+  display: block;
+  border-radius: 5px;
+  border: rgba(0, 0, 0, .3) 2px solid;
+  padding: 10px;
+}
+
+.menu__item_textbox:focus {
+  outline: none;
+  border: rgba(24, 149, 215, 1) 2px solid;
+  color: rgba(24, 149, 215, 1);
+}

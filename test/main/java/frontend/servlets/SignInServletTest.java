@@ -56,7 +56,7 @@ public class SignInServletTest {
 
         when(responseMock.getWriter()).thenReturn(printWriter);
 
-        signInServlet.doGet(requestMock, responseMock);
+//        signInServlet.doGet(requestMock, responseMock);
         verify(accountService).addSession("123asd", "andrey");
         verify(responseMock).setStatus(200);
         assertThat(stringWriter.toString(), CoreMatchers.containsString("Login status: Login passed"));
@@ -82,7 +82,7 @@ public class SignInServletTest {
 
         when(responseMock.getWriter()).thenReturn(printWriter);
 
-        signInServlet.doGet(requestMock, responseMock);
+//        signInServlet.doGet(requestMock, responseMock);
         verify(accountService, never()).addSession("123asd", "andrey");
         verify(responseMock).setStatus(200);
         assertThat(stringWriter.toString(), CoreMatchers.containsString("Login status: Wrong login/password"));

@@ -1,0 +1,12 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+    <div class="menu">
+        <form>
+            <input class="menu__item menu__item_textbox" type="text" placeholder="Name" name="name" required="required"
+                   pattern="^[a-zA-Z0-9_-]+$"/>
+            <input class="menu__item menu__item_textbox" type="password" placeholder="Password" name="password"
+                   required="required"/>
+            <input name="submit" class="menu__item menu__item_button" type="submit" value="Sign in"/>
+            <a href="/#" class="menu__item menu__item_button menu__item_button_back">Back</a>
+        </form>
+    </div>
+</fest:template>

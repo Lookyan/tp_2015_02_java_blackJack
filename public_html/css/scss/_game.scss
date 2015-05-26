@@ -1,0 +1,95 @@
+.gamefield {
+  background-color: yellow;
+  height: 100%;
+  min-height: 500px;
+  margin: 0 auto;
+  min-width: 1000px;
+  position: relative;
+}
+
+.gametable {
+  height: 100%;
+  padding-bottom: 100px;
+  box-sizing: border-box;
+  background-color: #2E8B57;
+}
+
+.playerboard {
+  position: absolute;
+  bottom: 0;
+  background-color: #CD853F;
+  height: 100px;
+  width: 100%;
+}
+
+.secondaryplayer {
+  height: 100%;
+  width: 30%;
+  float: left;
+}
+
+.leftplayer {
+  @extend .secondaryplayer;
+}
+
+.rightplayer {
+  @extend .secondaryplayer;
+}
+
+.mainplayer {
+  height: 100%;
+  width: 40%;
+  float: left;
+}
+
+.freespace {
+  height: 16.66666666%;
+  border: 1px black solid;
+}
+
+.leftplayer__freespace {
+  @extend .freespace;
+}
+
+.rightplayer__freespace {
+  @extend .freespace;
+}
+
+.place {
+  height: 33.33333333%;
+  border: 1px black solid;
+}
+
+.leftplayer__cardsplace {
+  @extend .place;
+}
+
+.rightplayer__cardsplace {
+  @extend .place;
+}
+
+.dealer__cardsplace {
+  @extend .place;
+}
+
+.mainplayer__cardsplace {
+  @extend .place;
+}
+
+.leftplayer__chipsplace {
+  @extend .place;
+}
+
+.rightplayer__chipsplace {
+  @extend .place;
+}
+
+.mainplayer__chipsplace {
+  @extend .place;
+}
+
+.cards,
+.buttons {
+  float: left;
+  width: 50%;
+}

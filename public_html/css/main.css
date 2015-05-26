@@ -1,0 +1,125 @@
+* {
+  margin: 0;
+  padding: 0; }
+
+html, body {
+  height: 100%; }
+
+body {
+  background-color: #f0f0f0;
+  font-family: Helvetica, serif;
+  overflow: hidden; }
+
+.menu {
+  margin-top: 30px;
+  width: 450px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px 40px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  background: white;
+  -webkit-box-shadow: 0 15px 0 rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0 15px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 0 15px 0 rgba(0, 0, 0, 0.15); }
+
+.menu__item {
+  box-sizing: border-box;
+  margin-bottom: 30px;
+  margin-top: 30px; }
+
+.menu__item_button {
+  height: 50px;
+  width: 100%;
+  border-radius: 5px;
+  border: 0;
+  padding: 15px;
+  background: #90c843;
+  color: #FFF;
+  display: block;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 12pt;
+  text-align: center; }
+
+.menu__item_button:disabled {
+  background: #C6C6C6; }
+
+.menu__item_button_back {
+  background-color: #FFAD00; }
+
+.scoretable {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #FFAD00; }
+
+.scoretable__row {
+  border-bottom: 1px solid #FFAD00; }
+
+.scoretable__cell {
+  border-right: 1px solid #FFAD00;
+  padding: 10px; }
+
+.menu__item_textbox {
+  height: 50px;
+  width: 100%;
+  display: block;
+  border-radius: 5px;
+  border: rgba(0, 0, 0, 0.3) 2px solid;
+  padding: 10px; }
+
+.menu__item_textbox:focus {
+  outline: none;
+  border: #1895d7 2px solid;
+  color: #1895d7; }
+
+.gamefield {
+  background-color: yellow;
+  height: 100%;
+  min-height: 500px;
+  margin: 0 auto;
+  min-width: 1000px;
+  position: relative; }
+
+.gametable {
+  height: 100%;
+  padding-bottom: 100px;
+  box-sizing: border-box;
+  background-color: #2E8B57; }
+
+.playerboard {
+  position: absolute;
+  bottom: 0;
+  background-color: #CD853F;
+  height: 100px;
+  width: 100%; }
+
+.secondaryplayer, .leftplayer, .rightplayer {
+  height: 100%;
+  width: 30%;
+  float: left; }
+
+.mainplayer {
+  height: 100%;
+  width: 40%;
+  float: left; }
+
+.freespace, .leftplayer__freespace, .rightplayer__freespace {
+  height: 16.66666666%;
+  border: 1px black solid; }
+
+.place, .leftplayer__cardsplace, .rightplayer__cardsplace, .dealer__cardsplace, .mainplayer__cardsplace, .leftplayer__chipsplace, .rightplayer__chipsplace, .mainplayer__chipsplace {
+  height: 33.33333333%;
+  border: 1px black solid; }
+
+.cards, .buttons {
+  float: left;
+  width: 50%; }
+
+.card {
+  height: 100px;
+  width: 70px;
+  background-color: red;
+  position: absolute;
+  top: -400px;
+  left: 0px; }

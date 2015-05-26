@@ -1,0 +1,10 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+    <ul class="cards">
+        <fest:each iterate="json" index="i" value="card">
+            <li>
+                <fest:value>card.value</fest:value>
+                <fest:value>card.suit</fest:value>
+            </li>
+        </fest:each>
+    </ul>
+</fest:template>
