@@ -4,14 +4,16 @@ define([
     'views/menu/login',
     'views/menu/main',
     'views/game',
-    'views/menu/signup'
+    'views/menu/signup',
+    'views/menu/token'
 ], function(
     Backbone,
     scoreboardView,
     loginView,
     mainView,
     gameView,
-    signupView
+    signupView,
+    tokenView
 ) {
 
 
@@ -27,11 +29,14 @@ define([
             this.main = new mainView(this.$el);
             this.game = new gameView(this.$el);
             this.signup = new signupView(this.$el);
+            this.token = new tokenView(this.$el);
+
             this.addView(this.scoreboard);
             this.addView(this.login);
             this.addView(this.main);
             this.addView(this.game);
             this.addView(this.signup);
+            this.addView(this.token);
         },
 
 		addView: function(currentView) {
@@ -46,6 +51,10 @@ define([
 
         mainScreen: function() {
             this.main.show();
+        },
+
+        tokenScreen: function() {
+            this.token.show();
         },
 
         loginScreen: function() {

@@ -11,6 +11,8 @@ import java.io.IOException;
 
 public class LogoutServlet extends HttpServlet {
 
+    public static final String url = "/api/auth/logout";
+
     private AccountService accountService;
 
     public LogoutServlet(Context context) {
@@ -21,9 +23,9 @@ public class LogoutServlet extends HttpServlet {
                       HttpServletResponse response) throws ServletException, IOException {
         accountService.logout(request.getSession().getId());
 
-        String signInUrl = response.encodeURL(SignInServlet.url);
-        response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-        response.addHeader("Location", signInUrl);
+//        String signInUrl = response.encodeURL(SignInServlet.url);
+//        response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+//        response.addHeader("Location", signInUrl);
 
     }
 }

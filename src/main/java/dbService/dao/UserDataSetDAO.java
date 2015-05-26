@@ -29,6 +29,11 @@ public class UserDataSetDAO {
         return (UserDataSet) criteria.add(Restrictions.eq("name", name)).uniqueResult();
     }
 
+    public UserDataSet readByEmail(String email) throws SQLException {
+        Criteria criteria = session.createCriteria(UserDataSet.class);
+        return (UserDataSet) criteria.add(Restrictions.eq("email", email)).uniqueResult();
+    }
+
     public long countAll() throws SQLException {
         return (Long) session.createCriteria(UserDataSet.class).setProjection(Projections.rowCount()).uniqueResult();
     }

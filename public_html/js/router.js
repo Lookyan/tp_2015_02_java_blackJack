@@ -17,6 +17,7 @@ define([
             'game': 'gameAction',
             'login': 'loginAction',
             'signup': 'signupAction',
+            'token': 'tokenAction',
             '*default': 'defaultActions'
         },
 
@@ -29,23 +30,40 @@ define([
         defaultActions: function () {
             viewManager.mainScreen();
         },
+
+        tokenAction: function () {
+            viewManager.tokenScreen();
+        },
+
         scoreboardAction: function () {
             viewManager.scoreboardScreen();
         },
+
         gameAction: function () {
             if (this.user.isLogged) {
                 viewManager.gameScreen();
             } else {
-                viewManager.gameScreen(); // TODO: comment this and uncomment following
-                //this.navigate("#login", {trigger: true});
+                //viewManager.gameScreen(); // TODO: comment this and uncomment following
+                this.navigate("#login", {trigger: true});
             }
         },
+
         loginAction: function () {
-            viewManager.loginScreen();
+            if (this.user.isLogged) {
+                this.navigate("/", {trigger: true});
+            } else {
+                viewManager.loginScreen();
+            }
         },
+
         signupAction: function () {
-            viewManager.signupScreen();
+            if (this.user.isLogged) {
+                this.navigate("/", {trigger: true});
+            } else {
+                viewManager.signupScreen();
+            }
         }
+
     });
 
     return new Router();

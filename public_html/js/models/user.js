@@ -11,11 +11,14 @@ define([
         url: '/',
         //id: 1,
         isLogged: false,
+        isNew_: true,
 
         //events:
         signupCompleteEvent: 'signupCompleteEvent',
         loginCompleteEvent: 'loginCompleteEvent',
         logoutCompleteEvent: 'logoutCompleteEvent',
+        identifyCompleteEvent: 'identifyCompleteEvent',
+        tokenCompleteEvent: 'tokenCompleteEvent',
 
         //login: "",
         //chips: 0,
@@ -26,7 +29,8 @@ define([
             "name": "",
             "chips": 0,
             "password": "",
-            "email": ""
+            "email": "",
+            "token": ""
         },
 
         initialize: function() {
@@ -36,11 +40,14 @@ define([
         },
 
         isNew: function() {
-            return true;
+            return this.isNew_;
+        },
+
+        getToken: function() {
+            this.sync('token', this, {});
         },
 
         loginSuccess: function(data) {
-            this.trigger(this.loginCompleteEvent);
             if (data.status === 200) {
                 this.set('email', data.body.email);
                 this.set('chips', data.body.chips);
@@ -51,18 +58,17 @@ define([
                 if (data.body.error === 'wrong') {
                     this.set('name', "");
                     this.set('password', "");
-                //    TODO ...
                 }
             }
+            this.trigger(this.loginCompleteEvent);
         },
 
         signUpSuccess: function(data) {
-            this.trigger(this.signupCompleteEvent);
             if (data.status === 200) {
-                this.set('email', data.body.email);
                 this.set('chips', data.body.chips);
                 this.set('password', "");
                 this.isLogged = true;
+                this.isNew_ = false;
             }
             if (data.status === 400) {
                 if (data.body.error === 'exists') {
@@ -72,24 +78,28 @@ define([
                     //    TODO ...
                 }
             }
+            this.trigger(this.signupCompleteEvent);
         },
 
         identifySuccess: function(data) {
+            data = JSON.parse(data);
             if (data.status === 200) {
                 this.set('name', data.body.name);
                 this.set('email', data.body.email);
                 this.set('chips', data.body.chips);
                 this.set('password', "");
                 this.isLogged = true;
+                this.isNew_ = false;
             }
             if (data.status === 404) {
                 if (data.body.error === 'notLogged') {
                     this.set('name', "");
-                    this.set('chips', data.body.chips);
+                    this.set('chips', 0);
                     this.set('password', "");
                     this.set('email', "");
                 }
             }
+            this.trigger(this.identifyCompleteEvent);
         },
 
         logoutSuccess: function(data) {
@@ -98,6 +108,15 @@ define([
             this.set('chips', 0);
             this.set('password', "");
             this.isLogged = false;
+            this.isNew_ = true;
+            this.trigger(this.logoutCompleteEvent);
+        },
+
+        tokenSuccess: function(data) {
+            data = JSON.parse(data);
+            this.set('token', data.body.token);
+            this.trigger(this.tokenCompleteEvent);
+            //debugger;
         }
 
         //login: function(args) {

@@ -8,16 +8,17 @@ define([
     var methodMap = {
         'create': 'POST',
         'update': 'POST',
-        'patch':  'PATCH',
         'delete': 'GET',
-        'read':   'GET'
+        'read': 'GET',
+        'token': 'GET'
     };
 
     var urlMap  = {
         'login': '/api/auth/signin',
         'signup': '/api/auth/signup',
         'identify': '/api/auth/identify',
-        'logout': '/api/auth/logout'
+        'logout': '/api/auth/logout',
+        'token': 'api/auth/token'
     };
 
 	return function(method, model, options) {
@@ -50,15 +51,21 @@ define([
         }
 
         if (method === 'delete') {
-            params.url = urlMap['identify'];
+            params.url = urlMap['logout'];
             success = model.logoutSuccess;
         }
+        //debugger;
 
-        if (!options.success) {
-            params.success = options.success;
-        } else {
-            params.success = success;
+        if (method === 'token') {
+            params.url = urlMap['token'];
+            success = model.tokenSuccess;
         }
+
+        //if (!options.success) {
+        //    params.success = options.success;
+        //} else {
+            params.success = success;
+        //}
 
         params.error = function() {
             model.trigger('syncError');

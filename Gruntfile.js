@@ -6,7 +6,7 @@ module.exports = function (grunt) {
                     stdout: true,
                     stderr: true
                 },
-     	        command: 'java -cp L1.2-1.0-jar-with-dependencies.jar main.Main 8080'        	
+     	        command: 'java -Dlog4j.configurationFile=log4j2.xml -jar blackJack-1.0-jar-with-dependencies.jar'
     		}
         },
 		fest: { 

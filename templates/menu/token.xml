@@ -1,0 +1,6 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+    <div class="menu">
+        <p>Your<fest:space/>token:<fest:space/><fest:value>json.url</fest:value></p>
+        <a href="/#" class="menu__item menu__item_button menu__item_button_back">Back</a>
+    </div>
+</fest:template>

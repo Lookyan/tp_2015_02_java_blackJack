@@ -6,12 +6,17 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class AccountServiceImpl implements AccountService {
 
     private static final Logger logger = LogManager.getLogger();
+    private static final Random random = new Random();
 
     private Map<String, String> sessions = new HashMap<>();
+    private Map<String, String> phoneHexes = new HashMap<>();
+
+    private static final int TOKEN_LENGTH = 4;
 
     @Override
     public void addSession(String sessionId, String userName) {
@@ -42,5 +47,25 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public String getUserBySession(String sessionId) {
         return sessions.get(sessionId);
+    }
+
+    @Override
+    public String generateTokenFor(String name) {
+        String newToken;
+        do {
+            StringBuffer stringBuffer = new StringBuffer();
+            while (stringBuffer.length() < TOKEN_LENGTH) {
+                stringBuffer.append(Integer.toHexString(random.nextInt()));
+            }
+            newToken = stringBuffer.toString().substring(0, TOKEN_LENGTH);
+        } while(phoneHexes.containsValue(newToken));
+
+        phoneHexes.put(newToken, name);
+        return newToken;
+    }
+
+    @Override
+    public String getUserByToken(String token) {
+        return phoneHexes.get(token);
     }
 }

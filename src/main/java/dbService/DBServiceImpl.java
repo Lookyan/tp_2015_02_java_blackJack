@@ -82,6 +82,19 @@ public class DBServiceImpl implements DBService {
     }
 
     @Override
+    public UserDataSet getUserDataByEmail(String email) {
+        Session session = sessionFactory.openSession();
+        UserDataSetDAO dao = new UserDataSetDAO(session);
+        logger.info("Getting user data of '{}'", email);
+        try {
+            return dao.readByEmail(email);
+        } catch (SQLException e) {
+            logger.error(e);
+        }
+        return null;
+    }
+
+    @Override
     public void addChipsByName(String userName, int amount) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -106,6 +119,9 @@ public class DBServiceImpl implements DBService {
         try {
             UserDataSet dataSet = userDataSetDAO.readByName(userName);
             dataSet.setChips(dataSet.getChips() - amount);
+            if (dataSet.getChips() == 0) {
+                dataSet.setChips(1000);
+            }
             userDataSetDAO.update(dataSet);
         } catch (SQLException e) {
             logger.error(e);

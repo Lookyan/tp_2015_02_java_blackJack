@@ -42,9 +42,11 @@ public class Main {
 
         ServletContextHandler servletContext = new ServletContextHandler(ServletContextHandler.SESSIONS);
         servletContext.addServlet(new ServletHolder(new SignInServlet(context)), SignInServlet.url);
-        servletContext.addServlet(new ServletHolder(new SignUpServlet(context)), "/api/v1/auth/signup");
+        servletContext.addServlet(new ServletHolder(new IdentifyServlet(context)), IdentifyServlet.url);
+        servletContext.addServlet(new ServletHolder(new SignUpServlet(context)), SignUpServlet.url);
         servletContext.addServlet(new ServletHolder(new ProfileServlet(context)), "/api/v1/auth/profile");
-        servletContext.addServlet(new ServletHolder(new LogoutServlet(context)), "/api/v1/auth/logout");
+        servletContext.addServlet(new ServletHolder(new LogoutServlet(context)), LogoutServlet.url);
+        servletContext.addServlet(new ServletHolder(new TokenServlet(context)), TokenServlet.url);
         servletContext.addServlet(new ServletHolder(new AdminServlet(context)), "/admin");
         servletContext.addServlet(new ServletHolder(new WebSocketGameServlet(context)), "/gameplay");
         logger.info("Created servlets");

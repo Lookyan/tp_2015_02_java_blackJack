@@ -5,5 +5,7 @@
         <a class="menu__item menu__item_button" href="#game">Game</a>
         <a class="menu__item menu__item_button" href="#login">Login</a>
         <a class="menu__item menu__item_button" href="#signup">Sign up</a>
+        <a class="menu__item menu__item_button js-logout" href="#">Logout</a>
+        <a class="menu__item menu__item_button" href="#token">Connect phone</a>
     </div>
 </fest:template>

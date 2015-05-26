@@ -29,6 +29,7 @@ define([
 
         initialize: function ($body) {
             $body.append(this.el);
+            this.$el.css("height", "100%");
             this.playerCards1 = new PlayerCards({cards: this.model.player1Cards});
             this.playerCards1.listenTo(this.model.player1Cards, 'add remove reset', this.playerCards1.render);
             this.render();

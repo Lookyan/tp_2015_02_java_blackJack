@@ -106,7 +106,7 @@ public class GameWebSocket {
     private void sendNotLogged() {
         try {
             JSONObject resp = new JSONObject();
-            resp.put("status", "403");
+            resp.put("status", 403);
             resp.put("body", "not logged");
 
             logger.info("Sending resp: {}", resp.toJSONString());
@@ -119,7 +119,7 @@ public class GameWebSocket {
     public void sendPhase(String gamePhase) {
         try {
             JSONObject resp = new JSONObject();
-            resp.put("status", "200");
+            resp.put("status", 200);
             JSONObject body = new JSONObject();
             body.put("type", "phase");
             body.put("phase", gamePhase);
@@ -135,7 +135,7 @@ public class GameWebSocket {
 //    public void sendOk() {
 //        try {
 //            JSONObject resp = new JSONObject();
-//            resp.put("status", "200");
+//            resp.put("status", 200);
 //            JSONObject body = new JSONObject();
 //            body.put("type", "ok");
 //            resp.put("body", body);
@@ -150,7 +150,7 @@ public class GameWebSocket {
     public void sendState(Map<String, Player> players) {
         try {
             JSONObject resp = new JSONObject();
-            resp.put("status", "200");
+            resp.put("status", 200);
             JSONObject body = new JSONObject();
             body.put("type", "state");
             JSONArray jsonPlayers = new JSONArray();
@@ -179,7 +179,7 @@ public class GameWebSocket {
     public void sendCard(String owner, Card card, int score) {
         try {
             JSONObject resp = new JSONObject();
-            resp.put("status", "200");
+            resp.put("status", 200);
             JSONObject body = new JSONObject();
             body.put("type", "card");
             body.put("owner", owner);
@@ -197,7 +197,7 @@ public class GameWebSocket {
     public void sendBet(String owner, int bet) {
         try {
             JSONObject resp = new JSONObject();
-            resp.put("status", "200");
+            resp.put("status", 200);
             JSONObject body = new JSONObject();
             body.put("type", "bet");
             body.put("owner", owner);
@@ -214,7 +214,7 @@ public class GameWebSocket {
     public void sendWins(Map<String, Integer> wins) {
         try {
             JSONObject resp = new JSONObject();
-            resp.put("status", "200");
+            resp.put("status", 200);
             JSONObject body = new JSONObject();
             body.put("type", "wins");
             JSONObject jsonWins = new JSONObject();
@@ -232,7 +232,7 @@ public class GameWebSocket {
     public void sendDeckShuffle() {
         try {
             JSONObject resp = new JSONObject();
-            resp.put("status", "200");
+            resp.put("status", 200);
             JSONObject body = new JSONObject();
             body.put("type", "shuffle");
             resp.put("body", body);
@@ -247,7 +247,7 @@ public class GameWebSocket {
     public void sendRemovePlayer(String removedUserName) {
         try {
             JSONObject resp = new JSONObject();
-            resp.put("status", "200");
+            resp.put("status", 200);
             JSONObject body = new JSONObject();
             body.put("type", "exit");
             body.put("player", removedUserName);
@@ -263,7 +263,7 @@ public class GameWebSocket {
     public void sendNewPlayer(String newPlayerName) {
         try {
             JSONObject resp = new JSONObject();
-            resp.put("status", "200");
+            resp.put("status", 200);
             JSONObject body = new JSONObject();
             body.put("type", "new");
             body.put("player", newPlayerName);
@@ -279,7 +279,7 @@ public class GameWebSocket {
     public void sendTurn(String player) {
         try {
             JSONObject resp = new JSONObject();
-            resp.put("status", "200");
+            resp.put("status", 200);
             JSONObject body = new JSONObject();
             body.put("type", "turn");
             body.put("player", player);
@@ -295,7 +295,7 @@ public class GameWebSocket {
     public void sendEnd() {
         try {
             JSONObject resp = new JSONObject();
-            resp.put("status", "200");
+            resp.put("status", 200);
             JSONObject body = new JSONObject();
             body.put("type", "END");
             resp.put("body", body);

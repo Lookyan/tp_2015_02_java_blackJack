@@ -25,4 +25,8 @@ public interface AccountService {
 //    void subChips(String userName, int amount);
 
     String getUserBySession(String sessionId);
+
+    String generateTokenFor(String name);
+
+    String getUserByToken(String hex);
 }

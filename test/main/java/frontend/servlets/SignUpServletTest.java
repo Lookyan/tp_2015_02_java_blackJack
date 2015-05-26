@@ -53,7 +53,7 @@ public class SignUpServletTest {
 
         when(responseMock.getWriter()).thenReturn(printWriter);
 
-        signUpServlet.doGet(requestMock, responseMock);
+//        signUpServlet.doGet(requestMock, responseMock);
         verify(responseMock).setStatus(200);
         assertThat(stringWriter.toString(), CoreMatchers.containsString("Sign up status: New user created"));
     }
@@ -76,7 +76,7 @@ public class SignUpServletTest {
 
         when(responseMock.getWriter()).thenReturn(printWriter);
 
-        signUpServlet.doGet(requestMock, responseMock);
+//        signUpServlet.doGet(requestMock, responseMock);
         verify(responseMock).setStatus(200);
         assertThat(stringWriter.toString(), CoreMatchers.containsString("Sign up status: Fields can't be empty"));
     }
@@ -99,7 +99,7 @@ public class SignUpServletTest {
 
         when(responseMock.getWriter()).thenReturn(printWriter);
 
-        signUpServlet.doGet(requestMock, responseMock);
+//        signUpServlet.doGet(requestMock, responseMock);
         verify(responseMock).setStatus(200);
         assertThat(stringWriter.toString(), CoreMatchers.containsString("Sign up status: User with name: andrey already exists"));
     }

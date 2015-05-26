@@ -11,7 +11,9 @@ public interface DBService {
 
     int getChipsByName(String userName);
 
-    public UserDataSet getUserData(String userName);
+    UserDataSet getUserData(String userName);
+
+    UserDataSet getUserDataByEmail(String userName);
 
     void addChipsByName(String userName, int amount);
 
