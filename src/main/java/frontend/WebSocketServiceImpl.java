@@ -14,6 +14,7 @@ public class WebSocketServiceImpl implements WebSocketService {
     private static final Logger logger = LogManager.getLogger();
 
     private Map<String, GameWebSocket> userSockets = new HashMap<>();
+    private Map<String, PhoneWebSocket> phoneSockets = new HashMap<>();
 
     @Override
     public void addUser(GameWebSocket userSocket) {
@@ -29,12 +30,28 @@ public class WebSocketServiceImpl implements WebSocketService {
     }
 
     @Override
+    public void addPhone(PhoneWebSocket phoneSocket) {
+        logger.info("Adding phone of '{}'", phoneSocket.getUserName());
+        phoneSockets.put(phoneSocket.getUserName(), phoneSocket);
+    }
+
+    @Override
+    public void removePhone(PhoneWebSocket phoneSocket) {
+        logger.info("Removing phone of '{}'", phoneSocket.getUserName());
+        phoneSockets.remove(phoneSocket.getUserName());
+    }
+
+    @Override
     public void sendPhase(String userName, String gamePhase) {
         logger.info("Sending phase '{}' to user '{}'", gamePhase, userName);
         try {
             userSockets.get(userName).sendPhase(gamePhase);
         } catch (NullPointerException e) {
             logger.error("No socket for user '{}'", userName);
+        }
+        PhoneWebSocket phoneSocket = phoneSockets.get(userName);
+        if (phoneSocket != null) {
+            phoneSocket.sendPhase(gamePhase);
         }
     }
 
@@ -125,6 +142,10 @@ public class WebSocketServiceImpl implements WebSocketService {
             userSockets.get(userName).sendEnd();
         } catch (NullPointerException e) {
             logger.error("No socket for user '{}'", userName);
+        }
+        PhoneWebSocket phoneSocket = phoneSockets.get(userName);
+        if (phoneSocket != null) {
+            phoneSocket.sendEnd();
         }
     }
 

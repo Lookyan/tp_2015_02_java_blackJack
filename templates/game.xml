@@ -23,6 +23,8 @@
                         <button class="js-hitbutton">HIT</button>
                         <br/>
                         <button class="js-standbutton">STAND</button>
+                        <br/>
+                        <button class="js-bet">BET 5</button>
                     </div>
                 </div>
                 <div class="mainplayer__chipsplace">

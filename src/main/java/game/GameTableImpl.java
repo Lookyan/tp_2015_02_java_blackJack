@@ -91,6 +91,7 @@ public class GameTableImpl implements GameTable {
         for (String p : players.keySet()) {
             webSocketService.sendBet(p, userName, bet);
         }
+        webSocketService.sendEnd(userName);
 
         // Если все сделали ставки - начинаем игру
         if (isAllPlaying()) {

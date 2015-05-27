@@ -1,6 +1,7 @@
 package base;
 
 import frontend.GameWebSocket;
+import frontend.PhoneWebSocket;
 import game.Card;
 import game.Player;
 
@@ -11,6 +12,10 @@ public interface WebSocketService {
     void addUser(GameWebSocket userSocket);
 
     void removeUser(GameWebSocket userSocket);
+
+    void addPhone(PhoneWebSocket phoneSocket);
+
+    void removePhone(PhoneWebSocket phoneSocket);
 
     void sendPhase(String userName, String gamePhase);
 

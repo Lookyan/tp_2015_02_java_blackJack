@@ -49,6 +49,7 @@ public class Main {
         servletContext.addServlet(new ServletHolder(new TokenServlet(context)), TokenServlet.url);
         servletContext.addServlet(new ServletHolder(new AdminServlet(context)), "/admin");
         servletContext.addServlet(new ServletHolder(new WebSocketGameServlet(context)), "/gameplay");
+        servletContext.addServlet(new ServletHolder(new WebSocketPhoneServlet(context)), "/phone");
         logger.info("Created servlets");
 
         ResourceHandler resource_handler = new ResourceHandler();

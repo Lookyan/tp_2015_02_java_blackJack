@@ -46,11 +46,39 @@ define([
         },
 
         hit: function() {
-            this.player1Cards.add({value: 3, suit: 'p', player: 1});
+            this.ws.send(JSON.stringify({type: "hit"}));
         },
 
         stand: function() {
+            this.ws.send(JSON.stringify({type: "stand"}));
+        },
 
+        bet: function(bet) {
+            this.ws.send(JSON.stringify({type: "bet", bet: 5}));
+        },
+
+        start: function() {
+            this.ws = new WebSocket("ws://" + window.location.hostname + ":8080/gameplay");
+            this.ws.onopen = this.onOpen;
+            this.ws.onclose = this.onClose;
+            this.ws.onmessage = this.onMessage;
+        },
+
+        finish: function() {
+            if (this.ws) {
+                this.ws.close();
+            }
+        },
+
+        onOpen: function() {
+        },
+
+        onMessage: function(event) {
+            console.log(event.data);
+        },
+
+        onClose: function(event) {
+            console.log("Error " + JSON.stringify(event));
         }
 
     });

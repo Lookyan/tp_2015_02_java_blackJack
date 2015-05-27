@@ -18,7 +18,8 @@ define([
 
         events: {
             'click .js-hitbutton': 'hitButtonClick',
-            'click .js-standbutton': 'standButtonClick'
+            'click .js-standbutton': 'standButtonClick',
+            'click .js-bet': 'betButtonClick'
         },
 
         template: tmpl,
@@ -30,6 +31,7 @@ define([
         initialize: function ($body) {
             $body.append(this.el);
             this.$el.css("height", "100%");
+
             this.playerCards1 = new PlayerCards({cards: this.model.player1Cards});
             this.playerCards1.listenTo(this.model.player1Cards, 'add remove reset', this.playerCards1.render);
             this.render();
@@ -55,12 +57,18 @@ define([
             this.model.stand();
         },
 
+        betButtonClick: function() {
+            this.model.bet(5);
+        },
+
         show: function () {
+            this.model.start();
             this.$el.show();
             this.trigger("show", this);
         },
 
         hide: function () {
+            this.model.finish();
             this.$el.hide();
         }
 
