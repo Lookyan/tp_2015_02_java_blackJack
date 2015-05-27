@@ -3,10 +3,16 @@
 	<head>
 	    <meta charset="utf-8" />
 	    <title>BlackJack</title>
-	    <link rel="stylesheet" type="text/css" href="css/main.css" />
+        <link rel="stylesheet" type="text/css" href="css/nprogress.css" />
+        <script src="/js/nprogress.js"></script>
 	</head>
 <body>
+    <script>NProgress.start();</script>
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <!--<script>NProgress.inc(0.2);</script>-->
     <script data-main="js/main" src="js/lib/require.js"></script>
+    <!--<script>NProgress.inc(0.4);</script>-->
     <script src="//localhost:35729/livereload.js"></script>
+    <script>NProgress.done();</script>
 </body>
 </html>
