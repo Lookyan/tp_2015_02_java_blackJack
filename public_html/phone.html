@@ -3,11 +3,13 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>BlackJack</title>
-    <link rel="stylesheet" type="text/css" href="css/phone.css" />
-    <script src="/js/phone.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/phone.css"/>
+    <script src="js/lib/modernizr.js"></script>
+    <script src="js/lib/hammer.min.js"></script>
+    <script src="js/phone.js"></script>
 </head>
 <body onload="init();">
-<button class="js-hit" onclick="hit();">HIT</button>
-<button class="js-stand" onclick="stand();">STAND</button>
+<div class="btn js-hit">HIT</div>
+<div class="btn js-stand">STAND</div>
 </body>
 </html>
