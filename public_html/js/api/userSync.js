@@ -14,7 +14,7 @@ define([
     };
 
     var urlMap  = {
-        'login': '/api/auth/signin',
+        'login': '/api/auth/signin/',
         'signup': '/api/auth/signup',
         'identify': '/api/auth/identify',
         'logout': '/api/auth/logout',

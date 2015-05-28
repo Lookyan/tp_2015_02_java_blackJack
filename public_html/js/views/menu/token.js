@@ -18,7 +18,7 @@ define([
             this.$el.hide();
             this.render();
             this.listenTo(this.user, this.user.tokenCompleteEvent, function() {
-                this.url = "http://" + window.location.hostname + "/phone.html?token=" + this.user.get("token");
+                this.url = "http://" + window.location.hostname + ":8080/phone.html?token=" + this.user.get("token");
                 this.render();
             });
 
