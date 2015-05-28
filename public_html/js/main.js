@@ -17,12 +17,13 @@ require.config({
     }
 });
 
-define([
+define( [
     'backbone',
     'router'
 ], function(
     Backbone,
     router
 ){
+    console.log('huwgc');
     Backbone.history.start();
 });

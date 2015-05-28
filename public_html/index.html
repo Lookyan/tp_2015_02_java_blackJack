@@ -10,7 +10,12 @@
     <script>NProgress.start();</script>
     <link rel="stylesheet" type="text/css" href="css/main.css" />
     <!--<script>NProgress.inc(0.2);</script>-->
-    <script data-main="js/main" src="js/lib/require.js"></script>
+    <script src="js/build.min.js"></script>
+    <script>
+    require(['main'], function(){
+    });
+    </script>
+    <!--<script data-main="js/main" src="js/build/main.js"></script>-->
     <!--<script>NProgress.inc(0.4);</script>-->
     <script src="//localhost:35729/livereload.js"></script>
     <script>NProgress.done();</script>
