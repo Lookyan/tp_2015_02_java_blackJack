@@ -1,7 +1,4 @@
 var ws;
-var body_elem = document.getElementsByName("body")[0];
-var hitButton = document.getElementsByClassName('js-hit')[0];
-var standButton = document.getElementsByClassName('js-stand')[0];
 
 function init() {
     var queryDict = {};
@@ -10,6 +7,7 @@ function init() {
     //
     var hitButton = document.getElementsByClassName('js-hit')[0];
     var standButton = document.getElementsByClassName('js-stand')[0];
+    var body_elem = document.getElementsByTagName("body")[0];
 
     var hitElem = new Hammer(hitButton);
     var standElem = new Hammer(standButton);
@@ -36,7 +34,7 @@ function init() {
 }
 
 function handleOrientation(event) {
-    var body_elem = document.getElementsByName("body")[0];
+    var body_elem = document.getElementsByTagName("body")[0];
     var red = 255 * event.alpha / 360; // alpha = [0, 360).
     var green = 255 * (event.beta + 180) / 360; // beta = [-180,180]
     var blue = 255 * (event.gamma + 90) / 180;// gamma =  [-90,90]
@@ -44,6 +42,9 @@ function handleOrientation(event) {
 }
 
 function orientationChange() {
+    var hitButton = document.getElementsByClassName('js-hit')[0];
+    var standButton = document.getElementsByClassName('js-stand')[0];
+
     if (window.orientation%180===0) {
         hitButton.style.float = "none";
         standButton.style.float = "none";
