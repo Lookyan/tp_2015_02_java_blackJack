@@ -36,6 +36,7 @@ function init() {
 }
 
 function handleOrientation(event) {
+    var body_elem = document.getElementsByName("body");
     var red = 255 * event.alpha / 360; // alpha = [0, 360).
     var green = 255 * (event.beta + 180) / 360; // beta = [-180,180]
     var blue = 255 * (event.gamma + 90) / 180;// gamma =  [-90,90]
