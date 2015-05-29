@@ -29,7 +29,7 @@ define([
         },
         
         render: function () {
-            this.$el.html(this.template);
+            this.$el.html(this.template());
 
             var loginInfo = JSON.parse(localStorage.getItem('loginInfo'));
             if(loginInfo) {

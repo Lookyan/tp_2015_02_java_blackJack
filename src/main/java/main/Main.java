@@ -10,6 +10,7 @@ import game.DeckImpl;
 import game.GameMechanicsImpl;
 import base.AccountService;
 import game.GameTableImpl;
+import messageSystem.MessageSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.server.Handler;
@@ -33,9 +34,28 @@ public class Main {
         Context context = new Context();
 
         context.add(AccountService.class, new AccountServiceImpl());
-        context.add(WebSocketService.class, new WebSocketServiceImpl());
-        context.add(GameMechanics.class, new GameMechanicsImpl(context, cont -> new GameTableImpl(cont, new DeckImpl())));
+//        context.add(WebSocketService.class, new WebSocketServiceImpl());
+//        context.add(GameMechanics.class, new GameMechanicsImpl(context, (cont, mechanics) -> new GameTableImpl(cont, new DeckImpl(), mechanics)));
         context.add(DBService.class,new DBServiceImpl((DatabaseConfig) ResourceFactory.getInstance().get("data/database_config.xml")));
+
+        MessageSystem messageSystem = new MessageSystem();
+        context.add(MessageSystem.class, messageSystem);
+
+        GameMechanics gameMechanics0 = new GameMechanicsImpl(context, (cont, mechanics) -> new GameTableImpl(cont, new DeckImpl(), mechanics));
+        GameMechanics gameMechanics1 = new GameMechanicsImpl(context, (cont, mechanics) -> new GameTableImpl(cont, new DeckImpl(), mechanics));
+        WebSocketService webSocketService = new WebSocketServiceImpl(context);
+
+        messageSystem.addService(gameMechanics0);
+        messageSystem.addService(gameMechanics1);
+        messageSystem.addService(webSocketService);
+
+        messageSystem.getAddressService().registerGameMechanics(gameMechanics0);
+        messageSystem.getAddressService().registerGameMechanics(gameMechanics1);
+        messageSystem.getAddressService().registerWebSocketService(webSocketService);
+
+        (new Thread(gameMechanics0)).start();
+        (new Thread(gameMechanics1)).start();
+        (new Thread(webSocketService)).start();
 
         Server server = new Server(config.getPort());
         logger.info("Starting server at port {}", config.getPort());

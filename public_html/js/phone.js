@@ -9,7 +9,7 @@ function init() {
     if (!token) {
         body_elem.innerHTML = "NO TOKEN";
     } else {
-        ws = new WebSocket("ws://http://g06.javaprojects.tp-dev.ru/phone?token=" + token);
+        ws = new WebSocket("ws://g06.javaprojects.tp-dev.ru/phone?token=" + token);
         ws.onmessage = onMessage;
         ws.onclose = onClose;
     }

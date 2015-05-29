@@ -1,12 +1,16 @@
 package frontend;
 
 import base.AccountService;
-import base.GameMechanics;
-import base.WebSocketService;
+import frontend.messages.MessageSocketAddUser;
+import frontend.messages.MessageSocketRemoveUser;
 import game.Card;
 import game.Player;
+import game.messages.*;
 import main.Context;
 
+import messageSystem.Abonent;
+import messageSystem.Address;
+import messageSystem.MessageSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,7 +22,6 @@ import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
@@ -26,26 +29,30 @@ import java.util.Map;
 
 @SuppressWarnings("unchecked")
 @WebSocket
-public class GameWebSocket {
+public class GameWebSocket implements Abonent {
 
     private static final Logger logger = LogManager.getLogger();
     private static final JSONParser parser = new JSONParser();
+
+    private Address address = new Address();
 
     private String userName;
 
     private Session socketSession;
 
     private AccountService accountService;
-    private GameMechanics gameMechanics;
-    private WebSocketService webSocketService;
+    private MessageSystem messageSystem;
+//    private GameMechanics gameMechanics;
+//    private WebSocketService webSocketService;
 
     public GameWebSocket(String userSessionId, Context context) {
         AccountService accountService = (AccountService) context.get(AccountService.class);
         if (accountService.isUserLoggedIn(userSessionId)) {
             this.userName = accountService.getUserBySession(userSessionId);
             this.accountService = (AccountService) context.get(AccountService.class);
-            this.gameMechanics = (GameMechanics) context.get(GameMechanics.class);
-            this.webSocketService = (WebSocketService) context.get(WebSocketService.class);
+            this.messageSystem = (MessageSystem) context.get(MessageSystem.class);
+//            this.gameMechanics = (GameMechanics) context.get(GameMechanics.class);
+//            this.webSocketService = (WebSocketService) context.get(WebSocketService.class);
         }
         // иначе не залогинен
     }
@@ -55,8 +62,14 @@ public class GameWebSocket {
         logger.info("Opened new socket");
         socketSession = session;
         if (accountService != null) {
-            webSocketService.addUser(this);
-            gameMechanics.addUser(userName);
+            messageSystem.sendMessage(new MessageSocketAddUser(
+                    getAddress(), messageSystem.getAddressService().getWebSocketService(), this
+            ));
+            messageSystem.sendMessage(new MessageGameAddUser(
+                    getAddress(), messageSystem.getAddressService().getGameMechanicsAddressFor(userName), userName
+            ));
+//            webSocketService.addUser(this);
+//            gameMechanics.addUser(userName);
         } else {
             sendNotLogged();
             socketSession.close();
@@ -76,13 +89,22 @@ public class GameWebSocket {
                     if (!message.containsKey("bet")) {
                         throw new Exception("Can't make bet, no 'bet' field in JSON");
                     }
-                    gameMechanics.makeBet(userName, ((Long) message.get("bet")).intValue());
+                    messageSystem.sendMessage(new MessageMakeBet(
+                            getAddress(), messageSystem.getAddressService().getGameMechanicsAddressFor(userName), userName, ((Long) message.get("bet")).intValue()
+                    ));
+//                    gameMechanics.makeBet(userName, ((Long) message.get("bet")).intValue());
                     break;
                 case "hit":
-                    gameMechanics.hit(userName);
+                    messageSystem.sendMessage(new MessageHit(
+                            getAddress(), messageSystem.getAddressService().getGameMechanicsAddressFor(userName), userName
+                    ));
+//                    gameMechanics.hit(userName);
                     break;
                 case "stand":
-                    gameMechanics.stand(userName);
+                    messageSystem.sendMessage(new MessageStand(
+                            getAddress(), messageSystem.getAddressService().getGameMechanicsAddressFor(userName), userName
+                    ));
+//                    gameMechanics.stand(userName);
                     break;
                 default:
                     throw new Exception("Unknown type of message");
@@ -98,8 +120,14 @@ public class GameWebSocket {
     public void onClose(int statusCode, String reason) {
         logger.info("Closing socket on '{}' with code {}, reason: '{}'", userName, statusCode, reason);
         if (accountService != null) {
-            webSocketService.removeUser(this);
-            gameMechanics.removeUser(userName);
+            messageSystem.sendMessage(new MessageSocketRemoveUser(
+                    getAddress(), messageSystem.getAddressService().getWebSocketService(), this
+            ));
+            messageSystem.sendMessage(new MessageGameRemoveUser(
+                    getAddress(), messageSystem.getAddressService().getGameMechanicsAddressFor(userName), userName
+            ));
+//            webSocketService.removeUser(this);
+//            gameMechanics.removeUser(userName);
         }
     }
 
@@ -311,4 +339,8 @@ public class GameWebSocket {
         return userName;
     }
 
+    @Override
+    public Address getAddress() {
+        return address;
+    }
 }

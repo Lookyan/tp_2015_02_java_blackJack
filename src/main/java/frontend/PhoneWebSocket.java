@@ -3,9 +3,17 @@ package frontend;
 import base.AccountService;
 import base.GameMechanics;
 import base.WebSocketService;
+import frontend.messages.MessageAddPhone;
+import frontend.messages.MessageRemovePhone;
 import game.Card;
 import game.Player;
+import game.messages.MessageHit;
+import game.messages.MessageMakeBet;
+import game.messages.MessageStand;
 import main.Context;
+import messageSystem.Abonent;
+import messageSystem.Address;
+import messageSystem.MessageSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
@@ -22,24 +30,28 @@ import java.util.Map;
 
 @SuppressWarnings("unchecked")
 @WebSocket
-public class PhoneWebSocket {
+public class PhoneWebSocket implements Abonent {
 
     private static final Logger logger = LogManager.getLogger();
     private static final JSONParser parser = new JSONParser();
+
+    private Address address = new Address();
 
     private String userName;
 
     private Session socketSession;
 
     private AccountService accountService;
-    private GameMechanics gameMechanics;
-    private WebSocketService webSocketService;
+    private MessageSystem messageSystem;
+//    private GameMechanics gameMechanics;
+//    private WebSocketService webSocketService;
 
     public PhoneWebSocket(String token, Context context) {
         this.accountService = (AccountService) context.get(AccountService.class);
         this.userName = accountService.getUserByToken(token);
-        this.gameMechanics = (GameMechanics) context.get(GameMechanics.class);
-        this.webSocketService = (WebSocketService) context.get(WebSocketService.class);
+        this.messageSystem = (MessageSystem) context.get(MessageSystem.class);
+//        this.gameMechanics = (GameMechanics) context.get(GameMechanics.class);
+//        this.webSocketService = (WebSocketService) context.get(WebSocketService.class);
     }
 
     @OnWebSocketConnect
@@ -48,7 +60,10 @@ public class PhoneWebSocket {
         socketSession = session;
 
         if (userName != null) {
-            webSocketService.addPhone(this);
+            messageSystem.sendMessage(new MessageAddPhone(
+                    getAddress(), messageSystem.getAddressService().getWebSocketService(), this
+            ));
+//            webSocketService.addPhone(this);
 //            gameMechanics.addUser(userName);
         } else {
             sendWrongToken();
@@ -69,13 +84,22 @@ public class PhoneWebSocket {
                     if (!message.containsKey("bet")) {
                         throw new Exception("Can't make bet, no 'bet' field in JSON");
                     }
-                    gameMechanics.makeBet(userName, ((Long) message.get("bet")).intValue());
+                    messageSystem.sendMessage(new MessageMakeBet(
+                            getAddress(), messageSystem.getAddressService().getGameMechanicsAddressFor(userName), userName, ((Long) message.get("bet")).intValue()
+                    ));
+//                    gameMechanics.makeBet(userName, ((Long) message.get("bet")).intValue());
                     break;
                 case "hit":
-                    gameMechanics.hit(userName);
+                    messageSystem.sendMessage(new MessageHit(
+                            getAddress(), messageSystem.getAddressService().getGameMechanicsAddressFor(userName), userName
+                    ));
+//                    gameMechanics.hit(userName);
                     break;
                 case "stand":
-                    gameMechanics.stand(userName);
+                    messageSystem.sendMessage(new MessageStand(
+                            getAddress(), messageSystem.getAddressService().getGameMechanicsAddressFor(userName), userName
+                    ));
+//                    gameMechanics.stand(userName);
                     break;
                 default:
                     throw new Exception("Unknown type of message");
@@ -91,7 +115,10 @@ public class PhoneWebSocket {
     public void onClose(int statusCode, String reason) {
         logger.info("Closing socket on '{}' with code {}, reason: '{}'", userName, statusCode, reason);
         if (userName != null) {
-            webSocketService.removePhone(this);
+            messageSystem.sendMessage(new MessageRemovePhone(
+                    getAddress(), messageSystem.getAddressService().getWebSocketService(), this
+            ));
+//            webSocketService.removePhone(this);
 //            gameMechanics.removeUser(userName);
         }
     }
@@ -304,4 +331,8 @@ public class PhoneWebSocket {
         return userName;
     }
 
+    @Override
+    public Address getAddress() {
+        return address;
+    }
 }

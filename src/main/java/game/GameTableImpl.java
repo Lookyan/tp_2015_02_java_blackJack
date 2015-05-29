@@ -1,7 +1,9 @@
 package game;
 
 import base.*;
+import frontend.messages.*;
 import main.Context;
+import messageSystem.MessageSystem;
 import resourceSystem.GameConfig;
 import resourceSystem.ResourceFactory;
 
@@ -15,8 +17,10 @@ public class GameTableImpl implements GameTable {
     // Фазы игры
     private static enum GamePhase { BET, PLAY }
 
-    private WebSocketService webSocketService;
+//    private WebSocketService webSocketService;
     private DBService dbService;
+    private MessageSystem messageSystem;
+    private GameMechanics gameMechanics;
 
     // Колода
     private Deck deck;
@@ -30,14 +34,17 @@ public class GameTableImpl implements GameTable {
     private String currentPlayer;
     private GamePhase currentPhase = GamePhase.BET;
 
-    public GameTableImpl(Context context, Deck deck) {
+    public GameTableImpl(Context context, Deck deck, GameMechanics gameMechanics) {
         GameConfig config = (GameConfig) ResourceFactory.getInstance().get("data/game_config.xml");
         MAX_PLAYERS = config.getMaxPlayers();
         DEALER_NAME = config.getDealerName();
 
         this.deck = deck;
-        this.webSocketService = (WebSocketService) context.get(WebSocketService.class);
+//        this.webSocketService = (WebSocketService) context.get(WebSocketService.class);
         this.dbService = (DBService) context.get(DBService.class);
+        this.messageSystem = (MessageSystem) context.get(MessageSystem.class);
+        this.gameMechanics = gameMechanics;
+
     }
 
     @Override
@@ -48,16 +55,24 @@ public class GameTableImpl implements GameTable {
     @Override
     public void addUser(String userName) throws GameTableException {
         if (!isFull()) {
-            players.entrySet().stream().forEach(entry -> webSocketService.sendNewPlayer(entry.getKey(), userName));
+            players.entrySet().stream().forEach(entry -> messageSystem.sendMessage(new MessageSendNewPlayer(
+                    gameMechanics.getAddress(), messageSystem.getAddressService().getWebSocketService(), entry.getKey(), userName
+            )));
 
             players.put(userName, new Player());
             Map<String, Player> state = new HashMap<>(players);
             state.put(DEALER_NAME, dealer);
-            webSocketService.sendState(userName, state);
+            messageSystem.sendMessage(new MessageSendState(
+                    gameMechanics.getAddress(), messageSystem.getAddressService().getWebSocketService(), userName, state
+            ));
+//            webSocketService.sendState(userName, state);
 
             // Если еще идет фаза ставок, игрок может присоединиться к игре
             if (currentPhase == GamePhase.BET) {
-                webSocketService.sendPhase(userName, GamePhase.BET.name());
+                messageSystem.sendMessage(new MessageSendPhase(
+                        gameMechanics.getAddress(), messageSystem.getAddressService().getWebSocketService(), userName, GamePhase.BET.name()
+                ));
+//                webSocketService.sendPhase(userName, GamePhase.BET.name());
             }
         } else {
             throw new GameTableException("Can't add new user, table is full!");
@@ -89,9 +104,15 @@ public class GameTableImpl implements GameTable {
         // Отсылаем всем сделанную ставку
 //        players.keySet().stream().forEach(p -> webSocketService.sendBet(p, userName, bet)); // error
         for (String p : players.keySet()) {
-            webSocketService.sendBet(p, userName, bet);
+            messageSystem.sendMessage(new MessageSendBet(
+                    gameMechanics.getAddress(), messageSystem.getAddressService().getWebSocketService(), p, userName, bet
+            ));
+//            webSocketService.sendBet(p, userName, bet);
         }
-        webSocketService.sendEnd(userName);
+        messageSystem.sendMessage(new MessageSendEnd(
+                gameMechanics.getAddress(), messageSystem.getAddressService().getWebSocketService(), userName
+        ));
+//        webSocketService.sendEnd(userName);
 
         // Если все сделали ставки - начинаем игру
         if (isAllPlaying()) {
@@ -117,15 +138,24 @@ public class GameTableImpl implements GameTable {
 
         // Отсылаем всем карту игрока
         for (String user : players.keySet()) {
-            webSocketService.sendCard(user, userName, card, player.getScore());
+            messageSystem.sendMessage(new MessageSendCard(
+                    gameMechanics.getAddress(), messageSystem.getAddressService().getWebSocketService(), user, userName, card, player.getScore()
+            ));
+//            webSocketService.sendCard(user, userName, card, player.getScore());
         }
 
         // Если очки > 21 заканчиваем с ним, иначе делаем еще приглашение
         if (player.getScore() > 21) {
-            webSocketService.sendEnd(userName);
+            messageSystem.sendMessage(new MessageSendEnd(
+                    gameMechanics.getAddress(), messageSystem.getAddressService().getWebSocketService(), userName
+            ));
+//            webSocketService.sendEnd(userName);
             processStep();
         } else {
-            webSocketService.sendPhase(userName, GamePhase.PLAY.name());
+            messageSystem.sendMessage(new MessageSendPhase(
+                    gameMechanics.getAddress(), messageSystem.getAddressService().getWebSocketService(), userName, GamePhase.PLAY.name()
+            ));
+//            webSocketService.sendPhase(userName, GamePhase.PLAY.name());
         }
     }
 
@@ -141,7 +171,10 @@ public class GameTableImpl implements GameTable {
             throw new GameTableException("Can't stand, wrong player");
         }
 
-        webSocketService.sendEnd(userName);
+        messageSystem.sendMessage(new MessageSendEnd(
+                gameMechanics.getAddress(), messageSystem.getAddressService().getWebSocketService(), userName
+        ));
+//        webSocketService.sendEnd(userName);
         processStep();
     }
 
@@ -154,7 +187,10 @@ public class GameTableImpl implements GameTable {
         Player removedPlayer =  players.remove(userName);
 
         for (String user : players.keySet()) {
-            webSocketService.sendRemovePlayer(user, userName);
+            messageSystem.sendMessage(new MessageSendRemovePlayer(
+                    gameMechanics.getAddress(), messageSystem.getAddressService().getWebSocketService(), user, userName
+            ));
+//            webSocketService.sendRemovePlayer(user, userName);
         }
 
         if (playingQueue.contains(userName)) {
@@ -183,7 +219,10 @@ public class GameTableImpl implements GameTable {
                 Card card = getCard();
                 entry.getValue().addCard(card);
                 for (String userName : players.keySet()) {
-                    webSocketService.sendCard(userName, entry.getKey(), card, entry.getValue().getScore());
+                    messageSystem.sendMessage(new MessageSendCard(
+                            gameMechanics.getAddress(), messageSystem.getAddressService().getWebSocketService(), userName, entry.getKey(), card, entry.getValue().getScore()
+                    ));
+//                    webSocketService.sendCard(userName, entry.getKey(), card, entry.getValue().getScore());
                 }
             });
         }
@@ -191,7 +230,11 @@ public class GameTableImpl implements GameTable {
         Card card = getCard();
         dealer.addCard(card);
         players.keySet().stream().forEach(player ->
-                webSocketService.sendCard(player, DEALER_NAME, card, dealer.getScore()));
+                messageSystem.sendMessage(new MessageSendCard(
+                        gameMechanics.getAddress(), messageSystem.getAddressService().getWebSocketService(), player, DEALER_NAME, card, dealer.getScore()
+                ))
+//                webSocketService.sendCard(player, DEALER_NAME, card, dealer.getScore())
+        );
 
         processStep();
     }
@@ -203,8 +246,16 @@ public class GameTableImpl implements GameTable {
         } while (currentPlayer != null && !players.get(currentPlayer).isPlaying());
 
         if (currentPlayer != null) {
-            webSocketService.sendPhase(currentPlayer, GamePhase.PLAY.name());
-            players.keySet().stream().filter(name -> name.compareTo(currentPlayer) != 0).forEach(name -> webSocketService.sendTurn(name, currentPlayer));
+            messageSystem.sendMessage(new MessageSendPhase(
+                    gameMechanics.getAddress(), messageSystem.getAddressService().getWebSocketService(), currentPlayer, GamePhase.PLAY.name()
+            ));
+//            webSocketService.sendPhase(currentPlayer, GamePhase.PLAY.name());
+            players.keySet().stream().filter(name -> name.compareTo(currentPlayer) != 0).forEach(name ->
+                            messageSystem.sendMessage(new MessageSendTurn(
+                                    gameMechanics.getAddress(), messageSystem.getAddressService().getWebSocketService(), name, currentPlayer
+                            ))
+//                    webSocketService.sendTurn(name, currentPlayer)
+            );
         } else {
 //            Если очередь пуста - обрабатываем результаты
             finishGame();
@@ -216,7 +267,11 @@ public class GameTableImpl implements GameTable {
             Card card = getCard();
             dealer.addCard(card);
             players.keySet().stream().forEach(player ->
-                    webSocketService.sendCard(player, DEALER_NAME, card, dealer.getScore()));
+//                    webSocketService.sendCard(player, DEALER_NAME, card, dealer.getScore())
+                    messageSystem.sendMessage(new MessageSendCard(
+                            gameMechanics.getAddress(), messageSystem.getAddressService().getWebSocketService(), player, DEALER_NAME, card, dealer.getScore()
+                    ))
+            );
         }
 
         int dealerScore = dealer.getScore();
@@ -248,10 +303,20 @@ public class GameTableImpl implements GameTable {
         });
         dealer.reset();
 
-        players.keySet().stream().filter(player -> player != null).forEach(player -> webSocketService.sendWins(player, wins));
+        players.keySet().stream().filter(player -> player != null).forEach(player ->
+//                webSocketService.sendWins(player, wins)
+                messageSystem.sendMessage(new MessageSendWins(
+                        gameMechanics.getAddress(), messageSystem.getAddressService().getWebSocketService(), player, wins
+                ))
+        );
 
         currentPhase = GamePhase.BET;
-        players.keySet().stream().forEach(player -> webSocketService.sendPhase(player, GamePhase.BET.name()));
+        players.keySet().stream().forEach(player ->
+//                webSocketService.sendPhase(player, GamePhase.BET.name())
+                messageSystem.sendMessage(new MessageSendPhase(
+                        gameMechanics.getAddress(), messageSystem.getAddressService().getWebSocketService(), player, GamePhase.BET.name()
+                ))
+        );
     }
 
     private boolean isAllPlaying() {
@@ -265,7 +330,12 @@ public class GameTableImpl implements GameTable {
 
     private Card getCard() {
         if (deck.isEmpty()) {
-            players.keySet().stream().forEach(player -> webSocketService.sendDeckShuffle(player));
+            players.keySet().stream().forEach(player ->
+//                    webSocketService.sendDeckShuffle(player)
+                    messageSystem.sendMessage(new MessageSendDeckShuffle(
+                            gameMechanics.getAddress(), messageSystem.getAddressService().getWebSocketService(), player
+                    ))
+            );
             deck.fillDeck();
         }
         return deck.getCard();

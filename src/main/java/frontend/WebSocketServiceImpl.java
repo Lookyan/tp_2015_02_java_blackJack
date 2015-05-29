@@ -3,6 +3,11 @@ package frontend;
 import base.WebSocketService;
 import game.Card;
 import game.Player;
+import main.Context;
+import messageSystem.Abonent;
+import messageSystem.Address;
+import messageSystem.Message;
+import messageSystem.MessageSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,9 +17,16 @@ import java.util.Map;
 public class WebSocketServiceImpl implements WebSocketService {
 
     private static final Logger logger = LogManager.getLogger();
+    private final Address address = new Address();
 
     private Map<String, GameWebSocket> userSockets = new HashMap<>();
     private Map<String, PhoneWebSocket> phoneSockets = new HashMap<>();
+
+    private MessageSystem messageSystem;
+
+    public WebSocketServiceImpl(Context context) {
+        messageSystem = (MessageSystem) context.get(MessageSystem.class);
+    }
 
     @Override
     public void addUser(GameWebSocket userSocket) {
@@ -150,4 +162,20 @@ public class WebSocketServiceImpl implements WebSocketService {
     }
 
 
+    @Override
+    public Address getAddress() {
+        return address;
+    }
+
+    @Override
+    public void run() {
+        while (true){
+            messageSystem.execForAbonent(this);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

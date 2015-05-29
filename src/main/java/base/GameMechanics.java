@@ -1,6 +1,8 @@
 package base;
 
-public interface GameMechanics {
+import messageSystem.Abonent;
+
+public interface GameMechanics extends Runnable, Abonent {
 
     void addUser(String userName);
 

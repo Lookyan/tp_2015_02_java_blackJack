@@ -4,10 +4,11 @@ import frontend.GameWebSocket;
 import frontend.PhoneWebSocket;
 import game.Card;
 import game.Player;
+import messageSystem.Abonent;
 
 import java.util.Map;
 
-public interface WebSocketService {
+public interface WebSocketService extends Runnable, Abonent {
 
     void addUser(GameWebSocket userSocket);
 
