@@ -50,7 +50,7 @@ public class GameMechanicsImplTest {
     @Before
     public void setUp() throws Exception {
         gtSpies = new LinkedList<>();
-        gm = new GameMechanicsImpl(context, cont -> {
+        gm = new GameMechanicsImpl(context, (cont, mechanics) -> {
             GameTable gt = spy(new GameTableStub());
             gtSpies.add(gt);
             return gt;

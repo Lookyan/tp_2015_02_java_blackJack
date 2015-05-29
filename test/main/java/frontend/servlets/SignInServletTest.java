@@ -4,6 +4,7 @@ import base.AccountService;
 import base.DBService;
 import base.dataSets.UserDataSet;
 import main.Context;
+import org.apache.commons.io.IOUtils;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Rule;
@@ -13,6 +14,8 @@ import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -37,17 +40,22 @@ public class SignInServletTest {
     }
 
     @Test
-    public void testDoGet() throws Exception {
+    public void testDoPost() throws Exception {
         SignInServlet signInServlet= new SignInServlet(context);
 
         HttpServletRequest requestMock = mock(HttpServletRequest.class);
         HttpServletResponse responseMock = mock(HttpServletResponse.class);
         HttpSession sessionMock = mock(HttpSession.class);
 
+        String input = "{\"name\":\"andrey\",\"password\":\"123\"}";
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(IOUtils.toInputStream(input)));
+        when(requestMock.getReader()).thenReturn(bufferedReader);
+
         when(requestMock.getSession()).thenReturn(sessionMock);
         when(sessionMock.getId()).thenReturn("123asd");
-        when(requestMock.getParameter("name")).thenReturn("andrey");
-        when(requestMock.getParameter("password")).thenReturn("123");
+//        when(requestMock.getReader()).thenReturn(bufferedReader);
+//        when(requestMock.getParameter("name")).thenReturn("andrey");
+//        when(requestMock.getParameter("password")).thenReturn("123");
 
         when(dbService.getUserData("andrey")).thenReturn(new UserDataSet("andrey", "123", "a@a", 1000));
 
@@ -56,10 +64,12 @@ public class SignInServletTest {
 
         when(responseMock.getWriter()).thenReturn(printWriter);
 
-//        signInServlet.doGet(requestMock, responseMock);
+        signInServlet.doPost(requestMock, responseMock);
         verify(accountService).addSession("123asd", "andrey");
         verify(responseMock).setStatus(200);
-        assertThat(stringWriter.toString(), CoreMatchers.containsString("Login status: Login passed"));
+        assertThat(stringWriter.toString(), CoreMatchers.containsString("\"status\":200"));
+        assertThat(stringWriter.toString(), CoreMatchers.containsString("\"email\":\"a@a\""));
+        assertThat(stringWriter.toString(), CoreMatchers.containsString("\"name\":\"andrey\""));
     }
 
     @Test
@@ -70,10 +80,14 @@ public class SignInServletTest {
         HttpServletResponse responseMock = mock(HttpServletResponse.class);
         HttpSession sessionMock = mock(HttpSession.class);
 
+        String input = "{\"name\":\"andrey\",\"password\":\"321\"}";
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(IOUtils.toInputStream(input)));
+        when(requestMock.getReader()).thenReturn(bufferedReader);
+
         when(requestMock.getSession()).thenReturn(sessionMock);
         when(sessionMock.getId()).thenReturn("123asd");
-        when(requestMock.getParameter("name")).thenReturn("andrey");
-        when(requestMock.getParameter("password")).thenReturn("321");
+//        when(requestMock.getParameter("name")).thenReturn("andrey");
+//        when(requestMock.getParameter("password")).thenReturn("321");
 
         when(dbService.getUserData("andrey")).thenReturn(new UserDataSet("andrey", "123", "a@a", 1000));
 
@@ -82,9 +96,10 @@ public class SignInServletTest {
 
         when(responseMock.getWriter()).thenReturn(printWriter);
 
-//        signInServlet.doGet(requestMock, responseMock);
+        signInServlet.doPost(requestMock, responseMock);
         verify(accountService, never()).addSession("123asd", "andrey");
         verify(responseMock).setStatus(200);
-        assertThat(stringWriter.toString(), CoreMatchers.containsString("Login status: Wrong login/password"));
+        assertThat(stringWriter.toString(), CoreMatchers.containsString("\"status\":404"));
+        assertThat(stringWriter.toString(), CoreMatchers.containsString("\"error\":\"wrong\""));
     }
 }

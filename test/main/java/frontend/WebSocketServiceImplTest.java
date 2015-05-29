@@ -15,9 +15,11 @@ import static org.mockito.Mockito.*;
 
 public class WebSocketServiceImplTest {
 
+    private Context context;
+
     @Before
     public void setUp() throws Exception {
-
+        context = mock(Context.class);
     }
 
     @Test
@@ -25,7 +27,7 @@ public class WebSocketServiceImplTest {
         GameWebSocket webSock1 = mock(GameWebSocket.class);
         when(webSock1.getUserName()).thenReturn("andrey");
 
-        WebSocketService webSocketService = new WebSocketServiceImpl();
+        WebSocketService webSocketService = new WebSocketServiceImpl(context);
 
         webSocketService.addUser(webSock1);
         verify(webSock1, times(2)).getUserName();
@@ -43,7 +45,7 @@ public class WebSocketServiceImplTest {
         GameWebSocket webSock2 = mock(GameWebSocket.class);
         when(webSock2.getUserName()).thenReturn("alex");
 
-        WebSocketService webSocketService = new WebSocketServiceImpl();
+        WebSocketService webSocketService = new WebSocketServiceImpl(context);
 
         webSocketService.addUser(webSock1);
         webSocketService.addUser(webSock2);
@@ -64,7 +66,7 @@ public class WebSocketServiceImplTest {
         GameWebSocket webSock2 = mock(GameWebSocket.class);
         when(webSock2.getUserName()).thenReturn("alex");
 
-        WebSocketService webSocketService = new WebSocketServiceImpl();
+        WebSocketService webSocketService = new WebSocketServiceImpl(context);
         webSocketService.addUser(webSock1);
         webSocketService.addUser(webSock2);
 
@@ -81,7 +83,7 @@ public class WebSocketServiceImplTest {
         GameWebSocket webSock2 = mock(GameWebSocket.class);
         when(webSock2.getUserName()).thenReturn("alex");
 
-        WebSocketService webSocketService = new WebSocketServiceImpl();
+        WebSocketService webSocketService = new WebSocketServiceImpl(context);
         webSocketService.addUser(webSock1);
         webSocketService.addUser(webSock2);
 
@@ -99,7 +101,7 @@ public class WebSocketServiceImplTest {
         GameWebSocket webSock2 = mock(GameWebSocket.class);
         when(webSock2.getUserName()).thenReturn("alex");
 
-        WebSocketService webSocketService = new WebSocketServiceImpl();
+        WebSocketService webSocketService = new WebSocketServiceImpl(context);
         webSocketService.addUser(webSock1);
         webSocketService.addUser(webSock2);
 
@@ -119,7 +121,7 @@ public class WebSocketServiceImplTest {
         GameWebSocket webSock2 = mock(GameWebSocket.class);
         when(webSock2.getUserName()).thenReturn("alex");
 
-        WebSocketService webSocketService = new WebSocketServiceImpl();
+        WebSocketService webSocketService = new WebSocketServiceImpl(context);
         webSocketService.addUser(webSock1);
         webSocketService.addUser(webSock2);
 
@@ -140,7 +142,7 @@ public class WebSocketServiceImplTest {
         GameWebSocket webSock2 = mock(GameWebSocket.class);
         when(webSock2.getUserName()).thenReturn("alex");
 
-        WebSocketService webSocketService = new WebSocketServiceImpl();
+        WebSocketService webSocketService = new WebSocketServiceImpl(context);
         webSocketService.addUser(webSock1);
         webSocketService.addUser(webSock2);
 
@@ -158,7 +160,7 @@ public class WebSocketServiceImplTest {
         GameWebSocket webSock2 = mock(GameWebSocket.class);
         when(webSock2.getUserName()).thenReturn("alex");
 
-        WebSocketService webSocketService = new WebSocketServiceImpl();
+        WebSocketService webSocketService = new WebSocketServiceImpl(context);
         webSocketService.addUser(webSock1);
         webSocketService.addUser(webSock2);
 
@@ -176,7 +178,7 @@ public class WebSocketServiceImplTest {
         GameWebSocket webSock2 = mock(GameWebSocket.class);
         when(webSock2.getUserName()).thenReturn("alex");
 
-        WebSocketService webSocketService = new WebSocketServiceImpl();
+        WebSocketService webSocketService = new WebSocketServiceImpl(context);
         webSocketService.addUser(webSock1);
         webSocketService.addUser(webSock2);
 
@@ -194,7 +196,7 @@ public class WebSocketServiceImplTest {
         GameWebSocket webSock2 = mock(GameWebSocket.class);
         when(webSock2.getUserName()).thenReturn("alex");
 
-        WebSocketService webSocketService = new WebSocketServiceImpl();
+        WebSocketService webSocketService = new WebSocketServiceImpl(context);
         webSocketService.addUser(webSock1);
         webSocketService.addUser(webSock2);
 
@@ -215,7 +217,7 @@ public class WebSocketServiceImplTest {
         GameWebSocket webSock2 = mock(GameWebSocket.class);
         when(webSock2.getUserName()).thenReturn("alex");
 
-        WebSocketService webSocketService = new WebSocketServiceImpl();
+        WebSocketService webSocketService = new WebSocketServiceImpl(context);
         webSocketService.addUser(webSock1);
         webSocketService.addUser(webSock2);
 
@@ -233,7 +235,7 @@ public class WebSocketServiceImplTest {
         GameWebSocket webSock2 = mock(GameWebSocket.class);
         when(webSock2.getUserName()).thenReturn("alex");
 
-        WebSocketService webSocketService = new WebSocketServiceImpl();
+        WebSocketService webSocketService = new WebSocketServiceImpl(context);
         webSocketService.addUser(webSock1);
         webSocketService.addUser(webSock2);
 
@@ -251,7 +253,7 @@ public class WebSocketServiceImplTest {
         GameWebSocket webSock2 = mock(GameWebSocket.class);
         when(webSock2.getUserName()).thenReturn("alex");
 
-        WebSocketService webSocketService = new WebSocketServiceImpl();
+        WebSocketService webSocketService = new WebSocketServiceImpl(context);
         webSocketService.addUser(webSock1);
         webSocketService.addUser(webSock2);
 
