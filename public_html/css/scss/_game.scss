@@ -11,7 +11,11 @@
   height: 100%;
   padding-bottom: 100px;
   box-sizing: border-box;
-  background-color: #2E8B57;
+  background-color: #466d19;
+  background-image: -webkit-gradient(radial,50% 50%,0,50% 50%,560,from(#65981e),to(#184d08));
+  background-image: -webkit-radial-gradient(center center,ellipse farthest-corner,#65981e,#184d08);
+  background-image: -moz-radial-gradient(center center,ellipse farthest-corner,#65981e,#184d08);
+  background-image: -ms-radial-gradient(center center,ellipse farthest-corner,#65981e,#184d08);
 }
 
 .playerboard {
@@ -44,7 +48,11 @@
 
 .freespace {
   height: 16.66666666%;
-  border: 1px black solid;
+  border: 9px solid #809d29;
+  border-color: rgba(208,209,78,0.3);
+  padding: 2%;
+  -ms-border-radius: 30px;
+  border-radius: 30px;
 }
 
 .leftplayer__freespace {
@@ -57,7 +65,11 @@
 
 .place {
   height: 33.33333333%;
-  border: 1px black solid;
+  border: 9px solid #809d29;
+  border-color: rgba(208,209,78,0.3);
+  padding: 2%;
+  -ms-border-radius: 30px;
+  border-radius: 30px;
 }
 
 .leftplayer__cardsplace {
