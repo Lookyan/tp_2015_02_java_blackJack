@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public final class MessageSystem {
+public class MessageSystem {
     private final Map<Address, ConcurrentLinkedQueue<Message>> messages = new HashMap<>();
     private final AddressService addressService = new AddressService();
 
