@@ -29,6 +29,15 @@
                 </div>
                 <div class="mainplayer__chipsplace">
                     main player chips
+                    <div class="chip red">
+                        <span>5</span>
+                    </div>
+                    <div class="chip yellow">
+                        <span>50</span>
+                    </div>
+                    <div class="chip blue">
+                        <span>100</span>
+                    </div>
                 </div>
             </div>
             <div class="rightplayer">

@@ -58,7 +58,7 @@ define([
         },
 
         start: function() {
-            this.ws = new WebSocket("ws://" + window.location.hostname + "/gameplay");
+            this.ws = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/gameplay");
             this.ws.onopen = this.onOpen;
             this.ws.onclose = this.onClose;
             this.ws.onmessage = this.onMessage;
