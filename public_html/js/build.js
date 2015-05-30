@@ -13474,7 +13474,7 @@ define('views/menu/login',[
         },
         
         render: function () {
-            this.$el.html(this.template);
+            this.$el.html(this.template());
 
             var loginInfo = JSON.parse(localStorage.getItem('loginInfo'));
             if(loginInfo) {
@@ -13715,7 +13715,7 @@ define('models/gametable',[
         },
 
         start: function() {
-            this.ws = new WebSocket("ws://" + window.location.hostname + ":8080/gameplay");
+            this.ws = new WebSocket("ws://" + window.location.hostname + "/gameplay");
             this.ws.onopen = this.onOpen;
             this.ws.onclose = this.onClose;
             this.ws.onmessage = this.onMessage;
@@ -14193,7 +14193,6 @@ define( 'main',[
     Backbone,
     router
 ){
-    console.log('huwgc');
     Backbone.history.start();
 });
 

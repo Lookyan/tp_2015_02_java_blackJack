@@ -53,6 +53,19 @@ module.exports = function (grunt) {
                     atBegin: true,
                     interrupt: true
                 }
+            },
+            minimize: {
+                files: [
+                    'public_html/js/**/*.js',
+                    '!public_html/js/build/main.js',
+                    '!public_html/js/build.js',
+                    '!public_html/js/build.min.js'
+                ],
+                tasks: ['requirejs', 'concat', 'uglify'],
+                options: {
+                    atBegin: true,
+                    interrupt: true
+                }
             }
         },
         concurrent: {
@@ -114,18 +127,5 @@ module.exports = function (grunt) {
 
     grunt.registerTask('default', ['concurrent']);
     grunt.registerTask('build', ['requirejs', 'concat', 'uglify']);
-//    grunt.registerTask('default', 'concat vs. uglify', function (concat) {
-//        // grunt default:true
-//        if (concat) {
-//            // Update the uglify dest to be the result of concat
-//            var dest = grunt.config('concat.js.dest');
-//            grunt.config('uglify.target.src', dest);
-//
-//            grunt.task.run('concat');
-//        }
-//
-//        // grunt default
-//        grunt.task.run('uglify');
-//    });
 
 };
