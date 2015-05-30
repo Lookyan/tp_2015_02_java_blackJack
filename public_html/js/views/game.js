@@ -29,6 +29,7 @@ define([
         model: new GameTable,
 
         initialize: function ($body) {
+            this.model.on("betPhase", this.betPhase);
             $body.append(this.el);
             this.$el.css("height", "100%");
 
@@ -71,6 +72,10 @@ define([
         hide: function () {
             this.model.finish();
             this.$el.hide();
+        },
+
+        betPhase: function (player) {
+            console.log('bet!');
         }
 
     });

@@ -7,9 +7,9 @@ define([
 ){
 
     var Model = Backbone.Model.extend({
-        //defaults: {
-        //    //value: 0
-        //},
+        defaults: {
+            phase: "start",
+        },
 
         //allCards: new CardsList(),
         //dealerCards: new CardsList(),
@@ -61,7 +61,7 @@ define([
             this.ws = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/gameplay");
             this.ws.onopen = this.onOpen;
             this.ws.onclose = this.onClose;
-            this.ws.onmessage = this.onMessage;
+            this.ws.onmessage = this.onMessage.bind(this);
         },
 
         finish: function() {
@@ -74,7 +74,26 @@ define([
         },
 
         onMessage: function(event) {
-            console.log(event.data);
+            debugger;
+            var response = JSON.parse(event.data);
+            switch(response.body.type) {
+                case "state":
+                {
+                    console.log('state');
+                    break;
+                }
+                case "phase":
+                {
+                    switch(response.body.phase) {
+                        case "BET":
+                        {
+                            this.trigger('betPhase', 2);
+                        }
+                    }
+                    break;
+                }
+            }
+//            console.log(event.data);
         },
 
         onClose: function(event) {
