@@ -54,7 +54,7 @@ define([
         },
 
         bet: function(bet) {
-            this.ws.send(JSON.stringify({type: "bet", bet: 5}));
+            this.ws.send(JSON.stringify({type: "bet", bet: bet}));
         },
 
         start: function() {

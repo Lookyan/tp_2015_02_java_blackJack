@@ -57,8 +57,9 @@ define([
             this.model.stand();
         },
 
-        betButtonClick: function() {
-            this.model.bet(5);
+        betButtonClick: function(e) {
+            var amount = parseInt($(e.currentTarget).children('span').eq(0).text(), 10);
+            this.model.bet(amount);
         },
 
         show: function () {
