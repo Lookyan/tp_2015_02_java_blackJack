@@ -6,25 +6,25 @@
                     <a class="actbutton" href="/#">BACK</a>
                 </div>
                 <div class="leftplayer__cardsplace">
-                    left cards
+                    <span class="lbl">Left player</span>
                     <div class="cardset">
                     </div>
                     <span class="score">0</span>
                     <span class="result"></span>
                 </div>
                 <div class="leftplayer__chipsplace">
-                    left chips
                 </div>
                 <div class="leftplayer__freespace"></div>
             </div>
             <div class="mainplayer">
                 <div class="dealer__cardsplace">
-                    dealer
+                    <span class="lbl">Dealer</span>
                     <div class="cardset">
                     </div>
                     <span class="score">0</span>
                 </div>
                 <div class="mainplayer__cardsplace">
+                    <span class="lbl">You</span>
                     <div class="cards js-cards">
                         <div class="cardset">
                         </div>
@@ -35,38 +35,36 @@
                         <button class="actbutton js-hitbutton">HIT</button>
                         <br/>
                         <button class="actbutton js-standbutton">STAND</button>
-                        <br/>
-                        <!--<button class="js-bet">BET 5</button>-->
                     </div>
                 </div>
                 <div class="mainplayer__chipsplace">
-                    main player chips
                 </div>
             </div>
             <div class="rightplayer">
                 <div class="rightplayer__freespace"></div>
                 <div class="rightplayer__cardsplace">
-                    right cards
+                    <span class="lbl">Right player</span>
                     <div class="cardset">
                     </div>
                     <span class="score">0</span>
                     <span class="result"></span>
                 </div>
                 <div class="rightplayer__chipsplace">
-                    right chips
                 </div>
                 <div class="rightplayer__freespace"></div>
             </div>
         </div>
         <div class="playerboard">
-            <div class="chip red js-bet">
-                <span>5</span>
-            </div>
-            <div class="chip yellow js-bet">
-                <span>50</span>
-            </div>
-            <div class="chip blue js-bet">
-                <span>100</span>
+            <div class="choosechip">
+                <div class="chip red js-bet">
+                    <span>5</span>
+                </div>
+                <div class="chip yellow js-bet">
+                    <span>50</span>
+                </div>
+                <div class="chip blue js-bet">
+                    <span>100</span>
+                </div>
             </div>
         </div>
     </div>

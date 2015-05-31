@@ -65,7 +65,6 @@ define([
         },
 
         start: function() {
-            debugger;
             this.set({"me": UserModel.get("name")});
             this.ws = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/gameplay");
             this.ws.onopen = this.onOpen;
@@ -83,19 +82,25 @@ define([
         },
 
         onMessage: function(event) {
+            console.log(event.data);
             var self = this;
-//            debugger;
             var response = JSON.parse(event.data);
             switch(response.body.type) {
                 case "state":
                 {
                     _.each(response.body.players, function (player) {
+                        var who = 0;
                         if(player.name != self.get("me") && player.name != "#dealer") {
                             if(self.get("player1") == "") {
+                                who = 1;
                                 self.set({"player1": player.name});
                             } else {
+                                who = 3;
                                 self.set({"player3": player.name});
                             }
+                            _.each(player.cards, function (card) {
+                                self.cardProcess(who, card, player.score);
+                            });
                         }
                         //player. name bet cards... Show!
                     });
@@ -138,26 +143,7 @@ define([
                         case "#dealer": who = 0; break;
                     }
                     var card = response.body.card;
-                    var value = card[0];
-                    var suit = card[1];
-                    switch(value) {
-                        case 'T': value = 10; break;
-                        case 'J': value = 11; break;
-                        case 'Q': value = 12; break;
-                        case 'K': value = 13; break;
-                        case 'A': value = 14; break;
-                    }
-                    value = value - 2;
-                    var x = value * (-81); // смещение для спрайта
-                    var y = 0;
-                    var yDelta = -118;
-                    switch(suit) {
-                        case 'h': y = 0; break;
-                        case 'd': y = yDelta; break;
-                        case 'c': y = yDelta * 2; break;
-                        case 's': y = yDelta * 3; break;
-                    }
-                    this.trigger('newCard', who, x, y, response.body.score);
+                    this.cardProcess(who, card, response.body.score);
                     break;
                 }
                 case "END":
@@ -188,6 +174,29 @@ define([
 
         onClose: function(event) {
             console.log("Error " + JSON.stringify(event));
+        },
+
+        cardProcess: function(who, card, score) {
+            var value = card[0];
+            var suit = card[1];
+            switch(value) {
+                case 'T': value = 10; break;
+                case 'J': value = 11; break;
+                case 'Q': value = 12; break;
+                case 'K': value = 13; break;
+                case 'A': value = 14; break;
+            }
+            value = value - 2;
+            var x = value * (-81); // смещение для спрайта
+            var y = 0;
+            var yDelta = -118;
+            switch(suit) {
+                case 'h': y = 0; break;
+                case 'd': y = yDelta; break;
+                case 'c': y = yDelta * 2; break;
+                case 's': y = yDelta * 3; break;
+            }
+            this.trigger('newCard', who, x, y, score);
         }
 
     });

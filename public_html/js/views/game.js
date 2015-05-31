@@ -64,7 +64,10 @@ define([
         },
 
         betButtonClick: function(e) {
-            debugger;
+            this.$el.find('.playerboard').hide();
+            this.$el.find('.leftplayer__chipsplace').empty();
+            this.$el.find('.mainplayer__chipsplace').empty();
+            this.$el.find('.rightplayer__chipsplace').empty();
             this.$el.find('.dealer__cardsplace > .cardset').empty();
             this.$el.find('.leftplayer__cardsplace > .cardset').empty();
             this.$el.find('.mainplayer__cardsplace > .cards > .cardset').empty();
@@ -99,17 +102,18 @@ define([
         },
 
         betShow: function (who, bet) {
+            $chip = $('<div class="chip red"><span>' + bet + '</span></div>');
             switch(who) {
-                case 1: this.$el.find('.leftplayer__chipsplace').append(bet); break;
-                case 2: this.$el.find('.mainplayer__chipsplace').append(bet); break;
-                case 3: this.$el.find('.rightplayer__chipsplace').append(bet); break;
+                case 1: this.$el.find('.leftplayer__chipsplace').append($chip); break;
+                case 2: this.$el.find('.mainplayer__chipsplace').append($chip); break;
+                case 3: this.$el.find('.rightplayer__chipsplace').append($chip); break;
             }
         },
 
         newCard: function (who, x, y, score) {
             $card = $('<div class="card">');
             $card.css('background-position', x + 'px ' + y + 'px');
-            debugger;
+//            debugger;
             switch(who) {
                 case 0:
                 {
