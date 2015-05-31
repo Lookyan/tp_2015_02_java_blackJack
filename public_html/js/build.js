@@ -13759,7 +13759,7 @@ define('models/gametable',[
                                 self.cardProcess(who, card, player.score);
                             });
                         }
-                        //player. name bet cards... Show!
+                        self.trigger('active', {"player1": self.get("player1"), "player3": self.get("player3")});
                     });
                     break;
                 }
@@ -13823,7 +13823,22 @@ define('models/gametable',[
                 }
                 case "exit":
                 {
-                    //body.player exits
+                    if(this.get("player1") == response.body.player) {
+                        this.set({"player1": ""});
+                    } else if(this.get("player3") == response.body.player) {
+                        this.set({"player3": ""});
+                    }
+                    self.trigger('active', {"player1": self.get("player1"), "player3": self.get("player3")});
+                    break;
+                }
+                case "new":
+                {
+                    if(this.get("player1") == "") {
+                        this.set({"player1": response.body.player});
+                    } else if(this.get("player3") == "") {
+                        this.set({"player3": response.body.player});
+                    }
+                    self.trigger('active', {"player1": self.get("player1"), "player3": self.get("player3")});
                     break;
                 }
             }
@@ -13956,8 +13971,11 @@ define('views/game',[
             this.model.on("newCard", this.newCard.bind(this));
             this.model.on("end", this.end.bind(this));
             this.model.on("wins", this.wins.bind(this));
+            this.model.on("active", this.active.bind(this));
             $body.append(this.el);
             this.$el.css("height", "100%");
+            this.$el.find('.leftplayer__cardsplace > .lbl').css("color", "#809B83");
+            this.$el.find('.rightplayer__cardsplace > .lbl').css("color", "#809B83");
 
 //            this.playerCards1 = new PlayerCards({cards: this.model.player1Cards});
 //            this.playerCards1.listenTo(this.model.player1Cards, 'add remove reset', this.playerCards1.render);
@@ -14081,6 +14099,25 @@ define('views/game',[
                 case 1: this.$el.find('.leftplayer__cardsplace > .result').text(str); break;
                 case 2: this.$el.find('.mainplayer__cardsplace > .cards > .result').text(str); break;
                 case 3: this.$el.find('.rightplayer__cardsplace > .result').text(str); break;
+            }
+        },
+
+        active: function (players) {
+            if(players.player1 != "") {
+                this.$el.find('.leftplayer__cardsplace > .lbl').css("color", "#fff");
+                this.$el.find('.leftplayer__cardsplace > .lbl').text("Left player (" + players.player1 + ")");
+            } else {
+                this.$el.find('.leftplayer__cardsplace > .lbl').css("color", "#809B83");
+                this.$el.find('.leftplayer__cardsplace > .lbl').text("Left player");
+                this.$el.find('.leftplayer__cardplace > .cardset').empty();
+                this.$el.find('.leftplayer__cardplace > .score').text("0");
+            }
+            if(players.player3 != "") {
+                this.$el.find('.rightplayer__cardsplace > .lbl').css("color", "#fff");
+                this.$el.find('.rightplayer__cardsplace > .lbl').text("Right player (" + players.player3 + ")");
+            } else {
+                this.$el.find('.rightplayer__cardsplace > .lbl').css("color", "#809B83");
+                this.$el.find('.rightplayer__cardsplace > .lbl').text("Right player");
             }
         }
 

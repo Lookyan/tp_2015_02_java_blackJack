@@ -102,7 +102,7 @@ define([
                                 self.cardProcess(who, card, player.score);
                             });
                         }
-                        //player. name bet cards... Show!
+                        self.trigger('active', {"player1": self.get("player1"), "player3": self.get("player3")});
                     });
                     break;
                 }
@@ -166,7 +166,22 @@ define([
                 }
                 case "exit":
                 {
-                    //body.player exits
+                    if(this.get("player1") == response.body.player) {
+                        this.set({"player1": ""});
+                    } else if(this.get("player3") == response.body.player) {
+                        this.set({"player3": ""});
+                    }
+                    self.trigger('active', {"player1": self.get("player1"), "player3": self.get("player3")});
+                    break;
+                }
+                case "new":
+                {
+                    if(this.get("player1") == "") {
+                        this.set({"player1": response.body.player});
+                    } else if(this.get("player3") == "") {
+                        this.set({"player3": response.body.player});
+                    }
+                    self.trigger('active', {"player1": self.get("player1"), "player3": self.get("player3")});
                     break;
                 }
             }
