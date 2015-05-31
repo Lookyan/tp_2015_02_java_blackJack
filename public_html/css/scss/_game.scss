@@ -128,3 +128,31 @@
   font-family: Chewy, Georgia, serif;
   text-align: center;
 }
+
+.score {
+  display: none;
+  background-color: #256107;
+  width: 60px;
+  height: 40px;
+  border: solid 2px;
+  border-color: #7EB065;
+  -ms-border-radius: 5px;
+  border-radius: 5px;
+  color: #fff;
+  font-family: Chewy, Georgia, serif;
+  font-size: 18pt;
+  text-align: center;
+  padding-top: 5px;
+  margin-top: 6px;
+  float: left;
+}
+
+.result {
+  display: block;
+  margin-top: 10px;
+  margin-left: 10px;
+  float: left;
+  font-family: Chewy, Georgia, serif;
+  font-size: 25pt;
+  color: #FFDF00;
+}

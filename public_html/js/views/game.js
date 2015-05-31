@@ -69,6 +69,10 @@ define([
             this.$el.find('.leftplayer__cardsplace > .cardset').empty();
             this.$el.find('.mainplayer__cardsplace > .cards > .cardset').empty();
             this.$el.find('.rightplayer__cardsplace > .cardset').empty();
+            this.$el.find('.leftplayer__cardsplace > .result').text("");
+            this.$el.find('.mainplayer__cardsplace > .cards > .result').text("");
+            this.$el.find('.rightplayer__cardsplace > .result').text("");
+            this.$el.find('.score').css('display', 'block');
             var amount = parseInt($(e.currentTarget).children('span').eq(0).text(), 10);
             this.model.bet(amount);
         },
@@ -105,11 +109,32 @@ define([
         newCard: function (who, x, y, score) {
             $card = $('<div class="card">');
             $card.css('background-position', x + 'px ' + y + 'px');
+            debugger;
             switch(who) {
-                case 0: this.$el.find('.dealer__cardsplace > .cardset').append($card); break;
-                case 1: this.$el.find('.leftplayer__cardsplace > .cardset').append($card); break;
-                case 2: this.$el.find('.mainplayer__cardsplace > .cards > .cardset').append($card); break;
-                case 3: this.$el.find('.rightplayer__cardsplace > .cardset').append($card); break;
+                case 0:
+                {
+                    this.$el.find('.dealer__cardsplace > .cardset').append($card);
+                    this.$el.find('.dealer__cardsplace > .score').text(score);
+                    break;
+                }
+                case 1:
+                {
+                    this.$el.find('.leftplayer__cardsplace > .cardset').append($card);
+                    this.$el.find('.leftplayer__cardsplace > .score').text(score);
+                    break;
+                }
+                case 2:
+                {
+                    this.$el.find('.mainplayer__cardsplace > .cards > .cardset').append($card);
+                    this.$el.find('.mainplayer__cardsplace > .cards > .score').text(score);
+                    break;
+                }
+                case 3:
+                {
+                    this.$el.find('.rightplayer__cardsplace > .cardset').append($card);
+                    this.$el.find('.rightplayer__cardsplace > .score').text(score);
+                    break;
+                }
             }
         },
 
@@ -118,7 +143,20 @@ define([
         },
 
         wins: function (who, num) {
-            console.log("win:" + who + ": " + num);
+            var str = "";
+            num = Number(num, 10);
+            if(num > 0) {
+                str = "Win +" + num;
+            } else if(num == 0) {
+                str = "Push";
+            } else {
+                str = "Lost " + num;
+            }
+            switch(who) {
+                case 1: this.$el.find('.leftplayer__cardsplace > .result').text(str); break;
+                case 2: this.$el.find('.mainplayer__cardsplace > .cards > .result').text(str); break;
+                case 3: this.$el.find('.rightplayer__cardsplace > .result').text(str); break;
+            }
         }
 
     });

@@ -65,6 +65,7 @@ define([
         },
 
         start: function() {
+            debugger;
             this.set({"me": UserModel.get("name")});
             this.ws = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/gameplay");
             this.ws.onopen = this.onOpen;
@@ -83,7 +84,7 @@ define([
 
         onMessage: function(event) {
             var self = this;
-            debugger;
+//            debugger;
             var response = JSON.parse(event.data);
             switch(response.body.type) {
                 case "state":
@@ -105,7 +106,7 @@ define([
                     switch(response.body.phase) {
                         case "BET":
                         {
-                            this.trigger('betPhase', 2);
+                            this.trigger('betPhase');
                             break;
                         }
                         case "PLAY":
@@ -183,7 +184,6 @@ define([
                     break;
                 }
             }
-//            console.log(event.data);
         },
 
         onClose: function(event) {

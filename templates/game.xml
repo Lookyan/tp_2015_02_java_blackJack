@@ -9,6 +9,8 @@
                     left cards
                     <div class="cardset">
                     </div>
+                    <span class="score">0</span>
+                    <span class="result"></span>
                 </div>
                 <div class="leftplayer__chipsplace">
                     left chips
@@ -17,16 +19,17 @@
             </div>
             <div class="mainplayer">
                 <div class="dealer__cardsplace">
-                    dealer cards
+                    dealer
                     <div class="cardset">
-
                     </div>
+                    <span class="score">0</span>
                 </div>
                 <div class="mainplayer__cardsplace">
                     <div class="cards js-cards">
                         <div class="cardset">
-
                         </div>
+                        <span class="score">0</span>
+                        <span class="result"></span>
                     </div>
                     <div class="buttons js-buttons">
                         <button class="actbutton js-hitbutton">HIT</button>
@@ -43,9 +46,11 @@
             <div class="rightplayer">
                 <div class="rightplayer__freespace"></div>
                 <div class="rightplayer__cardsplace">
-                    right cards test
+                    right cards
                     <div class="cardset">
                     </div>
+                    <span class="score">0</span>
+                    <span class="result"></span>
                 </div>
                 <div class="rightplayer__chipsplace">
                     right chips
