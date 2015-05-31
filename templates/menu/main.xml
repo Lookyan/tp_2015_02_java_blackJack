@@ -1,4 +1,5 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+    <div class="logo"></div>
     <div class="menu">
         <p>Hi, <fest:value>json.name</fest:value></p>
         <a class="menu__item menu__item_button" href="#scoreboard">Scoreboard</a>

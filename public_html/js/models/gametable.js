@@ -28,6 +28,8 @@ define([
             this.allCards = new CardsList();
             this.dealerCards = new CardsList();
             this.player1Cards = new CardsList();
+            this.meCards = new CardsList();
+            this.player3Cards = new CardsList();
 
             this.listenTo(this.allCards, 'add', this.spreadNewCards);
 
@@ -81,7 +83,7 @@ define([
 
         onMessage: function(event) {
             var self = this;
-//            debugger;
+            debugger;
             var response = JSON.parse(event.data);
             switch(response.body.type) {
                 case "state":
@@ -127,7 +129,58 @@ define([
                 }
                 case "card":
                 {
-                    debugger;
+                    var who = 0;
+                    switch(response.body.owner) {
+                        case this.get("player1"): who = 1; break;
+                        case this.get("me"): who = 2; break;
+                        case this.get("player2"): who = 3; break;
+                        case "#dealer": who = 0; break;
+                    }
+                    var card = response.body.card;
+                    var value = card[0];
+                    var suit = card[1];
+                    switch(value) {
+                        case 'T': value = 10; break;
+                        case 'J': value = 11; break;
+                        case 'Q': value = 12; break;
+                        case 'K': value = 13; break;
+                        case 'A': value = 14; break;
+                    }
+                    value = value - 2;
+                    var x = value * (-81); // смещение для спрайта
+                    var y = 0;
+                    var yDelta = -118;
+                    switch(suit) {
+                        case 'h': y = 0; break;
+                        case 'd': y = yDelta; break;
+                        case 'c': y = yDelta * 2; break;
+                        case 's': y = yDelta * 3; break;
+                    }
+                    this.trigger('newCard', who, x, y, response.body.score);
+                    break;
+                }
+                case "END":
+                {
+                    this.trigger('end');
+                    break;
+                }
+                case "wins":
+                {
+                    _.each(response.body.wins, function (num, player) {
+                        var who = 0;
+                        switch(player) {
+                            case self.get("player1"): who = 1; break;
+                            case self.get("me"): who = 2; break;
+                            case self.get("player2"): who = 3; break;
+                        }
+                        self.trigger('wins', who, num);
+                    });
+                    break;
+                }
+                case "exit":
+                {
+                    //body.player exits
+                    break;
                 }
             }
 //            console.log(event.data);

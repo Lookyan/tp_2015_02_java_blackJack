@@ -13158,7 +13158,7 @@ define('views/menu/login',[
 
     return View;
 });
-define('tmpl/menu/main',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var json=__fest_context;__fest_buf+=("<div class=\"menu\"><p>Hi,");try{__fest_buf+=(__fest_escapeHTML(json.name))}catch(e){__fest_log_error(e.message + "2");}__fest_buf+=("</p><a class=\"menu__item menu__item_button\" href=\"#scoreboard\">Scoreboard</a><a class=\"menu__item menu__item_button\" href=\"#game\">Game</a><a class=\"menu__item menu__item_button\" href=\"#login\">Login</a><a class=\"menu__item menu__item_button\" href=\"#signup\">Sign up</a><a class=\"menu__item menu__item_button js-logout\" href=\"#\">Logout</a><a class=\"menu__item menu__item_button\" href=\"#token\">Connect phone</a></div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
+define('tmpl/menu/main',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var json=__fest_context;__fest_buf+=("<div class=\"logo\"></div><div class=\"menu\"><p>Hi,");try{__fest_buf+=(__fest_escapeHTML(json.name))}catch(e){__fest_log_error(e.message + "3");}__fest_buf+=("</p><a class=\"menu__item menu__item_button\" href=\"#scoreboard\">Scoreboard</a><a class=\"menu__item menu__item_button\" href=\"#game\">Game</a><a class=\"menu__item menu__item_button\" href=\"#login\">Login</a><a class=\"menu__item menu__item_button\" href=\"#signup\">Sign up</a><a class=\"menu__item menu__item_button js-logout\" href=\"#\">Logout</a><a class=\"menu__item menu__item_button\" href=\"#token\">Connect phone</a></div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
 define('views/menu/main',[
     'backbone',
     'tmpl/menu/main',
@@ -13207,7 +13207,7 @@ define('views/menu/main',[
 
     return View;
 });
-define('tmpl/game',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var json=__fest_context;__fest_buf+=("<div class=\"gamefield\"><div class=\"gametable\"><div class=\"leftplayer\"><div class=\"leftplayer__freespace\"><a class=\"actbutton\" href=\"\/#\">BACK</a></div><div class=\"leftplayer__cardsplace\">left cards</div><div class=\"leftplayer__chipsplace\">left chips</div><div class=\"leftplayer__freespace\"></div></div><div class=\"mainplayer\"><div class=\"dealer__cardsplace\">dealer cards</div><div class=\"mainplayer__cardsplace\"><div class=\"cards js-cards\"></div><div class=\"buttons js-buttons\"><button class=\"actbutton js-hitbutton\">HIT</button><br/><button class=\"actbutton js-standbutton\">STAND</button><br/></div></div><div class=\"mainplayer__chipsplace\">main player chips</div></div><div class=\"rightplayer\"><div class=\"rightplayer__freespace\"></div><div class=\"rightplayer__cardsplace\">right cards test<div class=\"cardset\"><div class=\"card\"></div><div class=\"card\"></div></div></div><div class=\"rightplayer__chipsplace\">right chips</div><div class=\"rightplayer__freespace\"></div></div></div><div class=\"playerboard\"><div class=\"chip red js-bet\"><span>5</span></div><div class=\"chip yellow js-bet\"><span>50</span></div><div class=\"chip blue js-bet\"><span>100</span></div></div></div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
+define('tmpl/game',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var json=__fest_context;__fest_buf+=("<div class=\"gamefield\"><div class=\"gametable\"><div class=\"leftplayer\"><div class=\"leftplayer__freespace\"><a class=\"actbutton\" href=\"\/#\">BACK</a></div><div class=\"leftplayer__cardsplace\">left cards<div class=\"cardset\"></div></div><div class=\"leftplayer__chipsplace\">left chips</div><div class=\"leftplayer__freespace\"></div></div><div class=\"mainplayer\"><div class=\"dealer__cardsplace\">dealer cards<div class=\"cardset\"></div></div><div class=\"mainplayer__cardsplace\"><div class=\"cards js-cards\"><div class=\"cardset\"></div></div><div class=\"buttons js-buttons\"><button class=\"actbutton js-hitbutton\">HIT</button><br/><button class=\"actbutton js-standbutton\">STAND</button><br/></div></div><div class=\"mainplayer__chipsplace\">main player chips</div></div><div class=\"rightplayer\"><div class=\"rightplayer__freespace\"></div><div class=\"rightplayer__cardsplace\">right cards test<div class=\"cardset\"></div></div><div class=\"rightplayer__chipsplace\">right chips</div><div class=\"rightplayer__freespace\"></div></div></div><div class=\"playerboard\"><div class=\"chip red js-bet\"><span>5</span></div><div class=\"chip yellow js-bet\"><span>50</span></div><div class=\"chip blue js-bet\"><span>100</span></div></div></div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
 define('models/card',[
     'backbone'
 ], function(
@@ -13275,6 +13275,8 @@ define('models/gametable',[
             this.allCards = new CardsList();
             this.dealerCards = new CardsList();
             this.player1Cards = new CardsList();
+            this.meCards = new CardsList();
+            this.player3Cards = new CardsList();
 
             this.listenTo(this.allCards, 'add', this.spreadNewCards);
 
@@ -13328,7 +13330,7 @@ define('models/gametable',[
 
         onMessage: function(event) {
             var self = this;
-//            debugger;
+            debugger;
             var response = JSON.parse(event.data);
             switch(response.body.type) {
                 case "state":
@@ -13374,7 +13376,58 @@ define('models/gametable',[
                 }
                 case "card":
                 {
-                    debugger;
+                    var who = 0;
+                    switch(response.body.owner) {
+                        case this.get("player1"): who = 1; break;
+                        case this.get("me"): who = 2; break;
+                        case this.get("player2"): who = 3; break;
+                        case "#dealer": who = 0; break;
+                    }
+                    var card = response.body.card;
+                    var value = card[0];
+                    var suit = card[1];
+                    switch(value) {
+                        case 'T': value = 10; break;
+                        case 'J': value = 11; break;
+                        case 'Q': value = 12; break;
+                        case 'K': value = 13; break;
+                        case 'A': value = 14; break;
+                    }
+                    value = value - 2;
+                    var x = value * (-81); // смещение для спрайта
+                    var y = 0;
+                    var yDelta = -118;
+                    switch(suit) {
+                        case 'h': y = 0; break;
+                        case 'd': y = yDelta; break;
+                        case 'c': y = yDelta * 2; break;
+                        case 's': y = yDelta * 3; break;
+                    }
+                    this.trigger('newCard', who, x, y, response.body.score);
+                    break;
+                }
+                case "END":
+                {
+                    this.trigger('end');
+                    break;
+                }
+                case "wins":
+                {
+                    _.each(response.body.wins, function (num, player) {
+                        var who = 0;
+                        switch(player) {
+                            case self.get("player1"): who = 1; break;
+                            case self.get("me"): who = 2; break;
+                            case self.get("player2"): who = 3; break;
+                        }
+                        self.trigger('wins', who, num);
+                    });
+                    break;
+                }
+                case "exit":
+                {
+                    //body.player exits
+                    break;
                 }
             }
 //            console.log(event.data);
@@ -13481,15 +13534,18 @@ define('views/game',[
             this.model.on("betPhase", this.betPhase.bind(this));
             this.model.on("playPhase", this.playPhase.bind(this));
             this.model.on("betShow", this.betShow.bind(this));
+            this.model.on("newCard", this.newCard.bind(this));
+            this.model.on("end", this.end.bind(this));
+            this.model.on("wins", this.wins.bind(this));
             $body.append(this.el);
             this.$el.css("height", "100%");
 
-            this.playerCards1 = new PlayerCards({cards: this.model.player1Cards});
-            this.playerCards1.listenTo(this.model.player1Cards, 'add remove reset', this.playerCards1.render);
+//            this.playerCards1 = new PlayerCards({cards: this.model.player1Cards});
+//            this.playerCards1.listenTo(this.model.player1Cards, 'add remove reset', this.playerCards1.render);
             this.render();
-            this.playerCards1.setElement('.js-cards');
+//            this.playerCards1.setElement('.js-cards');
             this.hide();
-            this.playerCards1.render();
+//            this.playerCards1.render();
         },
 
         render: function () {
@@ -13510,6 +13566,11 @@ define('views/game',[
         },
 
         betButtonClick: function(e) {
+            debugger;
+            this.$el.find('.dealer__cardsplace > .cardset').empty();
+            this.$el.find('.leftplayer__cardsplace > .cardset').empty();
+            this.$el.find('.mainplayer__cardsplace > .cards > .cardset').empty();
+            this.$el.find('.rightplayer__cardsplace > .cardset').empty();
             var amount = parseInt($(e.currentTarget).children('span').eq(0).text(), 10);
             this.model.bet(amount);
         },
@@ -13528,7 +13589,6 @@ define('views/game',[
         betPhase: function (player) {
             this.$el.find('.playerboard').show();
             this.$el.find('.js-buttons').hide();
-            console.log('bet!');
         },
 
         playPhase: function () {
@@ -13542,6 +13602,25 @@ define('views/game',[
                 case 2: this.$el.find('.mainplayer__chipsplace').append(bet); break;
                 case 3: this.$el.find('.rightplayer__chipsplace').append(bet); break;
             }
+        },
+
+        newCard: function (who, x, y, score) {
+            $card = $('<div class="card">');
+            $card.css('background-position', x + 'px ' + y + 'px');
+            switch(who) {
+                case 0: this.$el.find('.dealer__cardsplace > .cardset').append($card); break;
+                case 1: this.$el.find('.leftplayer__cardsplace > .cardset').append($card); break;
+                case 2: this.$el.find('.mainplayer__cardsplace > .cards > .cardset').append($card); break;
+                case 3: this.$el.find('.rightplayer__cardsplace > .cardset').append($card); break;
+            }
+        },
+
+        end: function () {
+            this.$el.find('.js-buttons').hide();
+        },
+
+        wins: function (who, num) {
+            console.log("win:" + who + ": " + num);
         }
 
     });

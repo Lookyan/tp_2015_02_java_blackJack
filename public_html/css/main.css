@@ -16,6 +16,7 @@ body {
 
 .menu {
   margin-top: 30px;
+  margin-bottom: 30px;
   width: 450px;
   margin-left: auto;
   margin-right: auto;
@@ -76,6 +77,15 @@ body {
   outline: none;
   border: #1895d7 2px solid;
   color: #1895d7; }
+
+.logo {
+  margin-top: 15px;
+  width: 150px;
+  height: 150px;
+  margin-left: auto;
+  margin-right: auto;
+  background: url('/img/logo.png');
+  background-size: cover; }
 
 .gamefield {
   background-color: yellow;
@@ -161,7 +171,7 @@ body {
   float: left;
   background: url('/img/card.gif') 0 0;
   width: 81px;
-  height: 118px; }
+  height: 115px; }
 
 .chip {
   cursor: pointer;

@@ -32,15 +32,18 @@ define([
             this.model.on("betPhase", this.betPhase.bind(this));
             this.model.on("playPhase", this.playPhase.bind(this));
             this.model.on("betShow", this.betShow.bind(this));
+            this.model.on("newCard", this.newCard.bind(this));
+            this.model.on("end", this.end.bind(this));
+            this.model.on("wins", this.wins.bind(this));
             $body.append(this.el);
             this.$el.css("height", "100%");
 
-            this.playerCards1 = new PlayerCards({cards: this.model.player1Cards});
-            this.playerCards1.listenTo(this.model.player1Cards, 'add remove reset', this.playerCards1.render);
+//            this.playerCards1 = new PlayerCards({cards: this.model.player1Cards});
+//            this.playerCards1.listenTo(this.model.player1Cards, 'add remove reset', this.playerCards1.render);
             this.render();
-            this.playerCards1.setElement('.js-cards');
+//            this.playerCards1.setElement('.js-cards');
             this.hide();
-            this.playerCards1.render();
+//            this.playerCards1.render();
         },
 
         render: function () {
@@ -61,6 +64,11 @@ define([
         },
 
         betButtonClick: function(e) {
+            debugger;
+            this.$el.find('.dealer__cardsplace > .cardset').empty();
+            this.$el.find('.leftplayer__cardsplace > .cardset').empty();
+            this.$el.find('.mainplayer__cardsplace > .cards > .cardset').empty();
+            this.$el.find('.rightplayer__cardsplace > .cardset').empty();
             var amount = parseInt($(e.currentTarget).children('span').eq(0).text(), 10);
             this.model.bet(amount);
         },
@@ -79,7 +87,6 @@ define([
         betPhase: function (player) {
             this.$el.find('.playerboard').show();
             this.$el.find('.js-buttons').hide();
-            console.log('bet!');
         },
 
         playPhase: function () {
@@ -93,6 +100,25 @@ define([
                 case 2: this.$el.find('.mainplayer__chipsplace').append(bet); break;
                 case 3: this.$el.find('.rightplayer__chipsplace').append(bet); break;
             }
+        },
+
+        newCard: function (who, x, y, score) {
+            $card = $('<div class="card">');
+            $card.css('background-position', x + 'px ' + y + 'px');
+            switch(who) {
+                case 0: this.$el.find('.dealer__cardsplace > .cardset').append($card); break;
+                case 1: this.$el.find('.leftplayer__cardsplace > .cardset').append($card); break;
+                case 2: this.$el.find('.mainplayer__cardsplace > .cards > .cardset').append($card); break;
+                case 3: this.$el.find('.rightplayer__cardsplace > .cardset').append($card); break;
+            }
+        },
+
+        end: function () {
+            this.$el.find('.js-buttons').hide();
+        },
+
+        wins: function (who, num) {
+            console.log("win:" + who + ": " + num);
         }
 
     });
