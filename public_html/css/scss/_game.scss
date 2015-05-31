@@ -24,6 +24,7 @@
   //background-color: #CD853F;
   height: 100px;
   width: 100%;
+  display: none;
 }
 
 .secondaryplayer {
@@ -100,10 +101,15 @@
   @extend .place;
 }
 
-.cards,
+.cards {
+  float: left;
+  width: 50%;
+}
+
 .buttons {
   float: left;
   width: 50%;
+  display: none;
 }
 
 .actbutton {

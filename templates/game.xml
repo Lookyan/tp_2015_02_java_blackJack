@@ -18,7 +18,9 @@
                     dealer cards
                 </div>
                 <div class="mainplayer__cardsplace">
-                    <div class="cards js-cards"></div>
+                    <div class="cards js-cards">
+
+                    </div>
                     <div class="buttons js-buttons">
                         <button class="actbutton js-hitbutton">HIT</button>
                         <br/>
@@ -34,7 +36,11 @@
             <div class="rightplayer">
                 <div class="rightplayer__freespace"></div>
                 <div class="rightplayer__cardsplace">
-                    right cards
+                    right cards test
+                    <div class="cardset">
+                        <div class="card"></div>
+                        <div class="card"></div>
+                    </div>
                 </div>
                 <div class="rightplayer__chipsplace">
                     right chips

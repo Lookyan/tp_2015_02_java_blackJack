@@ -29,7 +29,9 @@ define([
         model: new GameTable,
 
         initialize: function ($body) {
-            this.model.on("betPhase", this.betPhase);
+            this.model.on("betPhase", this.betPhase.bind(this));
+            this.model.on("playPhase", this.playPhase.bind(this));
+            this.model.on("betShow", this.betShow.bind(this));
             $body.append(this.el);
             this.$el.css("height", "100%");
 
@@ -75,7 +77,22 @@ define([
         },
 
         betPhase: function (player) {
+            this.$el.find('.playerboard').show();
+            this.$el.find('.js-buttons').hide();
             console.log('bet!');
+        },
+
+        playPhase: function () {
+            this.$el.find('.playerboard').hide();
+            this.$el.find('.js-buttons').show();
+        },
+
+        betShow: function (who, bet) {
+            switch(who) {
+                case 1: this.$el.find('.leftplayer__chipsplace').append(bet); break;
+                case 2: this.$el.find('.mainplayer__chipsplace').append(bet); break;
+                case 3: this.$el.find('.rightplayer__chipsplace').append(bet); break;
+            }
         }
 
     });

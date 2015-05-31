@@ -1,14 +1,19 @@
 define([
     'backbone',
-    'collections/cardsList'
+    'collections/cardsList',
+    'models/user'
 ], function(
     Backbone,
-    CardsList
+    CardsList,
+    UserModel
 ){
 
     var Model = Backbone.Model.extend({
         defaults: {
             phase: "start",
+            player1: "",
+            me: "",
+            player3: ""
         },
 
         //allCards: new CardsList(),
@@ -58,6 +63,7 @@ define([
         },
 
         start: function() {
+            this.set({"me": UserModel.get("name")});
             this.ws = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/gameplay");
             this.ws.onopen = this.onOpen;
             this.ws.onclose = this.onClose;
@@ -74,12 +80,22 @@ define([
         },
 
         onMessage: function(event) {
-            debugger;
+            var self = this;
+//            debugger;
             var response = JSON.parse(event.data);
             switch(response.body.type) {
                 case "state":
                 {
-                    console.log('state');
+                    _.each(response.body.players, function (player) {
+                        if(player.name != self.get("me") && player.name != "#dealer") {
+                            if(self.get("player1") == "") {
+                                self.set({"player1": player.name});
+                            } else {
+                                self.set({"player3": player.name});
+                            }
+                        }
+                        //player. name bet cards... Show!
+                    });
                     break;
                 }
                 case "phase":
@@ -88,9 +104,30 @@ define([
                         case "BET":
                         {
                             this.trigger('betPhase', 2);
+                            break;
+                        }
+                        case "PLAY":
+                        {
+                            this.trigger('playPhase');
+                            break;
                         }
                     }
                     break;
+                }
+                case "bet":
+                {
+                    var who = 0;
+                    switch(response.body.owner) {
+                        case this.get("player1"): who = 1; break;
+                        case this.get("me"): who = 2; break;
+                        case this.get("player2"): who = 3; break;
+                    }
+                    this.trigger('betShow', who, response.body.bet);
+                    break;
+                }
+                case "card":
+                {
+                    debugger;
                 }
             }
 //            console.log(event.data);

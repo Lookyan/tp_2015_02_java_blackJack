@@ -99,7 +99,8 @@ body {
   position: absolute;
   bottom: 0;
   height: 100px;
-  width: 100%; }
+  width: 100%;
+  display: none; }
 
 .secondaryplayer, .leftplayer, .rightplayer {
   height: 100%;
@@ -127,9 +128,14 @@ body {
   -ms-border-radius: 30px;
   border-radius: 30px; }
 
-.cards, .buttons {
+.cards {
   float: left;
   width: 50%; }
+
+.buttons {
+  float: left;
+  width: 50%;
+  display: none; }
 
 .actbutton {
   border: 0px;
@@ -147,13 +153,15 @@ body {
   font-family: Chewy, Georgia, serif;
   text-align: center; }
 
+.cardset {
+  margin-left: 50px; }
+
 .card {
-  height: 100px;
-  width: 70px;
-  background-color: red;
-  position: absolute;
-  top: -400px;
-  left: 0px; }
+  margin-left: -50px;
+  float: left;
+  background: url('/img/card.gif') 0 0;
+  width: 81px;
+  height: 118px; }
 
 .chip {
   cursor: pointer;
