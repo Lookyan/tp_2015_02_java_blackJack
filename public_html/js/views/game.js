@@ -68,9 +68,6 @@ define([
 
         betButtonClick: function(e) {
             this.$el.find('.playerboard').hide();
-            this.$el.find('.leftplayer__chipsplace').empty();
-            this.$el.find('.mainplayer__chipsplace').empty();
-            this.$el.find('.rightplayer__chipsplace').empty();
             this.$el.find('.dealer__cardsplace > .cardset').empty();
             this.$el.find('.leftplayer__cardsplace > .cardset').empty();
             this.$el.find('.mainplayer__cardsplace > .cards > .cardset').empty();
@@ -78,6 +75,7 @@ define([
             this.$el.find('.leftplayer__cardsplace > .result').text("");
             this.$el.find('.mainplayer__cardsplace > .cards > .result').text("");
             this.$el.find('.rightplayer__cardsplace > .result').text("");
+            this.$el.find('.score').text("0");
             this.$el.find('.score').css('display', 'block');
             var amount = parseInt($(e.currentTarget).children('span').eq(0).text(), 10);
             this.model.bet(amount);
@@ -164,6 +162,10 @@ define([
                 case 2: this.$el.find('.mainplayer__cardsplace > .cards > .result').text(str); break;
                 case 3: this.$el.find('.rightplayer__cardsplace > .result').text(str); break;
             }
+
+            this.$el.find('.leftplayer__chipsplace').empty();
+            this.$el.find('.mainplayer__chipsplace').empty();
+            this.$el.find('.rightplayer__chipsplace').empty();
         },
 
         active: function (players) {

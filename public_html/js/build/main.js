@@ -13380,7 +13380,7 @@ define('models/gametable',[
                     switch(response.body.owner) {
                         case this.get("player1"): who = 1; break;
                         case this.get("me"): who = 2; break;
-                        case this.get("player2"): who = 3; break;
+                        case this.get("player3"): who = 3; break;
                     }
                     this.trigger('betShow', who, response.body.bet);
                     break;
@@ -13391,7 +13391,7 @@ define('models/gametable',[
                     switch(response.body.owner) {
                         case this.get("player1"): who = 1; break;
                         case this.get("me"): who = 2; break;
-                        case this.get("player2"): who = 3; break;
+                        case this.get("player3"): who = 3; break;
                         case "#dealer": who = 0; break;
                     }
                     var card = response.body.card;
@@ -13410,7 +13410,7 @@ define('models/gametable',[
                         switch(player) {
                             case self.get("player1"): who = 1; break;
                             case self.get("me"): who = 2; break;
-                            case self.get("player2"): who = 3; break;
+                            case self.get("player3"): who = 3; break;
                         }
                         self.trigger('wins', who, num);
                     });
@@ -13599,9 +13599,6 @@ define('views/game',[
 
         betButtonClick: function(e) {
             this.$el.find('.playerboard').hide();
-            this.$el.find('.leftplayer__chipsplace').empty();
-            this.$el.find('.mainplayer__chipsplace').empty();
-            this.$el.find('.rightplayer__chipsplace').empty();
             this.$el.find('.dealer__cardsplace > .cardset').empty();
             this.$el.find('.leftplayer__cardsplace > .cardset').empty();
             this.$el.find('.mainplayer__cardsplace > .cards > .cardset').empty();
@@ -13609,6 +13606,7 @@ define('views/game',[
             this.$el.find('.leftplayer__cardsplace > .result').text("");
             this.$el.find('.mainplayer__cardsplace > .cards > .result').text("");
             this.$el.find('.rightplayer__cardsplace > .result').text("");
+            this.$el.find('.score').text("0");
             this.$el.find('.score').css('display', 'block');
             var amount = parseInt($(e.currentTarget).children('span').eq(0).text(), 10);
             this.model.bet(amount);
@@ -13695,6 +13693,10 @@ define('views/game',[
                 case 2: this.$el.find('.mainplayer__cardsplace > .cards > .result').text(str); break;
                 case 3: this.$el.find('.rightplayer__cardsplace > .result').text(str); break;
             }
+
+            this.$el.find('.leftplayer__chipsplace').empty();
+            this.$el.find('.mainplayer__chipsplace').empty();
+            this.$el.find('.rightplayer__chipsplace').empty();
         },
 
         active: function (players) {

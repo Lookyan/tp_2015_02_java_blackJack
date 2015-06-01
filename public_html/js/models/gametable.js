@@ -133,7 +133,7 @@ define([
                     switch(response.body.owner) {
                         case this.get("player1"): who = 1; break;
                         case this.get("me"): who = 2; break;
-                        case this.get("player2"): who = 3; break;
+                        case this.get("player3"): who = 3; break;
                     }
                     this.trigger('betShow', who, response.body.bet);
                     break;
@@ -144,7 +144,7 @@ define([
                     switch(response.body.owner) {
                         case this.get("player1"): who = 1; break;
                         case this.get("me"): who = 2; break;
-                        case this.get("player2"): who = 3; break;
+                        case this.get("player3"): who = 3; break;
                         case "#dealer": who = 0; break;
                     }
                     var card = response.body.card;
@@ -163,7 +163,7 @@ define([
                         switch(player) {
                             case self.get("player1"): who = 1; break;
                             case self.get("me"): who = 2; break;
-                            case self.get("player2"): who = 3; break;
+                            case self.get("player3"): who = 3; break;
                         }
                         self.trigger('wins', who, num);
                     });
