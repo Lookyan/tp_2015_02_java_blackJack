@@ -12,8 +12,7 @@ body {
   background-image: -webkit-radial-gradient(center center, ellipse farthest-corner, #65981e, #184d08);
   background-image: -moz-radial-gradient(center center, ellipse farthest-corner, #65981e, #184d08);
   background-image: -ms-radial-gradient(center center, ellipse farthest-corner, #65981e, #184d08);
-  font-family: Helvetica, serif;
-  overflow: hidden; }
+  font-family: Helvetica, serif; }
 
 .menu {
   margin-top: 30px;
@@ -119,8 +118,11 @@ body {
 
 .secondaryplayer, .leftplayer, .rightplayer {
   height: 100%;
-  width: 30%;
+  width: 28%;
   float: left; }
+
+.leftplayer {
+  padding: 10px; }
 
 .mainplayer {
   height: 100%;
@@ -132,10 +134,16 @@ body {
   border-color: rgba(208, 209, 78, 0.3);
   padding: 2%; }
 
-.place, .leftplayer__cardsplace, .rightplayer__cardsplace {
+.place {
   height: 33.33333333%;
   border-color: rgba(208, 209, 78, 0.3);
   padding: 2%; }
+
+.leftplayer__cardsplace {
+  height: 290px; }
+
+.rightplayer__cardsplace {
+  height: 290px; }
 
 .dealer__cardsplace {
   height: 230px; }
@@ -144,10 +152,12 @@ body {
   height: 230px; }
 
 .leftplayer__chipsplace {
-  height: 20%; }
+  height: 100px;
+  padding-top: 10px; }
 
 .rightplayer__chipsplace {
-  height: 20%; }
+  height: 100px;
+  padding-top: 10px; }
 
 .mainplayer__chipsplace {
   height: 100px;

@@ -34,12 +34,13 @@
 
 .secondaryplayer {
   height: 100%;
-  width: 30%;
+  width: 28%;
   float: left;
 }
 
 .leftplayer {
   @extend .secondaryplayer;
+  padding: 10px;
 }
 
 .rightplayer {
@@ -76,11 +77,11 @@
 }
 
 .leftplayer__cardsplace {
-  @extend .place;
+  height: 290px;
 }
 
 .rightplayer__cardsplace {
-  @extend .place;
+  height: 290px;
 }
 
 .dealer__cardsplace {
@@ -92,11 +93,13 @@
 }
 
 .leftplayer__chipsplace {
-  height: 20%;
+  height: 100px;
+  padding-top: 10px;
 }
 
 .rightplayer__chipsplace {
-  height: 20%;
+  height: 100px;
+  padding-top: 10px;
 }
 
 .mainplayer__chipsplace {

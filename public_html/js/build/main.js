@@ -13341,12 +13341,17 @@ define('models/gametable',[
                             if(self.get("player1") == "") {
                                 who = 1;
                                 self.set({"player1": player.name});
-                            } else {
+                            } else if(self.get("player3") == "") {
                                 who = 3;
                                 self.set({"player3": player.name});
                             }
                             _.each(player.cards, function (card) {
                                 self.cardProcess(who, card, player.score);
+                            });
+                        }
+                        if(player.name == "#dealer") {
+                            _.each(player.cards, function (card) {
+                                self.cardProcess(0, card, player.score);
                             });
                         }
                         self.trigger('active', {"player1": self.get("player1"), "player3": self.get("player3")});
@@ -13581,10 +13586,10 @@ define('views/game',[
         },
 
         hitButtonClick: function() {
-            var card = new CardModel({code: "5d", player: 1});
-            var cardView = new CardView({model: card})
-            this.$el.append(cardView.$el);
-            cardView.$el.children().eq(0).animate({ "top": "+=800px" }, "slow");
+//            var card = new CardModel({code: "5d", player: 1});
+//            var cardView = new CardView({model: card})
+//            this.$el.append(cardView.$el);
+//            cardView.$el.children().eq(0).animate({ "top": "+=800px" }, "slow");
             this.model.hit();
         },
 
@@ -13699,8 +13704,9 @@ define('views/game',[
             } else {
                 this.$el.find('.leftplayer__cardsplace > .lbl').css("color", "#809B83");
                 this.$el.find('.leftplayer__cardsplace > .lbl').text("Left player");
-                this.$el.find('.leftplayer__cardplace > .cardset').empty();
-                this.$el.find('.leftplayer__cardplace > .score').text("0");
+                this.$el.find('.leftplayer__cardsplace > .cardset').empty();
+                this.$el.find('.leftplayer__cardsplace > .score').text("0");
+                this.$el.find('.leftplayer__cardsplace > .result').text("");
             }
             if(players.player3 != "") {
                 this.$el.find('.rightplayer__cardsplace > .lbl').css("color", "#fff");
@@ -13708,6 +13714,9 @@ define('views/game',[
             } else {
                 this.$el.find('.rightplayer__cardsplace > .lbl').css("color", "#809B83");
                 this.$el.find('.rightplayer__cardsplace > .lbl').text("Right player");
+                this.$el.find('.rightplayer__cardsplace > .cardset').empty();
+                this.$el.find('.rightplayer__cardsplace > .score').text("0");
+                this.$el.find('.rightplayer__cardsplace > .result').text("");
             }
         }
 

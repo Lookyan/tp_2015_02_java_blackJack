@@ -94,12 +94,17 @@ define([
                             if(self.get("player1") == "") {
                                 who = 1;
                                 self.set({"player1": player.name});
-                            } else {
+                            } else if(self.get("player3") == "") {
                                 who = 3;
                                 self.set({"player3": player.name});
                             }
                             _.each(player.cards, function (card) {
                                 self.cardProcess(who, card, player.score);
+                            });
+                        }
+                        if(player.name == "#dealer") {
+                            _.each(player.cards, function (card) {
+                                self.cardProcess(0, card, player.score);
                             });
                         }
                         self.trigger('active', {"player1": self.get("player1"), "player3": self.get("player3")});

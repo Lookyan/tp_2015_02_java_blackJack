@@ -55,10 +55,10 @@ define([
         },
 
         hitButtonClick: function() {
-            var card = new CardModel({code: "5d", player: 1});
-            var cardView = new CardView({model: card})
-            this.$el.append(cardView.$el);
-            cardView.$el.children().eq(0).animate({ "top": "+=800px" }, "slow");
+//            var card = new CardModel({code: "5d", player: 1});
+//            var cardView = new CardView({model: card})
+//            this.$el.append(cardView.$el);
+//            cardView.$el.children().eq(0).animate({ "top": "+=800px" }, "slow");
             this.model.hit();
         },
 
@@ -173,8 +173,9 @@ define([
             } else {
                 this.$el.find('.leftplayer__cardsplace > .lbl').css("color", "#809B83");
                 this.$el.find('.leftplayer__cardsplace > .lbl').text("Left player");
-                this.$el.find('.leftplayer__cardplace > .cardset').empty();
-                this.$el.find('.leftplayer__cardplace > .score').text("0");
+                this.$el.find('.leftplayer__cardsplace > .cardset').empty();
+                this.$el.find('.leftplayer__cardsplace > .score').text("0");
+                this.$el.find('.leftplayer__cardsplace > .result').text("");
             }
             if(players.player3 != "") {
                 this.$el.find('.rightplayer__cardsplace > .lbl').css("color", "#fff");
@@ -182,6 +183,9 @@ define([
             } else {
                 this.$el.find('.rightplayer__cardsplace > .lbl').css("color", "#809B83");
                 this.$el.find('.rightplayer__cardsplace > .lbl').text("Right player");
+                this.$el.find('.rightplayer__cardsplace > .cardset').empty();
+                this.$el.find('.rightplayer__cardsplace > .score').text("0");
+                this.$el.find('.rightplayer__cardsplace > .result').text("");
             }
         }
 
