@@ -3,7 +3,7 @@
         <div class="gametable">
             <div class="leftplayer">
                 <div class="leftplayer__freespace">
-                    <a class="actbutton" href="/#">BACK</a>
+                    <a class="actbutton js-back" href="/#">BACK</a>
                 </div>
                 <div class="leftplayer__cardsplace">
                     <span class="lbl">Left player</span>

@@ -19,7 +19,8 @@ define([
         events: {
             'click .js-hitbutton': 'hitButtonClick',
             'click .js-standbutton': 'standButtonClick',
-            'click .js-bet': 'betButtonClick'
+            'click .js-bet': 'betButtonClick',
+            'click .js-back': 'backButtonClick'
         },
 
         template: tmpl,
@@ -81,6 +82,12 @@ define([
             this.model.bet(amount);
         },
 
+        backButtonClick: function () {
+//            this.clear();
+//            this.model.finish();
+//            this.model.clear().set(this.model.defaults);
+        },
+
         show: function () {
             this.model.start();
             this.$el.show();
@@ -88,7 +95,9 @@ define([
         },
 
         hide: function () {
+            this.clear();
             this.model.finish();
+            this.model.clear().set(this.model.defaults);
             this.$el.hide();
         },
 
@@ -114,7 +123,6 @@ define([
         newCard: function (who, x, y, score) {
             $card = $('<div class="card">');
             $card.css('background-position', x + 'px ' + y + 'px');
-//            debugger;
             switch(who) {
                 case 0:
                 {
@@ -189,6 +197,30 @@ define([
                 this.$el.find('.rightplayer__cardsplace > .score').text("0");
                 this.$el.find('.rightplayer__cardsplace > .result').text("");
             }
+        },
+
+        clear: function() {
+            this.$el.find('.playerboard').hide();
+            this.$el.find('.dealer__cardsplace > .cardset').empty();
+            this.$el.find('.leftplayer__cardsplace > .cardset').empty();
+            this.$el.find('.mainplayer__cardsplace > .cards > .cardset').empty();
+            this.$el.find('.rightplayer__cardsplace > .cardset').empty();
+            this.$el.find('.leftplayer__cardsplace > .result').text("");
+            this.$el.find('.mainplayer__cardsplace > .cards > .result').text("");
+            this.$el.find('.rightplayer__cardsplace > .result').text("");
+            this.$el.find('.leftplayer__chipsplace').empty();
+            this.$el.find('.mainplayer__chipsplace').empty();
+            this.$el.find('.rightplayer__chipsplace').empty();
+            this.$el.find('.buttons').hide();
+            this.$el.find('.leftplayer__cardsplace > .result').text("");
+            this.$el.find('.mainplayer__cardsplace > .cards > .result').text("");
+            this.$el.find('.rightplayer__cardsplace > .result').text("");
+            this.$el.find('.leftplayer__cardsplace > .lbl').text("Left player");
+            this.$el.find('.rightplayer__cardsplace > .lbl').text("Right player");
+            this.$el.find('.leftplayer__cardsplace > .lbl').css("color", "#809B83");
+            this.$el.find('.rightplayer__cardsplace > .lbl').css("color", "#809B83");
+            this.$el.find('.score').text("0");
+            this.$el.find('.score').hide();
         }
 
     });
