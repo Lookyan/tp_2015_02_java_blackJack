@@ -53,6 +53,7 @@ define([
                 this.set('chips', data.body.chips);
                 this.set('password', "");
                 this.isLogged = true;
+                this.isNew_ = false;
             }
             if (data.status === 404) {
                 if (data.body.error === 'wrong') {

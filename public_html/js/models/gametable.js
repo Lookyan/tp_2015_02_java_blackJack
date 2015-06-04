@@ -194,8 +194,11 @@ define([
 
         onClose: function(event) {
             console.log("Error " + JSON.stringify(event));
-            alert("Socket was closed");
-            Backbone.history.navigate('main', {trigger: true});
+            //TODO: remove alert
+            if(!_.isEmpty(event)) {
+                alert("Socket was closed");
+            }
+            Backbone.history.navigate('/', {trigger: true});
         },
 
         cardProcess: function(who, card, score) {
