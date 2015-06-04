@@ -29,21 +29,28 @@ public class AdminServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Map<String, Object> pageVariables = new HashMap<>();
-        pageVariables.put("usersCount", dbService.countAllUsers());
-        pageVariables.put("signedInCount", accountService.getSignedInUsersCount());
-
-        String stopParam = request.getParameter("stop");
-        if(stopParam != null) {
-            int timeMS = Integer.valueOf(stopParam);
-            logger.info("Server will be down after: "+ timeMS + " ms");
-            TimeHelper.sleep(timeMS);
-            logger.info("Shutdown");
-            dbService.shutdown();
-            System.exit(0);
+        String pass = request.getParameter("pass");
+        if (pass == null || !pass.equals("qwe123asd123zxc")) {
+            response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+            response.addHeader("Location", "/");
         } else {
-            response.getWriter().println(PageGenerator.getPage("admin.html", pageVariables));
-            response.setStatus(HttpServletResponse.SC_OK);
+
+            Map<String, Object> pageVariables = new HashMap<>();
+            pageVariables.put("usersCount", dbService.countAllUsers());
+            pageVariables.put("signedInCount", accountService.getSignedInUsersCount());
+
+            String stopParam = request.getParameter("stop");
+            if (stopParam != null) {
+                int timeMS = Integer.valueOf(stopParam);
+                logger.info("Server will be down after: " + timeMS + " ms");
+                TimeHelper.sleep(timeMS);
+                logger.info("Shutdown");
+                dbService.shutdown();
+                System.exit(0);
+            } else {
+                response.getWriter().println(PageGenerator.getPage("admin.html", pageVariables));
+                response.setStatus(HttpServletResponse.SC_OK);
+            }
         }
     }
 }

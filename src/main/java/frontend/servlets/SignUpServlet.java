@@ -67,6 +67,7 @@ public class SignUpServlet extends HttpServlet {
             }
 
             name = (String) message.get("name");
+            name = name.replaceAll("[^A-Za-z0-9]", "");
             password = (String) message.get("password");
             email = (String) message.get("email");
 
