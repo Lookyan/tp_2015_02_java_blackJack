@@ -109,6 +109,7 @@
 
 .cards {
   float: left;
+  clear: both;
   width: 50%;
 }
 
@@ -136,6 +137,7 @@
 }
 
 .score {
+  clear: both;
   display: none;
   background-color: #256107;
   width: 60px;
@@ -165,8 +167,28 @@
 
 .lbl {
   display: block;
-  clear: both;
+  float: left;
   font-size: 30pt;
   font-family: Chewy, Georgia, serif;
   color: #fff;
+}
+
+.chipsValue {
+  float: left;
+  margin-left: 40px;
+  margin-top: 3px;
+}
+
+.chipsImg {
+  width: 40px;
+}
+
+.chipsVal {
+  display: block;
+  float: right;
+  margin-top: 7px;
+  margin-left: 10px;
+  font-family: Chewy, Georgia, serif;
+  color: #F1C40F;
+  font-size: 17pt;
 }
