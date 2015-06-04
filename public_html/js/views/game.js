@@ -4,14 +4,16 @@ define([
     'models/gametable',
     'views/playerCards',
     'models/card',
-    'views/card'
+    'views/card',
+    'models/user'
 ], function(
     Backbone,
     tmpl,
     GameTable,
     PlayerCards,
     CardModel,
-    CardView
+    CardView,
+    UserModel
 ){
 
     var View = Backbone.View.extend({
@@ -41,6 +43,7 @@ define([
             this.$el.css("height", "100%");
             this.$el.find('.leftplayer__cardsplace > .lbl').css("color", "#809B83");
             this.$el.find('.rightplayer__cardsplace > .lbl').css("color", "#809B83");
+            UserModel.on("change:chips", this.updateChips.bind(this));
 
 //            this.playerCards1 = new PlayerCards({cards: this.model.player1Cards});
 //            this.playerCards1.listenTo(this.model.player1Cards, 'add remove reset', this.playerCards1.render);
@@ -90,6 +93,7 @@ define([
 
         show: function () {
             this.model.start();
+            this.$el.find('.chipsVal').text(UserModel.get('chips'));
             this.$el.show();
             this.trigger("show", this);
         },
@@ -221,6 +225,10 @@ define([
             this.$el.find('.rightplayer__cardsplace > .lbl').css("color", "#809B83");
             this.$el.find('.score').text("0");
             this.$el.find('.score').hide();
+        },
+
+        updateChips: function(e) {
+            this.$el.find('.chipsVal').text(e.get('chips'));
         }
 
     });

@@ -27,7 +27,7 @@
                     <span class="lbl">You</span>
                     <div class="chipsValue">
                         <img class="chipsImg" src="/img/value.png" />
-                        <span class="chipsVal">10345</span>
+                        <span class="chipsVal">0</span>
                     </div>
                     <div class="cards js-cards">
                         <div class="cardset">

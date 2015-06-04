@@ -165,6 +165,14 @@ define([
                             case self.get("me"): who = 2; break;
                             case self.get("player3"): who = 3; break;
                         }
+                        if (who == 2) {
+                            var currentChips = UserModel.get('chips');
+                            var result = Number(currentChips, 10) + Number(num, 10);
+                            if(result == 0) {
+                                result = 1000; //constant overdraft
+                            }
+                            UserModel.set({chips: result});
+                        }
                         self.trigger('wins', who, num);
                     });
                     break;
