@@ -197,7 +197,7 @@ public class GameWebSocket implements Abonent {
                 player.put("name", entry.getKey());
 
                 JSONArray cards = new JSONArray();
-                entry.getValue().getCards().stream().forEach(card -> cards.add(card));
+                entry.getValue().getCards().stream().forEach(card -> cards.add(card.toString()));
                 player.put("cards", cards);
 
                 jsonPlayers.add(player);

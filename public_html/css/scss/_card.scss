@@ -1,8 +1,19 @@
+.cardset {
+  margin-left: 50px;
+  height: 118px;
+  clear: both;
+}
+
 .card {
-  height: 100px;
-  width: 70px;
-  background-color: red;
-  position: absolute;
-  top: -400px;
-  left: 0px;
+  //height: 100px;
+  //width: 70px;
+  //background-color: red;
+  //position: absolute;
+  //top: -400px;
+  //left: 0px;
+  margin-left: -50px;
+  float: left;
+  background:url('/img/card.gif') 0 0;
+  width: 81px;
+  height: 115px;
 }

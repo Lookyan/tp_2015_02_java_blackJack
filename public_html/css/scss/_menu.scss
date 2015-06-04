@@ -6,6 +6,7 @@
 
 .menu {
   margin-top: 30px;
+  margin-bottom: 30px;
   width: 450px;
   margin-left: auto;
   margin-right: auto;
@@ -73,4 +74,14 @@
   outline: none;
   border: rgba(24, 149, 215, 1) 2px solid;
   color: rgba(24, 149, 215, 1);
+}
+
+.logo {
+  margin-top: 15px;
+  width: 150px;
+  height: 150px;
+  margin-left: auto;
+  margin-right: auto;
+  background: url('/img/logo.png');
+  background-size: cover;
 }

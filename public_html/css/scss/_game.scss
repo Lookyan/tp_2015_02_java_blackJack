@@ -11,25 +11,36 @@
   height: 100%;
   padding-bottom: 100px;
   box-sizing: border-box;
-  background-color: #2E8B57;
+  background-color: #466d19;
+  background-image: -webkit-gradient(radial,50% 50%,0,50% 50%,560,from(#65981e),to(#184d08));
+  background-image: -webkit-radial-gradient(center center,ellipse farthest-corner,#65981e,#184d08);
+  background-image: -moz-radial-gradient(center center,ellipse farthest-corner,#65981e,#184d08);
+  background-image: -ms-radial-gradient(center center,ellipse farthest-corner,#65981e,#184d08);
 }
 
 .playerboard {
   position: absolute;
   bottom: 0;
-  background-color: #CD853F;
+  //background-color: #CD853F;
   height: 100px;
   width: 100%;
+  display: none;
+}
+
+.choosechip {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .secondaryplayer {
   height: 100%;
-  width: 30%;
+  width: 28%;
   float: left;
 }
 
 .leftplayer {
   @extend .secondaryplayer;
+  padding: 10px;
 }
 
 .rightplayer {
@@ -44,7 +55,8 @@
 
 .freespace {
   height: 16.66666666%;
-  border: 1px black solid;
+  border-color: rgba(208,209,78,0.3);
+  padding: 2%;
 }
 
 .leftplayer__freespace {
@@ -57,39 +69,126 @@
 
 .place {
   height: 33.33333333%;
-  border: 1px black solid;
+  //border: 9px solid #809d29;
+  border-color: rgba(208,209,78,0.3);
+  padding: 2%;
+  //-ms-border-radius: 30px;
+  //border-radius: 30px;
 }
 
 .leftplayer__cardsplace {
-  @extend .place;
+  height: 290px;
 }
 
 .rightplayer__cardsplace {
-  @extend .place;
+  height: 290px;
 }
 
 .dealer__cardsplace {
-  @extend .place;
+  height: 230px;
 }
 
 .mainplayer__cardsplace {
-  @extend .place;
+  height: 230px;
 }
 
 .leftplayer__chipsplace {
-  @extend .place;
+  height: 100px;
+  padding-top: 10px;
 }
 
 .rightplayer__chipsplace {
-  @extend .place;
+  height: 100px;
+  padding-top: 10px;
 }
 
 .mainplayer__chipsplace {
-  @extend .place;
+  height: 100px;
+  padding-top: 10px;
 }
 
-.cards,
+.cards {
+  float: left;
+  clear: both;
+  width: 50%;
+}
+
 .buttons {
   float: left;
   width: 50%;
+  display: none;
+}
+
+.actbutton {
+  border: 0px;
+  border-radius: 5px;
+  padding: 15px 25px;
+  font-size: 22px;
+  text-decoration: none;
+  margin-top: 10px;
+  color: #fff;
+  position: relative;
+  display: inline-block;
+  background-color: #f1c40f;
+  box-shadow: 0px 5px 0px 0px #D8AB00;
+  width: 120px;
+  font-family: Chewy, Georgia, serif;
+  text-align: center;
+}
+
+.score {
+  clear: both;
+  display: none;
+  background-color: #256107;
+  width: 60px;
+  height: 40px;
+  border: solid 2px;
+  border-color: #7EB065;
+  -ms-border-radius: 5px;
+  border-radius: 5px;
+  color: #fff;
+  font-family: Chewy, Georgia, serif;
+  font-size: 18pt;
+  text-align: center;
+  padding-top: 5px;
+  margin-top: 6px;
+  float: left;
+}
+
+.result {
+  display: block;
+  margin-top: 10px;
+  margin-left: 10px;
+  float: left;
+  font-family: Chewy, Georgia, serif;
+  font-size: 25pt;
+  color: #FFDF00;
+}
+
+.lbl {
+  display: block;
+  float: left;
+  font-size: 30pt;
+  font-family: Chewy, Georgia, serif;
+  color: #fff;
+}
+
+.chipsValue {
+  float: left;
+  margin-left: 40px;
+  margin-top: 3px;
+}
+
+.chipsImg {
+  width: 40px;
+}
+
+.chipsVal {
+  display: block;
+  float: right;
+  margin-top: 7px;
+  margin-left: 10px;
+  font-family: Chewy, Georgia, serif;
+  color: #F1C40F;
+  font-size: 17pt;
 }

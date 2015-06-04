@@ -24,6 +24,5 @@ define( [
     Backbone,
     router
 ){
-    console.log('huwgc');
     Backbone.history.start();
 });

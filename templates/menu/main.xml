@@ -1,11 +1,12 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+    <div class="logo"></div>
     <div class="menu">
-        <p>Hi, <fest:value>json.name</fest:value></p>
-        <a class="menu__item menu__item_button" href="#scoreboard">Scoreboard</a>
-        <a class="menu__item menu__item_button" href="#game">Game</a>
-        <a class="menu__item menu__item_button" href="#login">Login</a>
-        <a class="menu__item menu__item_button" href="#signup">Sign up</a>
+        <!--<p>Hi, <fest:value>json.name</fest:value></p>-->
+        <a class="menu__item menu__item_button js-game" href="#game">Game</a>
+        <a class="menu__item menu__item_button js-login" href="#login">Login</a>
+        <a class="menu__item menu__item_button js-signup" href="#signup">Sign up</a>
         <a class="menu__item menu__item_button js-logout" href="#">Logout</a>
-        <a class="menu__item menu__item_button" href="#token">Connect phone</a>
+        <a class="menu__item menu__item_button" href="#scoreboard">Scoreboard</a>
+        <a class="menu__item menu__item_button js-token" href="#token">Connect phone</a>
     </div>
 </fest:template>

@@ -30,6 +30,14 @@ define([
         
         render: function () {
             this.$el.html(this.template({name: this.user.get('name') + this.user.get('email') + this.user.get('password') + this.user.get('chips') }));
+            if (this.user.isLogged) {
+                this.$el.find('.js-login').hide();
+                this.$el.find('.js-signup').hide();
+            } else {
+                this.$el.find('.js-game').hide();
+                this.$el.find('.js-logout').hide();
+                this.$el.find('.js-token').hide();
+            }
             return this;
         },
         
