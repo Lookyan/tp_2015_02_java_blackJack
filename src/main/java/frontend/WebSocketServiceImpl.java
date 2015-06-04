@@ -3,6 +3,7 @@ package frontend;
 import base.WebSocketService;
 import game.Card;
 import game.Player;
+import game.messages.MessageGameAddUser;
 import main.Context;
 import messageSystem.Abonent;
 import messageSystem.Address;
@@ -31,7 +32,14 @@ public class WebSocketServiceImpl implements WebSocketService {
     @Override
     public void addUser(GameWebSocket userSocket) {
         logger.info("Adding user '{}'", userSocket.getUserName());
-        userSockets.put(userSocket.getUserName(), userSocket);
+        if (userSockets.containsKey(userSocket.getUserName())) {
+            userSocket.close();
+        } else {
+            messageSystem.sendMessage(new MessageGameAddUser(
+                    getAddress(), messageSystem.getAddressService().getGameMechanicsAddressFor(userSocket.getUserName()), userSocket.getUserName()
+            ));
+            userSockets.put(userSocket.getUserName(), userSocket);
+        }
     }
 
     @Override
@@ -160,7 +168,6 @@ public class WebSocketServiceImpl implements WebSocketService {
             phoneSocket.sendEnd();
         }
     }
-
 
     @Override
     public Address getAddress() {

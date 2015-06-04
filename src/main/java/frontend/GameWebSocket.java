@@ -42,6 +42,8 @@ public class GameWebSocket implements Abonent {
 
     private AccountService accountService;
     private MessageSystem messageSystem;
+
+    private boolean selfClose = false;
 //    private GameMechanics gameMechanics;
 //    private WebSocketService webSocketService;
 
@@ -64,9 +66,6 @@ public class GameWebSocket implements Abonent {
         if (accountService != null) {
             messageSystem.sendMessage(new MessageSocketAddUser(
                     getAddress(), messageSystem.getAddressService().getWebSocketService(), this
-            ));
-            messageSystem.sendMessage(new MessageGameAddUser(
-                    getAddress(), messageSystem.getAddressService().getGameMechanicsAddressFor(userName), userName
             ));
 //            webSocketService.addUser(this);
 //            gameMechanics.addUser(userName);
@@ -119,16 +118,25 @@ public class GameWebSocket implements Abonent {
     @OnWebSocketClose
     public void onClose(int statusCode, String reason) {
         logger.info("Closing socket on '{}' with code {}, reason: '{}'", userName, statusCode, reason);
-        if (accountService != null) {
-            messageSystem.sendMessage(new MessageSocketRemoveUser(
-                    getAddress(), messageSystem.getAddressService().getWebSocketService(), this
-            ));
-            messageSystem.sendMessage(new MessageGameRemoveUser(
-                    getAddress(), messageSystem.getAddressService().getGameMechanicsAddressFor(userName), userName
-            ));
+        if (!selfClose) {
+            if (accountService != null) {
+                messageSystem.sendMessage(new MessageSocketRemoveUser(
+                        getAddress(), messageSystem.getAddressService().getWebSocketService(), this
+                ));
+                messageSystem.sendMessage(new MessageGameRemoveUser(
+                        getAddress(), messageSystem.getAddressService().getGameMechanicsAddressFor(userName), userName
+                ));
 //            webSocketService.removeUser(this);
 //            gameMechanics.removeUser(userName);
+            }
+        } else {
+            selfClose = false;
         }
+    }
+
+    public void close() {
+        selfClose = true;
+        socketSession.close();
     }
 
     private void sendNotLogged() {
