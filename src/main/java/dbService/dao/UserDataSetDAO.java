@@ -4,10 +4,12 @@ package dbService.dao;
 import base.dataSets.UserDataSet;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class UserDataSetDAO {
     private Session session;
@@ -36,6 +38,10 @@ public class UserDataSetDAO {
 
     public long countAll() throws SQLException {
         return (Long) session.createCriteria(UserDataSet.class).setProjection(Projections.rowCount()).uniqueResult();
+    }
+
+    public List getTop() {
+        return session.createCriteria(UserDataSet.class).addOrder(Order.desc("chips")).setMaxResults(10).list();
     }
 
 }

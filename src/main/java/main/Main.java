@@ -67,6 +67,7 @@ public class Main {
         servletContext.addServlet(new ServletHolder(new ProfileServlet(context)), "/api/v1/auth/profile");
         servletContext.addServlet(new ServletHolder(new LogoutServlet(context)), LogoutServlet.url);
         servletContext.addServlet(new ServletHolder(new TokenServlet(context)), TokenServlet.url);
+        servletContext.addServlet(new ServletHolder(new ScoreboardServlet(context)), ScoreboardServlet.url);
         servletContext.addServlet(new ServletHolder(new AdminServlet(context)), "/admin");
         servletContext.addServlet(new ServletHolder(new WebSocketGameServlet(context)), "/gameplay");
         servletContext.addServlet(new ServletHolder(new WebSocketPhoneServlet(context)), "/phone");

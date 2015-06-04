@@ -14,6 +14,7 @@ import org.hibernate.service.ServiceRegistry;
 import resourceSystem.DatabaseConfig;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class DBServiceImpl implements DBService {
 
@@ -92,6 +93,14 @@ public class DBServiceImpl implements DBService {
             logger.error(e);
         }
         return null;
+    }
+
+    @Override
+    public List getTop() {
+        Session session = sessionFactory.openSession();
+        UserDataSetDAO dao = new UserDataSetDAO(session);
+        logger.info("Getting top");
+        return dao.getTop();
     }
 
     @Override
