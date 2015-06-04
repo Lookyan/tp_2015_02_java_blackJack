@@ -40,12 +40,11 @@ define([
         },
 
         gameAction: function () {
-            if (this.user.isLogged) {
+            //if (this.user.isLogged) {
                 viewManager.gameScreen();
-            } else {
-                //viewManager.gameScreen(); // TODO: comment this and uncomment following
-                this.navigate("#login", {trigger: true});
-            }
+            //} else {
+                //this.navigate("#login", {trigger: true});
+            //}
         },
 
         loginAction: function () {

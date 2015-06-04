@@ -26,6 +26,7 @@ define([
             this.listenTo(this.user, this.user.identifyCompleteEvent + ' ' + this.user.loginCompleteEvent + ' ' + this.user.signupCompleteEvent + ' ' + this.user.logoutCompleteEvent, function() {
                 this.render();
             });
+            NProgress.done();
         },
         
         render: function () {

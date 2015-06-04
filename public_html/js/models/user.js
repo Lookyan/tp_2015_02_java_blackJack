@@ -30,7 +30,8 @@ define([
             "chips": 0,
             "password": "",
             "email": "",
-            "token": ""
+            "token": "",
+            "identified": false
         },
 
         initialize: function() {
@@ -100,6 +101,8 @@ define([
                     this.set('email', "");
                 }
             }
+            this.set('identified', true);
+            //debugger;
             this.trigger(this.identifyCompleteEvent);
         },
 

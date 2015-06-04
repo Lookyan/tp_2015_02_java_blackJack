@@ -39,6 +39,7 @@ define([
             this.model.on("end", this.end.bind(this));
             this.model.on("wins", this.wins.bind(this));
             this.model.on("active", this.active.bind(this));
+
             $body.append(this.el);
             this.$el.css("height", "100%");
             this.$el.find('.leftplayer__cardsplace > .lbl').css("color", "#809B83");
@@ -47,7 +48,14 @@ define([
 
 //            this.playerCards1 = new PlayerCards({cards: this.model.player1Cards});
 //            this.playerCards1.listenTo(this.model.player1Cards, 'add remove reset', this.playerCards1.render);
-            this.render();
+//            this.render();
+            if (UserModel.get('identified')) {
+                this.render();
+            } else {
+                this.listenTo(UserModel, "change:identified", function () {
+                    this.render();
+                });
+            }
 //            this.playerCards1.setElement('.js-cards');
             this.hide();
 //            this.playerCards1.render();
