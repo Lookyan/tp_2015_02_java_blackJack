@@ -65,6 +65,7 @@ define([
         },
 
         start: function() {
+            if (UserModel.get("name") == "") return;
             this.set({"me": UserModel.get("name")});
             this.ws = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/gameplay");
             this.ws.onopen = this.onOpen;
@@ -82,7 +83,7 @@ define([
         },
 
         onMessage: function(event) {
-//            console.log(event.data);
+            console.log(event.data);
             var self = this;
             var response = JSON.parse(event.data);
             switch(response.body.type) {

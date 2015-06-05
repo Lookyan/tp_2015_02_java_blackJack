@@ -32,6 +32,7 @@ define([
         model: new GameTable,
 
         initialize: function ($body) {
+            UserModel.on("identifyCompleteEvent", this.openWS.bind(this));
             this.model.on("betPhase", this.betPhase.bind(this));
             this.model.on("playPhase", this.playPhase.bind(this));
             this.model.on("betShow", this.betShow.bind(this));
@@ -97,6 +98,11 @@ define([
 //            this.clear();
 //            this.model.finish();
 //            this.model.clear().set(this.model.defaults);
+        },
+
+        openWS: function () {
+            this.model.start();
+            this.$el.find('.chipsVal').text(UserModel.get('chips'));
         },
 
         show: function () {

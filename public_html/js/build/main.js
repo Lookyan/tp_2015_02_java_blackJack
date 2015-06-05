@@ -13017,7 +13017,6 @@ define('collections/scores',[
     	model: Score,
     	initialize: function () {
     		this.fetch();
-    		//console.log("collection");
     	},
 
     	comparator: function (score) {
@@ -13029,9 +13028,7 @@ define('collections/scores',[
     		var self = this;
     		var models = JSON.parse(data);
     		_.each(models.body, function(score) {
-    			debugger;
 				var s = new Score(score);
-//				s.save();
 				self.add(s);
     		});
     	}
@@ -13069,6 +13066,7 @@ define('views/menu/scoreboard',[
         },
         
         show: function () {
+            scores.fetch();
             this.$el.show();
             this.trigger("show", this);
         },
@@ -13370,6 +13368,7 @@ define('models/gametable',[
         },
 
         start: function() {
+            if (UserModel.get("name") == "") return;
             this.set({"me": UserModel.get("name")});
             this.ws = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/gameplay");
             this.ws.onopen = this.onOpen;
@@ -13387,7 +13386,7 @@ define('models/gametable',[
         },
 
         onMessage: function(event) {
-//            console.log(event.data);
+            console.log(event.data);
             var self = this;
             var response = JSON.parse(event.data);
             switch(response.body.type) {
@@ -13634,6 +13633,7 @@ define('views/game',[
         model: new GameTable,
 
         initialize: function ($body) {
+            UserModel.on("identifyCompleteEvent", this.openWS.bind(this));
             this.model.on("betPhase", this.betPhase.bind(this));
             this.model.on("playPhase", this.playPhase.bind(this));
             this.model.on("betShow", this.betShow.bind(this));
@@ -13699,6 +13699,11 @@ define('views/game',[
 //            this.clear();
 //            this.model.finish();
 //            this.model.clear().set(this.model.defaults);
+        },
+
+        openWS: function () {
+            this.model.start();
+            this.$el.find('.chipsVal').text(UserModel.get('chips'));
         },
 
         show: function () {

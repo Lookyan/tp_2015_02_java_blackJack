@@ -12,7 +12,6 @@ define([
     	model: Score,
     	initialize: function () {
     		this.fetch();
-    		//console.log("collection");
     	},
 
     	comparator: function (score) {
@@ -24,9 +23,7 @@ define([
     		var self = this;
     		var models = JSON.parse(data);
     		_.each(models.body, function(score) {
-    			debugger;
 				var s = new Score(score);
-//				s.save();
 				self.add(s);
     		});
     	}
