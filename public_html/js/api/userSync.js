@@ -77,8 +77,6 @@ define([
         };
 
         params.complete = function(xhr, txt) {
-            console.log(JSON.stringify(xhr));
-            console.log(txt);
         };
 
         params.context = model;

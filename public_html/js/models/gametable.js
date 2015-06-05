@@ -83,7 +83,6 @@ define([
         },
 
         onMessage: function(event) {
-            console.log(event.data);
             var self = this;
             var response = JSON.parse(event.data);
             switch(response.body.type) {

@@ -13147,8 +13147,6 @@ define('api/userSync',[
         };
 
         params.complete = function(xhr, txt) {
-            console.log(JSON.stringify(xhr));
-            console.log(txt);
         };
 
         params.context = model;
@@ -13796,7 +13794,6 @@ define('models/gametable',[
         },
 
         onMessage: function(event) {
-            console.log(event.data);
             var self = this;
             var response = JSON.parse(event.data);
             switch(response.body.type) {

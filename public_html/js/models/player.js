@@ -16,8 +16,6 @@ define([
             this.score = options.score;
             this.name = options.name;
             this.bet = options.bet;
-
-            console.log("Player was created");
         }
     });
 
