@@ -26,6 +26,7 @@ define([
         },
         
         show: function () {
+            scores.fetch();
             this.$el.show();
             this.trigger("show", this);
         },
