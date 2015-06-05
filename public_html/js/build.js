@@ -13223,7 +13223,8 @@ define('models/user',[
             "chips": 0,
             "password": "",
             "email": "",
-            "token": ""
+            "token": "",
+            "identified": false
         },
 
         initialize: function() {
@@ -13293,6 +13294,8 @@ define('models/user',[
                     this.set('email', "");
                 }
             }
+            this.set('identified', true);
+            //debugger;
             this.trigger(this.identifyCompleteEvent);
         },
 
@@ -13352,7 +13355,7 @@ define('models/user',[
 
     return new UserModel();
 });
-define('tmpl/menu/scoreboard',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var json=__fest_context;__fest_buf+=("<div class=\"menu\"><table class=\"menu__item scoretable\">");var i,top,__fest_iterator0;try{__fest_iterator0=json || {};}catch(e){__fest_iterator={};__fest_log_error(e.message);}for(i in __fest_iterator0){top=__fest_iterator0[i];__fest_buf+=("<tr class=\"scoretable__row\"><td class=\"scoretable__cell\">");try{__fest_buf+=(__fest_escapeHTML(top.name))}catch(e){__fest_log_error(e.message + "6");}__fest_buf+=("</td><td class=\"scoretable__cell\">");try{__fest_buf+=(__fest_escapeHTML(top.score))}catch(e){__fest_log_error(e.message + "9");}__fest_buf+=("</td></tr>");}__fest_buf+=("</table><a href=\"\/#\" class=\"menu__item menu__item_button menu__item_button_back\">Back</a></div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
+define('tmpl/menu/scoreboard',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var json=__fest_context;__fest_buf+=("<div class=\"menu\"><table class=\"menu__item scoretable\">");var i,top,__fest_iterator0;try{__fest_iterator0=json || {};}catch(e){__fest_iterator={};__fest_log_error(e.message);}for(i in __fest_iterator0){top=__fest_iterator0[i];__fest_buf+=("<tr class=\"scoretable__row\"><td class=\"scoretable__cell\">");try{__fest_buf+=(__fest_escapeHTML(top.player))}catch(e){__fest_log_error(e.message + "6");}__fest_buf+=("</td><td class=\"scoretable__cell\">");try{__fest_buf+=(__fest_escapeHTML(top.score))}catch(e){__fest_log_error(e.message + "9");}__fest_buf+=("</td></tr>");}__fest_buf+=("</table><a href=\"\/#\" class=\"menu__item menu__item_button menu__item_button_back\">Back</a></div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
 define('models/score',[
     'backbone'
 ], function(
@@ -13361,7 +13364,7 @@ define('models/score',[
 
     var Model = Backbone.Model.extend({
     	defaults: {
-    		name: '',
+    		player: '',
     		score: 0
     	}
     	//initialize: function () {
@@ -13372,35 +13375,79 @@ define('models/score',[
 
     return Model;
 });
+define('api/scoreSync',[
+    'backbone'
+], function(
+    Backbone
+) {
+    //var self = this;
+
+    var scoreMethod = 'GET';
+
+    var scoreUrl = '/api/top';
+
+	return function(method, model, options) {
+
+        var params = {type: scoreMethod};
+        var modelData = model.toJSON();
+        var success;
+
+        params.url = scoreUrl;
+        success = model.scoreSuccess;
+
+
+        params.success = success;
+
+        params.error = function() {
+            model.reset();
+        };
+
+        params.complete = function(xhr, txt) {
+        };
+
+        params.context = model;
+
+        var xhr = Backbone.ajax(params);
+        return xhr;
+
+    };
+
+});
 define('collections/scores',[
     'backbone',
-    'models/score'
+    'models/score',
+    'api/scoreSync'
 ], function(
-    Backbone, Score
+    Backbone, Score, ScoreSync
 ){
 
     var Collection = Backbone.Collection.extend({
+    	sync: ScoreSync,
+    	url: '/',
     	model: Score,
     	initialize: function () {
+    		this.fetch();
     		//console.log("collection");
     	},
+
     	comparator: function (score) {
     		return (-1) * score.get("score");
+    	},
+
+    	scoreSuccess: function(data) {
+    		this.reset();
+    		var self = this;
+    		var models = JSON.parse(data);
+    		_.each(models.body, function(score) {
+    			debugger;
+				var s = new Score(score);
+//				s.save();
+				self.add(s);
+    		});
     	}
     });
 
-    var Scores = new Collection([
-    	{name: 'Player1', score: 235436},
-    	{name: 'Rtyx', score: 23},
-    	{name: 'Alex', score: 2336},
-    	{name: 'Andrey', score: 23543},
-    	{name: 'Test', score: 26},
-    	{name: 'AnotherOne', score: 23536},
-    	{name: 'Player2', score: 436},
-    	{name: 'Tydewy', score: 16},
-    	{name: 'WWW', score: 3},
-    	{name: 'DOWN', score: 36}
-    ]);
+    var Scores = new Collection();
 
     return Scores;
 });
@@ -13422,6 +13469,7 @@ define('views/menu/scoreboard',[
         initialize: function ($body) {
             $body.append(this.el);
             this.$el.hide();
+            scores.bind("change reset add remove", this.render, this);
             this.render();
         },
         
@@ -13598,6 +13646,7 @@ define('views/menu/main',[
             this.listenTo(this.user, this.user.identifyCompleteEvent + ' ' + this.user.loginCompleteEvent + ' ' + this.user.signupCompleteEvent + ' ' + this.user.logoutCompleteEvent, function() {
                 this.render();
             });
+            NProgress.done();
         },
         
         render: function () {
@@ -13748,7 +13797,7 @@ define('models/gametable',[
         },
 
         onMessage: function(event) {
-            console.log(event.data);
+//            console.log(event.data);
             var self = this;
             var response = JSON.parse(event.data);
             switch(response.body.type) {
@@ -14002,6 +14051,7 @@ define('views/game',[
             this.model.on("end", this.end.bind(this));
             this.model.on("wins", this.wins.bind(this));
             this.model.on("active", this.active.bind(this));
+
             $body.append(this.el);
             this.$el.css("height", "100%");
             this.$el.find('.leftplayer__cardsplace > .lbl').css("color", "#809B83");
@@ -14010,7 +14060,14 @@ define('views/game',[
 
 //            this.playerCards1 = new PlayerCards({cards: this.model.player1Cards});
 //            this.playerCards1.listenTo(this.model.player1Cards, 'add remove reset', this.playerCards1.render);
-            this.render();
+//            this.render();
+            if (UserModel.get('identified')) {
+                this.render();
+            } else {
+                this.listenTo(UserModel, "change:identified", function () {
+                    this.render();
+                });
+            }
 //            this.playerCards1.setElement('.js-cards');
             this.hide();
 //            this.playerCards1.render();
@@ -14056,6 +14113,7 @@ define('views/game',[
 
         show: function () {
             this.model.start();
+            this.$el.find('.chipsVal').text(UserModel.get('chips'));
             this.$el.show();
             this.trigger("show", this);
         },
@@ -14457,12 +14515,11 @@ define('router',[
         },
 
         gameAction: function () {
-            if (this.user.isLogged) {
+            //if (this.user.isLogged) {
                 viewManager.gameScreen();
-            } else {
-                //viewManager.gameScreen(); // TODO: comment this and uncomment following
-                this.navigate("#login", {trigger: true});
-            }
+            //} else {
+                //this.navigate("#login", {trigger: true});
+            //}
         },
 
         loginAction: function () {

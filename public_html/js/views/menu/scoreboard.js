@@ -16,6 +16,7 @@ define([
         initialize: function ($body) {
             $body.append(this.el);
             this.$el.hide();
+            scores.bind("change reset add remove", this.render, this);
             this.render();
         },
         

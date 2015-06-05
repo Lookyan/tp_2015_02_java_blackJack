@@ -4,7 +4,7 @@
             <fest:each iterate="json" index="i" value="top">
                 <tr class="scoretable__row">
                     <td class="scoretable__cell">
-                        <fest:value>top.name</fest:value>
+                        <fest:value>top.player</fest:value>
                     </td>
                     <td class="scoretable__cell">
                         <fest:value>top.score</fest:value>

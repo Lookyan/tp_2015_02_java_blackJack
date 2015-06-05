@@ -1,32 +1,38 @@
 define([
     'backbone',
-    'models/score'
+    'models/score',
+    'api/scoreSync'
 ], function(
-    Backbone, Score
+    Backbone, Score, ScoreSync
 ){
 
     var Collection = Backbone.Collection.extend({
+    	sync: ScoreSync,
+    	url: '/',
     	model: Score,
     	initialize: function () {
+    		this.fetch();
     		//console.log("collection");
     	},
+
     	comparator: function (score) {
     		return (-1) * score.get("score");
+    	},
+
+    	scoreSuccess: function(data) {
+    		this.reset();
+    		var self = this;
+    		var models = JSON.parse(data);
+    		_.each(models.body, function(score) {
+    			debugger;
+				var s = new Score(score);
+//				s.save();
+				self.add(s);
+    		});
     	}
     });
 
-    var Scores = new Collection([
-    	{name: 'Player1', score: 235436},
-    	{name: 'Rtyx', score: 23},
-    	{name: 'Alex', score: 2336},
-    	{name: 'Andrey', score: 23543},
-    	{name: 'Test', score: 26},
-    	{name: 'AnotherOne', score: 23536},
-    	{name: 'Player2', score: 436},
-    	{name: 'Tydewy', score: 16},
-    	{name: 'WWW', score: 3},
-    	{name: 'DOWN', score: 36}
-    ]);
+    var Scores = new Collection();
 
     return Scores;
 });
