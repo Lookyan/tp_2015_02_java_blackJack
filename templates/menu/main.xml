@@ -7,6 +7,6 @@
         <a class="menu__item menu__item_button js-signup" href="#signup">Sign up</a>
         <a class="menu__item menu__item_button js-logout" href="#">Logout</a>
         <a class="menu__item menu__item_button" href="#scoreboard">Scoreboard</a>
-        <a class="menu__item menu__item_button js-token" href="#token">Connect phone</a>
+        <!--<a class="menu__item menu__item_button js-token" href="#token">Connect phone</a>-->
     </div>
 </fest:template>
