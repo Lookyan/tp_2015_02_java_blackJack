@@ -101,7 +101,7 @@ define([
         },
 
         openWS: function () {
-            this.model.start();
+            //this.model.start();
             this.$el.find('.chipsVal').text(UserModel.get('chips'));
         },
 

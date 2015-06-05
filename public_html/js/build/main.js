@@ -13375,6 +13375,7 @@ define('models/gametable',[
         },
 
         finish: function() {
+            debugger;
             if (this.ws) {
                 this.ws.close();
             }
@@ -13699,7 +13700,7 @@ define('views/game',[
         },
 
         openWS: function () {
-            this.model.start();
+            //this.model.start();
             this.$el.find('.chipsVal').text(UserModel.get('chips'));
         },
 

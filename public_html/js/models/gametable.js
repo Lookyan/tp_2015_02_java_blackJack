@@ -74,6 +74,7 @@ define([
         },
 
         finish: function() {
+            debugger;
             if (this.ws) {
                 this.ws.close();
             }
